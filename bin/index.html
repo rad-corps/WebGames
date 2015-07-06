@@ -1,0 +1,345 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>pixi.js example 1</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #FFF;
+		}
+	</style>
+	<script src="pixi.js"></script>
+
+</head>
+<body>
+	<script>
+
+//hide the URL bar
+// When ready...
+window.addEventListener("load",function() {
+	// Set a timeout...
+	setTimeout(function(){
+		// Hide the address bar!
+		window.scrollTo(0, 1);
+	}, 0);
+});
+
+//Keith Peter's Vector JS class
+var vector2 = {
+	_x: 1,
+	_y: 0,
+
+	create: function(x, y) {
+		var obj = Object.create(this);
+		obj.setX(x);
+		obj.setY(y);
+		return obj;
+	},
+
+	setX: function(value) {
+		this._x = value;
+	},
+
+	getX: function() {
+		return this._x;
+	},
+
+	setY: function(value) {
+		this._y = value;
+	},
+
+	getY: function() {
+		return this._y;
+	},
+
+	setAngle: function(angle) {
+		var length = this.getLength();
+		this._x = Math.cos(angle) * length;
+		this._y = Math.sin(angle) * length;
+	},
+
+	getAngle: function() {
+		return Math.atan2(this._y, this._x);
+	},
+
+	setLength: function(length) {
+		var angle = this.getAngle();
+		this._x = Math.cos(angle) * length;
+		this._y = Math.sin(angle) * length;
+	},
+
+	getLength: function() {
+		return Math.sqrt(this._x * this._x + this._y * this._y);
+	},
+
+	add: function(v2) {
+		return vector2.create(this._x + v2.getX(), this._y + v2.getY());
+	},
+
+	subtract: function(v2) {
+		return vector2.create(this._x - v2.getX(), this._y - v2.getY());
+	},
+
+	multiply: function(val) {
+		return vector2.create(this._x * val, this._y * val);
+	},
+
+	divide: function(val) {
+		return vector2.create(this._x / val, this._y / val);
+	},
+
+	addTo: function(v2) {
+		this._x += v2.getX();
+		this._y += v2.getY();
+	},
+
+	subtractFrom: function(v2) {
+		this._x -= v2.getX();
+		this._y -= v2.getY();
+	},
+
+	multiplyBy: function(val) {
+		this._x *= val;
+		this._y *= val;
+	},
+
+	divideBy: function(val) {
+		this._x /= val;
+		this._y /= val;
+	},
+
+	normalise: function() {
+		var mag = this.getLength();
+		this._x /= mag;
+		this._y /= mag;	
+	},
+
+	toString: function(){
+		return 'x: ' + this._x + '\ty: ' + this._y;
+	}
+};
+
+	var gameState; //'playing', 'gameOver'
+	
+	var AH_GLOBALS = { 
+		SCREEN_W: 640,
+		SCREEN_H: 360,
+		MAX_SPEED: 2,
+		ACCELLERATION: 0.15
+	};
+
+	function scaleSprite(sprite_){
+		//sprite_.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
+		sprite_.scale.x = window.innerHeight / AH_GLOBALS.SCREEN_H;
+		sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
+		//sprite_.scale.y = window.innerWidth / AH_GLOBALS.SCREEN_W;
+	}
+
+
+	function collisionManager(sprite1, sprite2)
+	{
+		//find left, right, top and bottom of sprite1
+		var l1 = sprite1.position.x - sprite1.width /2;
+		var r1 = sprite1.position.x + sprite1.width /2;
+		var t1 = sprite1.position.y + sprite1.height /2;
+		var b1 = sprite1.position.y - sprite1.height /2;
+		var l2 = sprite2.position.x - sprite2.width /2;
+		var r2 = sprite2.position.x + sprite2.width /2;
+		var t2 = sprite2.position.y + sprite2.height /2;
+		var b2 = sprite2.position.y - sprite2.height /2;
+
+		if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
+			return false;
+		}
+		return true;
+	}
+
+	function Enemy()
+	{
+		var self = this;
+		
+		this.SetPos = function(point_){
+			self.sprite.position.set(point_.x,point_.y);
+		}
+
+		this.sprite = PIXI.Sprite.fromImage("cow2.png");
+		this.sprite.position.set(window.innerWidth/2, window.innerHeight/2);
+		
+		this.sprite.anchor.x = 0.5;		
+		this.sprite.anchor.y = 0.5;
+		scaleSprite(this.sprite);
+
+		var rand1 = (Math.random() * 3) - 1.5;
+		var rand2 = (Math.random() * 3) - 1.5;
+		this.velocity = vector2.create(rand1, rand2);
+
+		this.update = function(){
+			this.sprite.position.x += self.velocity._x;
+			this.sprite.position.y += self.velocity._y;
+		}
+	}
+
+	function BlackHole(x, y)
+	{
+		var self = this;
+		this.SetPos = function(point_){
+			self.sprite.position.set(point_.x,point_.y);
+		}
+
+		this.sprite = PIXI.Sprite.fromImage("blackhole.png");
+		this.sprite.position.set(x, y);
+		this.sprite.anchor.x = 0.5;		
+		this.sprite.anchor.y = 0.5;
+
+		scaleSprite(this.sprite);
+	}
+
+	var blackHole = new BlackHole(10, 10);
+
+	function GameBackground(){
+		
+		this.backgroundMouseDown = function(backgroundMouseDownED) {
+			window.blackHole.SetPos(backgroundMouseDownED.data.global);			
+		}
+
+		this.spriteW = 640;
+		this.spriteH = 360;
+
+		this.sprite = PIXI.Sprite.fromImage("sample_bg.jpg");
+		this.sprite.position.set(0,0);
+		this.sprite.interactive = true;
+		this.sprite.on('mousedown', this.backgroundMouseDown);
+		this.sprite.on('touchstart', this.backgroundMouseDown);
+
+		//scale the sprite
+		scaleSprite(this.sprite);
+		// this.sprite.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
+		// this.sprite.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
+	}
+
+
+	function Player()
+	{
+		var self = this;
+
+		this.playerMouseDown = function (){
+			console.log('playerMouseDown');
+		}
+		// this.spriteW = 32;
+		// this.spriteH = 32;
+
+		this.sprite = PIXI.Sprite.fromImage("ant.png");
+		this.sprite.anchor.x = 0.5;
+		this.sprite.anchor.y = 0.5;
+		this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+		this.sprite.interactive = true;
+		this.sprite.on('mousedown', this.playerMouseDown);	
+		
+		//scale it
+		//this.sprite.scale.x = window.innerWidth / this.spriteW;
+		//this.sprite.scale.y = window.innerHeight / this.spriteH;
+		scaleSprite(this.sprite);
+
+		this.velocity = vector2.create(0,0);
+		this.direction = vector2.create(0,0);
+
+		this.update = function()
+		{
+			if ( gameState === 'playing'){ 
+
+				//get direction vector and add to velocity
+				var dirx = blackHole.sprite.x - self.sprite.x;
+				var diry = blackHole.sprite.y - self.sprite.y;
+
+				self.direction.setX(dirx);
+				self.direction.setY(diry);
+
+				self.direction.normalise();
+				self.direction.multiplyBy(AH_GLOBALS.ACCELLERATION);
+				self.velocity.addTo(self.direction);
+
+				if ( self.velocity.getLength() > AH_GLOBALS.MAX_SPEED ){
+					self.velocity.setLength(AH_GLOBALS.MAX_SPEED);
+				}			
+
+				self.sprite.position.x += self.velocity.getX();
+				self.sprite.position.y += self.velocity.getY();
+
+				self.sprite.rotation += 0.04;
+
+
+			}
+		}
+	}
+
+
+
+	//function 
+
+	function GameLoop(){
+
+		var self = this;
+		window.gameState = 'playing';
+
+		//this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
+		this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
+
+		document.body.appendChild(this.renderer.view);
+
+		this.stage = new PIXI.Container();
+
+		this.enemy = new Enemy();
+		this.player = new Player();
+		this.gameBG = new GameBackground();
+		this.promptText = new PIXI.Text('Game Over');
+		
+
+		this.stage.addChild(this.gameBG.sprite);
+		this.stage.addChild(this.player.sprite);
+		this.stage.addChild(window.blackHole.sprite);
+		this.stage.addChild(this.enemy.sprite);
+		
+
+		this.run = function() {
+			requestAnimationFrame( this.animate );
+		}
+
+		this.animate = function(){
+
+			if ( gameState === 'playing') {
+	    		self.player.update();
+	    		self.enemy.update();
+
+	    		//check collisions
+	    		if ( collisionManager( self.player.sprite, self.enemy.sprite) )
+	    		{
+	    			console.log('collision with enemy');
+	    			gameState = 'gameOver';	    			
+	    		}
+	    						//check collision with black hole
+				if ( collisionManager( self.player.sprite, blackHole.sprite) ){
+					console.log('collision with black hole');
+					gameState = 'gameOver';
+				}
+	    	}
+	    	if  ( gameState === 'gameOver') {
+	    		self.stage.addChild(self.promptText);
+	    		gameState = 'mainMenu';
+	    	}
+	    	
+	    	self.renderer.render(self.stage);
+			
+			requestAnimationFrame( self.animate );
+		}
+	}
+
+
+	
+	var gameLoop = new GameLoop();
+	gameLoop.run();
+
+	</script>
+
+	</body>
+</html>
