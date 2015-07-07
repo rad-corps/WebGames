@@ -125,9 +125,19 @@ var vector2 = {
 	var AH_GLOBALS = { 
 		SCREEN_W: 640,
 		SCREEN_H: 360,
-		MAX_SPEED: 2,
+		MAX_SPEED: 3.5,
 		ACCELLERATION: 0.15
 	};
+
+	function startGame() {
+		
+		gameLoop.init();
+
+	}
+
+	function playAgain() {
+		startGame();
+	}
 
 	function scaleSprite(sprite_){
 		//sprite_.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
@@ -172,11 +182,14 @@ var vector2 = {
 
 		var rand1 = (Math.random() * 3) - 1.5;
 		var rand2 = (Math.random() * 3) - 1.5;
+		this.rotRand = (Math.random() * 0.2) - 0.1;
 		this.velocity = vector2.create(rand1, rand2);
 
 		this.update = function(){
 			this.sprite.position.x += self.velocity._x;
 			this.sprite.position.y += self.velocity._y;
+			Math.Random
+			this.sprite.rotation += self.rotRand;
 		}
 	}
 
@@ -274,32 +287,60 @@ var vector2 = {
 	}
 
 
-
+var fontStyle = {
+	align: 'center',
+    font : '36px Arial bold italic',
+    fill : '#F7EDCA',
+    stroke : '#4a1850',
+    strokeThickness : 5,
+    dropShadow : true,
+    dropShadowColor : '#000000',
+    dropShadowAngle : Math.PI / 6,
+    dropShadowDistance : 6,
+    wordWrap : true,
+    wordWrapWidth : 440
+};
 	//function 
 
 	function GameLoop(){
 
 		var self = this;
-		window.gameState = 'playing';
+		
 
 		//this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 		this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
 
 		document.body.appendChild(this.renderer.view);
 
-		this.stage = new PIXI.Container();
-
-		this.enemy = new Enemy();
-		this.player = new Player();
-		this.gameBG = new GameBackground();
-		this.promptText = new PIXI.Text('Game Over');
 		
+		this.init = function(){
+			window.gameState = 'playing';
 
-		this.stage.addChild(this.gameBG.sprite);
-		this.stage.addChild(this.player.sprite);
-		this.stage.addChild(window.blackHole.sprite);
-		this.stage.addChild(this.enemy.sprite);
-		
+			self.stage = new PIXI.Container();
+			self.enemyList = [];
+			for (var i = 0; i < 3; ++i) {
+				self.enemyList.push(new Enemy());
+			}
+
+			self.player = new Player();
+			self.gameBG = new GameBackground();
+			self.promptText = new PIXI.Text('Game Over - Tap To Start Again', fontStyle);
+			self.promptText.interactive = true;
+			self.promptText.on('mousedown', playAgain);	
+			self.promptText.on('touchstart', playAgain);	
+			self.promptText.position.set(window.innerWidth/2, window.innerHeight/2);
+			self.promptText.anchor.x = 0.5;
+			self.promptText.anchor.y = 0.5;
+
+			self.stage.addChild(this.gameBG.sprite);
+			self.stage.addChild(this.player.sprite);
+			self.stage.addChild(window.blackHole.sprite);
+
+			for (i in self.enemyList) {
+				self.stage.addChild(self.enemyList[i].sprite);
+			}
+		}
+
 
 		this.run = function() {
 			requestAnimationFrame( this.animate );
@@ -309,15 +350,16 @@ var vector2 = {
 
 			if ( gameState === 'playing') {
 	    		self.player.update();
-	    		self.enemy.update();
 
-	    		//check collisions
-	    		if ( collisionManager( self.player.sprite, self.enemy.sprite) )
-	    		{
-	    			console.log('collision with enemy');
-	    			gameState = 'gameOver';	    			
-	    		}
-	    						//check collision with black hole
+				for (i in self.enemyList){	    		
+					self.enemyList[i].update();
+
+					if ( collisionManager( self.player.sprite, self.enemyList[i].sprite) ) {
+		    			console.log('collision with enemy');
+		    			gameState = 'gameOver';	    			
+		    		}
+				}
+				//check collision with black hole
 				if ( collisionManager( self.player.sprite, blackHole.sprite) ){
 					console.log('collision with black hole');
 					gameState = 'gameOver';
@@ -337,6 +379,7 @@ var vector2 = {
 
 	
 	var gameLoop = new GameLoop();
+	gameLoop.init();
 	gameLoop.run();
 
 	</script>
