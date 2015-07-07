@@ -120,7 +120,7 @@ var vector2 = {
 	}
 };
 
-	var gameState; //'playing', 'gameOver'
+	var gameState = 'loading'; //'playing', 'gameOver', 'loading'
 	
 	var AH_GLOBALS = { 
 		SCREEN_W: 640,
@@ -129,10 +129,29 @@ var vector2 = {
 		ACCELLERATION: 0.15
 	};
 
-	function startGame() {
+	function onAssetsLoaded(){
 		
-		gameLoop.init();
+		startGame();
+	}
 
+	function preloadTextures() {
+
+		
+		// create a new loader
+		var loader = PIXI.loader;
+		loader.add('cow2', "cow2.png");
+		loader.add('blackhole', 'blackhole.png');
+		loader.add('sample_bg', 'sample_bg.jpg');
+		loader.add('ant', 'ant.png');
+		// use callback
+		loader.once('complete', onAssetsLoaded);
+		//begin load
+		loader.load();
+	}
+
+	function startGame() {		
+		gameLoop.init();
+		gameState = 'playing';
 	}
 
 	function playAgain() {
@@ -165,8 +184,7 @@ var vector2 = {
 		return true;
 	}
 
-	function Enemy()
-	{
+	function Enemy(){
 		var self = this;
 		
 		this.SetPos = function(point_){
@@ -193,8 +211,7 @@ var vector2 = {
 		}
 	}
 
-	function BlackHole(x, y)
-	{
+	function BlackHole(x, y){
 		var self = this;
 		this.SetPos = function(point_){
 			self.sprite.position.set(point_.x,point_.y);
@@ -232,8 +249,7 @@ var vector2 = {
 	}
 
 
-	function Player()
-	{
+	function Player(){
 		var self = this;
 
 		this.playerMouseDown = function (){
@@ -306,17 +322,17 @@ var fontStyle = {
 
 		var self = this;
 		
-
 		//this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 		this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
 
 		document.body.appendChild(this.renderer.view);
 
-		
-		this.init = function(){
-			window.gameState = 'playing';
+		self.stage = new PIXI.Container();
 
-			self.stage = new PIXI.Container();
+		this.init = function(){
+			//window.gameState = 'playing';
+
+			
 			self.enemyList = [];
 			for (var i = 0; i < 3; ++i) {
 				self.enemyList.push(new Enemy());
@@ -332,14 +348,25 @@ var fontStyle = {
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
 
+
+
 			self.stage.addChild(this.gameBG.sprite);
 			self.stage.addChild(this.player.sprite);
 			self.stage.addChild(window.blackHole.sprite);
+			self.stage.removeChild(self.loadingText);
+			
+			
 
 			for (i in self.enemyList) {
 				self.stage.addChild(self.enemyList[i].sprite);
 			}
 		}
+
+		self.loadingText = new PIXI.Text('Loading Game', fontStyle);
+		self.loadingText.position.set(window.innerWidth/2, window.innerHeight/2);
+		// self.loadingText.anchor.x = 0.5;
+		// self.loadingText.anchor.y = 0.5;
+		self.stage.addChild(self.loadingText);
 
 
 		this.run = function() {
@@ -369,6 +396,7 @@ var fontStyle = {
 	    		self.stage.addChild(self.promptText);
 	    		gameState = 'mainMenu';
 	    	}
+
 	    	
 	    	self.renderer.render(self.stage);
 			
@@ -377,7 +405,7 @@ var fontStyle = {
 	}
 
 
-	
+	preloadTextures();
 	var gameLoop = new GameLoop();
 	gameLoop.init();
 	gameLoop.run();
