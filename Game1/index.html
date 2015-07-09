@@ -159,10 +159,10 @@ var vector2 = {
 	}
 
 	function scaleSprite(sprite_){
-		//sprite_.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
-		sprite_.scale.x = window.innerHeight / AH_GLOBALS.SCREEN_H;
-		sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
-		//sprite_.scale.y = window.innerWidth / AH_GLOBALS.SCREEN_W;
+		
+		//commented out to remove scaling
+		// sprite_.scale.x = window.innerHeight / AH_GLOBALS.SCREEN_H;
+		// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
 	}
 
 
@@ -233,9 +233,6 @@ var vector2 = {
 			window.blackHole.SetPos(backgroundMouseDownED.data.global);			
 		}
 
-		this.spriteW = 640;
-		this.spriteH = 360;
-
 		this.sprite = PIXI.Sprite.fromImage("sample_bg.jpg");
 		this.sprite.position.set(0,0);
 		this.sprite.interactive = true;
@@ -255,8 +252,6 @@ var vector2 = {
 		this.playerMouseDown = function (){
 			console.log('playerMouseDown');
 		}
-		// this.spriteW = 32;
-		// this.spriteH = 32;
 
 		this.sprite = PIXI.Sprite.fromImage("ant.png");
 		this.sprite.anchor.x = 0.5;
@@ -265,9 +260,6 @@ var vector2 = {
 		this.sprite.interactive = true;
 		this.sprite.on('mousedown', this.playerMouseDown);	
 		
-		//scale it
-		//this.sprite.scale.x = window.innerWidth / this.spriteW;
-		//this.sprite.scale.y = window.innerHeight / this.spriteH;
 		scaleSprite(this.sprite);
 
 		this.velocity = vector2.create(0,0);
@@ -322,17 +314,15 @@ var fontStyle = {
 
 		var self = this;
 		
-		//this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
-		this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
+		this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
+		//this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
 
 		document.body.appendChild(this.renderer.view);
 
 		self.stage = new PIXI.Container();
 
 		this.init = function(){
-			//window.gameState = 'playing';
 
-			
 			self.enemyList = [];
 			for (var i = 0; i < 3; ++i) {
 				self.enemyList.push(new Enemy());
@@ -348,15 +338,11 @@ var fontStyle = {
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
 
-
-
 			self.stage.addChild(this.gameBG.sprite);
 			self.stage.addChild(this.player.sprite);
 			self.stage.addChild(window.blackHole.sprite);
 			self.stage.removeChild(self.loadingText);
 			
-			
-
 			for (i in self.enemyList) {
 				self.stage.addChild(self.enemyList[i].sprite);
 			}
@@ -364,10 +350,7 @@ var fontStyle = {
 
 		self.loadingText = new PIXI.Text('Loading Game', fontStyle);
 		self.loadingText.position.set(window.innerWidth/2, window.innerHeight/2);
-		// self.loadingText.anchor.x = 0.5;
-		// self.loadingText.anchor.y = 0.5;
 		self.stage.addChild(self.loadingText);
-
 
 		this.run = function() {
 			requestAnimationFrame( this.animate );
@@ -403,7 +386,6 @@ var fontStyle = {
 			requestAnimationFrame( self.animate );
 		}
 	}
-
 
 	preloadTextures();
 	var gameLoop = new GameLoop();
