@@ -73,21 +73,21 @@ var vector2 = {
 		return Math.sqrt(this._x * this._x + this._y * this._y);
 	},
 
-	add: function(v2) {
-		return vector2.create(this._x + v2.getX(), this._y + v2.getY());
-	},
+	// add: function(v2) {
+	// 	return vector2.create(this._x + v2.getX(), this._y + v2.getY());
+	// },
 
-	subtract: function(v2) {
-		return vector2.create(this._x - v2.getX(), this._y - v2.getY());
-	},
+	// subtract: function(v2) {
+	// 	return vector2.create(this._x - v2.getX(), this._y - v2.getY());
+	// },
 
-	multiply: function(val) {
-		return vector2.create(this._x * val, this._y * val);
-	},
+	// multiply: function(val) {
+	// 	return vector2.create(this._x * val, this._y * val);
+	// },
 
-	divide: function(val) {
-		return vector2.create(this._x / val, this._y / val);
-	},
+	// divide: function(val) {
+	// 	return vector2.create(this._x / val, this._y / val);
+	// },
 
 	addTo: function(v2) {
 		this._x += v2.getX();
@@ -141,7 +141,7 @@ var vector2 = {
 		var loader = PIXI.loader;
 		loader.add('cow2', "cow2.png");
 		loader.add('blackhole', 'blackhole.png');
-		loader.add('sample_bg', 'sample_bg.jpg');
+		loader.add('sample_bg', 'sample_bg.png');
 		loader.add('ant', 'ant.png');
 		// use callback
 		loader.once('complete', onAssetsLoaded);
@@ -206,7 +206,6 @@ var vector2 = {
 		this.update = function(){
 			this.sprite.position.x += self.velocity._x;
 			this.sprite.position.y += self.velocity._y;
-			Math.Random
 			this.sprite.rotation += self.rotRand;
 		}
 	}
@@ -229,11 +228,11 @@ var vector2 = {
 
 	function GameBackground(){
 		
-		this.backgroundMouseDown = function(backgroundMouseDownED) {
-			window.blackHole.SetPos(backgroundMouseDownED.data.global);			
+		this.backgroundMouseDown = function(event_) {
+			window.blackHole.SetPos(event_.data.global);			
 		}
 
-		this.sprite = PIXI.Sprite.fromImage("sample_bg.jpg");
+		this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
 		this.sprite.position.set(0,0);
 		this.sprite.interactive = true;
 		this.sprite.on('mousedown', this.backgroundMouseDown);
@@ -351,7 +350,7 @@ function GameLoop(){
 	}
 
 	self.loadingText = new PIXI.Text('Loading Game', fontStyle);
-	self.loadingText.position.set(window.innerWidth/2, window.innerHeight/2);
+	self.loadingText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
 	self.stage.addChild(self.loadingText);
 
 	this.run = function() {
