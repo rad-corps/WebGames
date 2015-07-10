@@ -120,179 +120,16 @@ var vector2 = {
 	}
 };
 
-	var gameState = 'loading'; //'playing', 'gameOver', 'loading'
-	
-	var AH_GLOBALS = { 
-		SCREEN_W: 640,
-		SCREEN_H: 360,
-		MAX_SPEED: 3.5,
-		ACCELLERATION: 0.15
-	};
+var gameState = 'loading'; //'playing', 'gameOver', 'loading'
 
-	function onAssetsLoaded(){
-		
-		startGame();
-	}
+var lastUpdate = Date.now();
 
-	function preloadTextures() {
-
-		
-		// create a new loader
-		var loader = PIXI.loader;
-		loader.add('cow2', "cow2.png");
-		loader.add('blackhole', 'blackhole.png');
-		loader.add('sample_bg', 'sample_bg.png');
-		loader.add('ant', 'ant.png');
-		// use callback
-		loader.once('complete', onAssetsLoaded);
-		//begin load
-		loader.load();
-	}
-
-	function startGame() {		
-		gameLoop.init();
-		gameState = 'playing';
-	}
-
-	function playAgain() {
-		startGame();
-	}
-
-	function scaleSprite(sprite_){
-		
-		//commented out to remove scaling
-		// sprite_.scale.x = window.innerHeight / AH_GLOBALS.SCREEN_H;
-		// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
-	}
-
-
-	function collisionManager(sprite1, sprite2)
-	{
-		//find left, right, top and bottom of sprite1
-		var l1 = sprite1.position.x - sprite1.width /2;
-		var r1 = sprite1.position.x + sprite1.width /2;
-		var t1 = sprite1.position.y + sprite1.height /2;
-		var b1 = sprite1.position.y - sprite1.height /2;
-		var l2 = sprite2.position.x - sprite2.width /2;
-		var r2 = sprite2.position.x + sprite2.width /2;
-		var t2 = sprite2.position.y + sprite2.height /2;
-		var b2 = sprite2.position.y - sprite2.height /2;
-
-		if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
-			return false;
-		}
-		return true;
-	}
-
-	function Enemy(){
-		var self = this;
-		
-		this.SetPos = function(point_){
-			self.sprite.position.set(point_.x,point_.y);
-		}
-
-		this.sprite = PIXI.Sprite.fromImage("cow2.png");
-		this.sprite.position.set(AH_GLOBALS.SCREEN_W/2,AH_GLOBALS.SCREEN_H/2);
-		
-		this.sprite.anchor.x = 0.5;		
-		this.sprite.anchor.y = 0.5;
-		scaleSprite(this.sprite);
-
-		var rand1 = (Math.random() * 3) - 1.5;
-		var rand2 = (Math.random() * 3) - 1.5;
-		this.rotRand = (Math.random() * 0.2) - 0.1;
-		this.velocity = vector2.create(rand1, rand2);
-
-		this.update = function(){
-			this.sprite.position.x += self.velocity._x;
-			this.sprite.position.y += self.velocity._y;
-			this.sprite.rotation += self.rotRand;
-		}
-	}
-
-	function BlackHole(x, y){
-		var self = this;
-		this.SetPos = function(point_){
-			self.sprite.position.set(point_.x,point_.y);
-		}
-
-		this.sprite = PIXI.Sprite.fromImage("blackhole.png");
-		this.sprite.position.set(x, y);
-		this.sprite.anchor.x = 0.5;		
-		this.sprite.anchor.y = 0.5;
-
-		scaleSprite(this.sprite);
-	}
-
-	var blackHole = new BlackHole(10, 10);
-
-	function GameBackground(){
-		
-		this.backgroundMouseDown = function(event_) {
-			window.blackHole.SetPos(event_.data.global);			
-		}
-
-		this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
-		this.sprite.position.set(0,0);
-		this.sprite.interactive = true;
-		this.sprite.on('mousedown', this.backgroundMouseDown);
-		this.sprite.on('touchstart', this.backgroundMouseDown);
-
-		//scale the sprite
-		scaleSprite(this.sprite);
-		// this.sprite.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
-		// this.sprite.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
-	}
-
-
-	function Player(){
-		var self = this;
-
-		this.playerMouseDown = function (){
-			console.log('playerMouseDown');
-		}
-
-		this.sprite = PIXI.Sprite.fromImage("ant.png");
-		this.sprite.anchor.x = 0.5;
-		this.sprite.anchor.y = 0.5;
-		this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
-		this.sprite.interactive = true;
-		this.sprite.on('mousedown', this.playerMouseDown);	
-		
-		scaleSprite(this.sprite);
-
-		this.velocity = vector2.create(0,0);
-		this.direction = vector2.create(0,0);
-
-		this.update = function()
-		{
-			if ( gameState === 'playing'){ 
-
-				//get direction vector and add to velocity
-				var dirx = blackHole.sprite.x - self.sprite.x;
-				var diry = blackHole.sprite.y - self.sprite.y;
-
-				self.direction.setX(dirx);
-				self.direction.setY(diry);
-
-				self.direction.normalise();
-				self.direction.multiplyBy(AH_GLOBALS.ACCELLERATION);
-				self.velocity.addTo(self.direction);
-
-				if ( self.velocity.getLength() > AH_GLOBALS.MAX_SPEED ){
-					self.velocity.setLength(AH_GLOBALS.MAX_SPEED);
-				}			
-
-				self.sprite.position.x += self.velocity.getX();
-				self.sprite.position.y += self.velocity.getY();
-
-				self.sprite.rotation += 0.04;
-
-
-			}
-		}
-	}
-
+var AH_GLOBALS = { 
+	SCREEN_W: 640,
+	SCREEN_H: 360,
+	MAX_SPEED: 3.5,
+	ACCELLERATION: 0.15
+};
 
 var fontStyle = {
 	align: 'center',
@@ -307,28 +144,203 @@ var fontStyle = {
     wordWrap : true,
     wordWrapWidth : 440
 };
-	//function 
 
+function onAssetsLoaded(){
+	
+	startGame();
+}
+
+function preloadTextures() {
+
+	
+	// create a new loader
+	var loader = PIXI.loader;
+	loader.add('cow2', "cow2.png");
+	loader.add('blackhole', 'blackhole.png');
+	loader.add('sample_bg', 'sample_bg.png');
+	loader.add('ant', 'ant.png');
+	// use callback
+	loader.once('complete', onAssetsLoaded);
+	//begin load
+	loader.load();
+}
+
+function startGame() {		
+	gameLoop.init();
+	gameState = 'playing';
+}
+
+function playAgain() {
+	startGame();
+}
+
+function scaleSprite(sprite_){
+	
+	//commented out to remove scaling
+	// sprite_.scale.x = window.innerHeight / AH_GLOBALS.SCREEN_H;
+	// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
+}
+
+
+function collisionManager(sprite1, sprite2)
+{
+	//find left, right, top and bottom of sprite1
+	var l1 = sprite1.position.x - sprite1.width /2;
+	var r1 = sprite1.position.x + sprite1.width /2;
+	var t1 = sprite1.position.y + sprite1.height /2;
+	var b1 = sprite1.position.y - sprite1.height /2;
+	var l2 = sprite2.position.x - sprite2.width /2;
+	var r2 = sprite2.position.x + sprite2.width /2;
+	var t2 = sprite2.position.y + sprite2.height /2;
+	var b2 = sprite2.position.y - sprite2.height /2;
+
+	if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
+		return false;
+	}
+	return true;
+}
+
+function Enemy(){
+	var self = this;
+	
+	this.SetPos = function(point_){
+		self.sprite.position.set(point_.x,point_.y);
+	}
+
+	this.sprite = PIXI.Sprite.fromImage("cow2.png");
+	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2,AH_GLOBALS.SCREEN_H/2);
+	
+	this.sprite.anchor.x = 0.5;		
+	this.sprite.anchor.y = 0.5;
+	scaleSprite(this.sprite);
+
+	var rand1 = (Math.random() * 3) - 1.5;
+	var rand2 = (Math.random() * 3) - 1.5;
+	this.rotRand = (Math.random() * 0.2) - 0.1;
+	this.velocity = vector2.create(rand1, rand2);
+
+	this.update = function(){
+		this.sprite.position.x += self.velocity._x;
+		this.sprite.position.y += self.velocity._y;
+		this.sprite.rotation += self.rotRand;
+	}
+}
+
+function BlackHole(x, y){
+	var self = this;
+	this.SetPos = function(point_){
+		self.sprite.position.set(point_.x,point_.y);
+	}
+
+	this.sprite = PIXI.Sprite.fromImage("blackhole.png");
+	this.sprite.position.set(x, y);
+	this.sprite.anchor.x = 0.5;		
+	this.sprite.anchor.y = 0.5;
+
+	scaleSprite(this.sprite);
+}
+
+var blackHole = new BlackHole(10, 10);
+
+function GameBackground(){
+	
+	this.backgroundMouseDown = function(event_) {
+		window.blackHole.SetPos(event_.data.global);			
+	}
+
+	this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
+	this.sprite.position.set(0,0);
+	this.sprite.interactive = true;
+	this.sprite.on('mousedown', this.backgroundMouseDown);
+	this.sprite.on('touchstart', this.backgroundMouseDown);
+
+	//scale the sprite
+	scaleSprite(this.sprite);
+	// this.sprite.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
+	// this.sprite.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
+}
+
+function Player(){
+	var self = this;
+
+	this.playerMouseDown = function (){
+		console.log('playerMouseDown');
+	}
+
+	this.sprite = PIXI.Sprite.fromImage("ant.png");
+	this.sprite.anchor.x = 0.5;
+	this.sprite.anchor.y = 0.5;
+	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
+	this.sprite.interactive = true;
+	this.sprite.on('mousedown', this.playerMouseDown);	
+	
+	scaleSprite(this.sprite);
+
+	this.velocity = vector2.create(0,0);
+	this.direction = vector2.create(0,0);
+
+	this.update = function()
+	{
+		if ( gameState === 'playing'){ 
+			//get direction vector and add to velocity
+			var dirx = blackHole.sprite.x - self.sprite.x;
+			var diry = blackHole.sprite.y - self.sprite.y;
+
+			self.direction.setX(dirx);
+			self.direction.setY(diry);
+
+			self.direction.normalise();
+			self.direction.multiplyBy(AH_GLOBALS.ACCELLERATION);
+			self.velocity.addTo(self.direction);
+
+			if ( self.velocity.getLength() > AH_GLOBALS.MAX_SPEED ){
+				self.velocity.setLength(AH_GLOBALS.MAX_SPEED);
+			}			
+
+			self.sprite.position.x += self.velocity.getX();
+			self.sprite.position.y += self.velocity.getY();
+
+			self.sprite.rotation += 0.04;
+		}
+	}
+}
+
+function EnemySpawner() {
+	var self = this;
+
+	self.timeElapsed = 0.0;
+
+	this.update = function(dt_) { 
+		self.timeElapsed += dt_;
+
+		console.log(self.timeElapsed);
+
+		if (self.timeElapsed > 2000.0){
+			self.timeElapsed = 0.0;
+			gameLoop.spawnEnemy();
+		}
+	}
+}
 
 
 function GameLoop(){
 
 	var self = this;
 	
+	//create the renderer
 	this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
-	//this.renderer = new PIXI.WebGLRenderer(window.innerWidth, window.innerHeight);//autoDetectRenderer(400, 300);
 
+	//add it to the DOM body
 	document.body.appendChild(this.renderer.view);
 
+	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
 
 	this.init = function(){
+		console.log("init");
 
 		self.enemyList = [];
-		for (var i = 0; i < 3; ++i) {
-			self.enemyList.push(new Enemy());
-		}
-
+		self.enemySpawner = new EnemySpawner();
 		self.player = new Player();
 		self.gameBG = new GameBackground();
 		self.promptText = new PIXI.Text('Game Over - Tap To Start Again', fontStyle);
@@ -344,9 +356,14 @@ function GameLoop(){
 		self.stage.addChild(window.blackHole.sprite);
 		self.stage.removeChild(self.loadingText);
 		
-		for (i in self.enemyList) {
-			self.stage.addChild(self.enemyList[i].sprite);
-		}
+	}
+
+	this.spawnEnemy = function(){
+		console.log("spawnEnemy");
+		//every 2 seconds add an enemy
+		var newEnemy = new Enemy();
+		self.enemyList.push(newEnemy);
+		self.stage.addChild(newEnemy.sprite);
 	}
 
 	self.loadingText = new PIXI.Text('Loading Game', fontStyle);
@@ -359,8 +376,16 @@ function GameLoop(){
 
 	this.animate = function(){
 
+
+		//calc delta
+		var now = Date.now();
+		var dt = now - lastUpdate;
+		lastUpdate = now;
+
+
 		if ( gameState === 'playing') {
     		self.player.update();
+    		self.enemySpawner.update(dt);
 
 			for (i in self.enemyList){	    		
 				self.enemyList[i].update();
@@ -380,7 +405,6 @@ function GameLoop(){
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
     	}
-
     	
     	self.renderer.render(self.stage);
 		
