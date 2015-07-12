@@ -199,7 +199,6 @@ function scaleSprite(sprite_){
 	// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
 }
 
-
 function collisionManager(sprite1, sprite2)
 {
 	//find left, right, top and bottom of sprite1
@@ -271,18 +270,12 @@ function Enemy(){
 	}
 
 	this.sprite = PIXI.Sprite.fromImage("cow2.png");
-	//this.sprite.position.set(AH_GLOBALS.SCREEN_W/2,AH_GLOBALS.SCREEN_H/2);
 	
 	this.sprite.anchor.x = 0.5;		
 	this.sprite.anchor.y = 0.5;
 	scaleSprite(this.sprite);
 
 	this.randomizeStartPos();
-
-	// var rand1 = (Math.random() * 3) - 1.5;
-	// var rand2 = (Math.random() * 3) - 1.5;
-	// this.rotRand = (Math.random() * 0.2) - 0.1;
-	// this.velocity = vector2.create(rand1, rand2);
 
 	this.update = function(){
 		this.sprite.position.x += self.velocity._x;
@@ -321,16 +314,10 @@ function GameBackground(){
 
 	//scale the sprite
 	scaleSprite(this.sprite);
-	// this.sprite.scale.x = window.innerWidth / AH_GLOBALS.SCREEN_W;
-	// this.sprite.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
 }
 
 function Player(){
 	var self = this;
-
-	this.playerMouseDown = function (){
-		console.log('playerMouseDown');
-	}
 
 	this.sprite = PIXI.Sprite.fromImage("ant.png");
 	this.sprite.anchor.x = 0.5;
@@ -343,6 +330,10 @@ function Player(){
 
 	this.velocity = vector2.create(0,0);
 	this.direction = vector2.create(0,0);
+
+	this.playerMouseDown = function (){
+		console.log('playerMouseDown');
+	}
 
 	this.update = function()
 	{
@@ -430,10 +421,6 @@ function GameLoop(){
 		self.stage.addChild(newEnemy.sprite);
 	}
 
-	self.loadingText = new PIXI.Text('Loading Game', fontStyle);
-	self.loadingText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
-	self.stage.addChild(self.loadingText);
-
 	this.run = function() {
 		requestAnimationFrame( this.animate );
 	}
@@ -475,7 +462,6 @@ function GameLoop(){
 }
 
 preloadTextures();
-
 
 	</script>
 
