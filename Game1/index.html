@@ -8,11 +8,23 @@
 			padding: 0;
 			background-color: #FFF;
 		}
+
+		#loader{
+    		background:green; 
+    		width:640px;
+    		height:360px;   
+		}
 	</style>
 	<script src="../bin/pixi.js"></script>
 
 </head>
 <body>
+
+    <div id="loader" class="layer">
+        <h3>Loading</h3>
+        <img src="https://www.voicemailoffice.com/secure/images/loading_transparent.gif" alt="loader" />     
+    </div>
+
 	<script>
 
 //hide the URL bar
@@ -121,6 +133,7 @@ var vector2 = {
 };
 
 var gameState = 'loading'; //'playing', 'gameOver', 'loading'
+var gameLoop = null;
 
 var lastUpdate = Date.now();
 
@@ -146,12 +159,15 @@ var fontStyle = {
 };
 
 function onAssetsLoaded(){
-	
+
+	window.gameLoop = new GameLoop();
+	window.gameLoop.init();
+	window.gameLoop.run();
 	startGame();
+	document.getElementById("loader").style.display = "none";
 }
 
 function preloadTextures() {
-
 	
 	// create a new loader
 	var loader = PIXI.loader;
@@ -402,7 +418,6 @@ function GameLoop(){
 		self.stage.addChild(this.player.sprite);
 		self.stage.addChild(window.blackHole.sprite);
 		self.stage.removeChild(self.loadingText);
-		
 	}
 
 	this.spawnEnemy = function(){
@@ -423,12 +438,10 @@ function GameLoop(){
 
 	this.animate = function(){
 
-
 		//calc delta
 		var now = Date.now();
 		var dt = now - lastUpdate;
 		lastUpdate = now;
-
 
 		if ( gameState === 'playing') {
     		self.player.update();
@@ -459,10 +472,8 @@ function GameLoop(){
 	}
 }
 
-	preloadTextures();
-	var gameLoop = new GameLoop();
-	gameLoop.init();
-	gameLoop.run();
+preloadTextures();
+
 
 	</script>
 
