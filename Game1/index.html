@@ -160,6 +160,20 @@ var fontStyle = {
     wordWrapWidth : 440
 };
 
+var scoreFontStyle = {
+	align: 'center',
+    font : '20px Arial bold italic',
+    fill : '#F7EDCA',
+    stroke : '#4a1850',
+    strokeThickness : 1,
+    dropShadow : true,
+    dropShadowColor : '#000000',
+    dropShadowAngle : Math.PI / 6,
+    dropShadowDistance : 2,
+    wordWrap : true,
+    wordWrapWidth : 440
+};
+
 function onAssetsLoaded(){
 
 	window.gameLoop = new GameLoop();
@@ -215,6 +229,23 @@ function collisionManager(sprite1, sprite2)
 		return false;
 	}
 	return true;
+}
+
+function Timer() {
+	var self = this;
+
+	self.timer = 0.0;
+	self.promptText = new PIXI.Text('Score: ', scoreFontStyle);
+	self.promptText.position.set(10, 10);
+
+	this.update = function(dt_) {
+		self.timer += Math.floor(dt_ / 10);
+		self.promptText.text = "Score: " + self.timer;
+	}
+
+	this.reset = function() {
+		self.timer = 0.0;
+	}
 }
 
 function Enemy(){
@@ -399,7 +430,9 @@ function GameLoop(){
 		self.enemySpawner = new EnemySpawner();
 		self.player = new Player();
 		self.gameBG = new GameBackground();
+		self.timer = new Timer();
 		self.promptText = new PIXI.Text('Game Over - Tap To Start Again', fontStyle);
+
 		self.promptText.interactive = true;
 		self.promptText.on('mousedown', playAgain);	
 		self.promptText.on('touchstart', playAgain);	
@@ -410,7 +443,8 @@ function GameLoop(){
 		self.stage.addChild(this.gameBG.sprite);
 		self.stage.addChild(this.player.sprite);
 		self.stage.addChild(window.blackHole.sprite);
-		self.stage.removeChild(self.loadingText);
+		self.stage.addChild(self.timer.promptText);
+		//self.stage.removeChild(self.loadingText);
 	}
 
 	this.spawnEnemy = function(){
@@ -433,6 +467,7 @@ function GameLoop(){
 		lastUpdate = now;
 
 		if ( gameState === 'playing') {
+			self.timer.update(dt);
     		self.player.update();
     		self.enemySpawner.update(dt);
 
