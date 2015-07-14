@@ -204,6 +204,7 @@ function startGame() {
 
 function playAgain() {
 	startGame();
+	window.blackHole.SetPos(new PIXI.Point(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2));
 }
 
 function scaleSprite(sprite_){
@@ -327,9 +328,14 @@ function BlackHole(x, y){
 	this.sprite.anchor.y = 0.5;
 
 	scaleSprite(this.sprite);
+
+	this.update = function() {
+		this.sprite.rotation -= 0.1;
+	}
+
 }
 
-var blackHole = new BlackHole(10, 10);
+var blackHole = new BlackHole(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
 
 function GameBackground(){
 	
@@ -396,13 +402,14 @@ function EnemySpawner() {
 	var self = this;
 
 	self.timeElapsed = 0.0;
+	self.spawnInterval = 2000.0;
 
 	this.update = function(dt_) { 
 		self.timeElapsed += dt_;
 
-		console.log(self.timeElapsed);
-
-		if (self.timeElapsed > 2000.0){
+		if (self.timeElapsed > self.spawnInterval){
+			self.spawnInterval *= 0.975;
+			console.log("spawnInterval: "+ self.spawnInterval);
 			self.timeElapsed = 0.0;
 			gameLoop.spawnEnemy();
 		}
@@ -440,9 +447,10 @@ function GameLoop(){
 		self.promptText.anchor.x = 0.5;
 		self.promptText.anchor.y = 0.5;
 
+		
 		self.stage.addChild(this.gameBG.sprite);
-		self.stage.addChild(this.player.sprite);
 		self.stage.addChild(window.blackHole.sprite);
+		self.stage.addChild(this.player.sprite);
 		self.stage.addChild(self.timer.promptText);
 		//self.stage.removeChild(self.loadingText);
 	}
@@ -470,6 +478,7 @@ function GameLoop(){
 			self.timer.update(dt);
     		self.player.update();
     		self.enemySpawner.update(dt);
+    		window.blackHole.update();
 
 			for (i in self.enemyList){	    		
 				self.enemyList[i].update();
