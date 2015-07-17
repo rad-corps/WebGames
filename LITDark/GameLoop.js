@@ -42,15 +42,22 @@ function GameLoop(){
 		lastUpdate = now;
 
 		if ( gameState === 'playing') {
-    		self.player.update();
 
-    		//iterate over terrain. only check collision on the non walkable stuff
-			if (self.terrain.collidesWith(self.player.sprite) )
-			{
-				self.player.undoX();
-				self.player.undoY();
-			}
+			//check X collision
+    		self.player.updateX();
+    		if (self.terrain.collidesWith(self.player.sprite) )
+    		{
+    			self.player.undoX();
+    		}
 
+    		//check Y collision
+    		self.player.updateY();
+    		if (self.terrain.collidesWith(self.player.sprite) )
+    		{
+    			self.player.undoY();
+    		}
+
+    		//check if rats collide with player
 			if (self.topTerrain.collidesWith(self.player.sprite) )
 			{
 				gameState = 'gameOver';
@@ -64,6 +71,7 @@ function GameLoop(){
 				self.stage.addChild(self.promptText);
 			}				
 
+			//rats move
 			self.topTerrain.update();
     	}
     	if  ( gameState === 'loadMenu') {

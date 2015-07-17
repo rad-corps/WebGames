@@ -51,16 +51,32 @@ function Player(){
 	}	
 
 
-	this.update = function()
+	// this.update = function()
+	// {
+	// 	if ( gameState === 'playing'){ 
+
+	// 		self.oldX = self.sprite.position.x;
+	// 		self.oldY = self.sprite.position.y;
+
+	// 		self.sprite.position.x += this.velocity._x;
+	// 		self.sprite.position.y += this.velocity._y;;
+	// 		//self.sprite.rotation += 0.04;
+	// 	}
+	// }
+
+	this.updateX = function()
 	{
 		if ( gameState === 'playing'){ 
-
 			self.oldX = self.sprite.position.x;
-			self.oldY = self.sprite.position.y;
-
 			self.sprite.position.x += this.velocity._x;
-			self.sprite.position.y += this.velocity._y;;
-			//self.sprite.rotation += 0.04;
+		}
+	}
+
+	this.updateY = function()
+	{
+		if ( gameState === 'playing'){ 
+			self.oldY = self.sprite.position.y;
+			self.sprite.position.y += this.velocity._y;
 		}
 	}
 

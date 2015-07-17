@@ -104,14 +104,19 @@ function scaleSprite(sprite_){
 function collisionManager(sprite1, sprite2)
 {
 	//find left, right, top and bottom of sprite1
-	var l1 = sprite1.position.x - sprite1.width /2;
-	var r1 = sprite1.position.x + sprite1.width /2;
-	var t1 = sprite1.position.y + sprite1.height /2;
-	var b1 = sprite1.position.y - sprite1.height /2;
-	var l2 = sprite2.position.x - sprite2.width /2;
-	var r2 = sprite2.position.x + sprite2.width /2;
-	var t2 = sprite2.position.y + sprite2.height /2;
-	var b2 = sprite2.position.y - sprite2.height /2;
+	var s1W = sprite1.width * 0.75;
+	var s2W = sprite2.width * 0.75;
+	var s1H = sprite1.height * 0.75;
+	var s2H = sprite2.height * 0.75;	
+
+	var l1 = sprite1.position.x - s1W /2;
+	var r1 = sprite1.position.x + s1W /2;
+	var t1 = sprite1.position.y + s1H /2;
+	var b1 = sprite1.position.y - s1H /2;
+	var l2 = sprite2.position.x - s2W /2;
+	var r2 = sprite2.position.x + s2W /2;
+	var t2 = sprite2.position.y + s2H /2;
+	var b2 = sprite2.position.y - s2H /2;
 
 	if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
 		return false;
