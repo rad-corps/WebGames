@@ -300,10 +300,103 @@ function collisionManager(sprite1, sprite2)
 //////////////////////////////////////
 ///////////////////////////////////////
 
-function Terrain(){
+//level key
+// 0 = terrain0
+// 1 = terrain1
+// 2 = wall
+// 3 = snapping shut walls (north/south)
+// 4 = snapping shut walls (east/west)
+// 5 = moveable object (crate)
+// 6 = goal
+
+var level = [
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+
+];
 
 
+//takes a 2D array 15x15
+function Terrain(level_){
 
+	var self = this;
+	
+	//iterators
+	var row = 0;
+	var col = 0;
+	
+	//temp
+	var spriteRow = [];
+	var tempTile = undefined;
+	var tempSprite = undefined;
+
+	//2D array of sprites based on the level passed in
+	this.spriteArray = [];
+
+
+	this.level = level_;
+
+	for (row = 0; row < level_.length; ++row )
+	{		
+		//empty spriteRow array
+		spriteRow = [];
+
+		for (col = 0; col < level_[row].length; ++col )	
+		{
+			//add one to the spriteRow
+			tempTile = level_[row][col];
+
+			if ( tempTile === 0 )
+			{
+				tempSprite = PIXI.Sprite.fromImage("./img/terrain0.png");
+			}
+			else if ( tempTile === 1)
+			{
+				tempSprite = PIXI.Sprite.fromImage("./img/terrain1.png");
+			}
+
+			//set the position of the sprite
+			tempSprite.position.x = col * 32;
+			tempSprite.position.y = row * 32;
+			spriteRow.push(tempSprite);			
+		}
+
+		this.spriteArray.push(spriteRow);
+	}
+
+	//console.log(this.spriteArray);
+
+	this.update = function() { 
+
+	}
+
+	this.getSpriteArray = function(){ 
+		return self.spriteArray;
+	}
+
+	this.addToStage = function(stage_){
+		
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				stage_.addChild(self.spriteArray[row][col]);	
+			}
+		}		
+	}
 }
 
 function Player(){
@@ -313,8 +406,6 @@ function Player(){
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
-	//this.sprite.interactive = true;
-	//this.sprite.on('mousedown', this.playerMouseDown);	
 	
 	this.velocity = vector2.create(0,0);	
 
@@ -388,6 +479,7 @@ function GameLoop(){
 		console.log("init");
 
 		self.player = new Player();
+		self.terrain = new Terrain(window.level);
 
 		self.promptText = new PIXI.Text('LITDark Click To Play', fontStyle);
 
@@ -400,9 +492,12 @@ function GameLoop(){
 		
 		//self.stage.addChild(this.gameBG.sprite);
 		//self.stage.addChild(window.blackHole.sprite);
+		self.terrain.addToStage(self.stage);
 		self.stage.addChild(this.player.sprite);
 		//self.stage.addChild(self.timer.promptText);
 		//self.stage.removeChild(self.loadingText);
+
+
 	}
 
 	this.run = function() {
