@@ -188,7 +188,8 @@ var lastUpdate = Date.now();
 var AH_GLOBALS = { 
 	SCREEN_W: 848,
 	SCREEN_H: 480,
-	PLAYER_SPEED: 1
+	PLAYER_SPEED: 3,
+	WALL_SPEED: 1
 };
 
 var fontStyle = {
@@ -304,27 +305,52 @@ function collisionManager(sprite1, sprite2)
 // 0 = terrain0
 // 1 = terrain1
 // 2 = wall
-// 3 = snapping shut walls (north/south)
-// 4 = snapping shut walls (east/west)
-// 5 = moveable object (crate)
+
 // 6 = goal
 
-var level = [
+var levelBottom = [
 [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
 [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
 [0,1,2,2,2,1,0,1,0,2,2,2,2,2,2,1,0,1,0,1,0,1,0,1,0,1],
 [1,0,2,0,1,2,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,2,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,2,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,2,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
 [0,1,2,1,0,2,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
 [1,0,2,2,2,0,1,0,1,2,2,2,2,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,2,1,0,1,0,1,0,2,2,2,2,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
+[0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[1,0,2,0,1,0,1,0,1,2,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
 [0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
 [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
 [0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+];
+
+
+//0 = nothing
+//1 = wall moving down
+//2 = wall moving up
+//3 = wall moving right/east
+//4 = wall moving right/east
+//5 = button 
+//6 = crate
+
+var levelTop = [
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,6,6,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,0,0,6,6,0,0],
+[0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,3,0,0,4,0,0,0,0,0,0,0,0,0,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,3,0,0,4,0,0,0,0,0,0,0,0,0,0,0],
 ];
 
 
@@ -424,6 +450,106 @@ function Terrain(level_){
 					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
 					{
 
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+}
+
+function TopLevelTerrain(level_)
+{
+	var self = this;
+	
+	//iterators
+	var row = 0;
+	var col = 0;
+	
+	//temp
+	var spriteRow = [];
+	var tempTile = undefined;
+	var tempSprite = undefined;
+
+	//2D array of sprites based on the level passed in
+	this.level = level_;
+	this.spriteArray = [];
+
+	this.distTraveled = 0;
+
+	this.level = level_;
+	this.invertDirection = false;
+
+	for (row = 0; row < level_.length; ++row )
+	{		
+		//empty spriteRow array
+		spriteRow = [];
+
+		for (col = 0; col < level_[row].length; ++col )	
+		{
+			//add one to the spriteRow
+			tempTile = level_[row][col];
+
+			if ( tempTile === 0 )
+			{
+				tempSprite = undefined;
+				//tempSprite = PIXI.Sprite.fromImage("./img/terrain0.png");
+			}
+			else //none 0
+			{
+				tempSprite = PIXI.Sprite.fromImage("./img/wall.png");
+			}
+
+			if ( tempSprite !== undefined )
+			{
+				//set the position of the sprite
+				tempSprite.anchor.x = 0.5;
+				tempSprite.anchor.y = 0.5;
+				tempSprite.position.x = col * 32;
+				tempSprite.position.y = row * 32;
+						
+			}
+			spriteRow.push(tempSprite);	
+		}
+
+		this.spriteArray.push(spriteRow);
+	}
+
+	this.addToStage = function(stage_){
+		
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				if ( self.spriteArray[row][col] !== undefined )
+				{
+					stage_.addChild(self.spriteArray[row][col]);	
+				}
+			}
+		}		
+	}
+
+	this.walkableTerrain = function(row_, col_)
+	{
+		if ( self.level[row_][col_] === 0 ) { 
+			return true;
+		}
+		return false;
+	}
+
+	this.collidesWith = function(playerSprite_)
+	{
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				if ( self.walkableTerrain(row, col) === false)
+				{
+					//check for collision
+					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
+					{
+
 						console.log("inside wall");
 						return true;
 					}
@@ -432,6 +558,71 @@ function Terrain(level_){
 		}
 		return false;
 	}
+
+	this.update = function(dt_)
+	{
+		var speed = AH_GLOBALS.WALL_SPEED;
+		if (self.distTraveled >= 32 )
+		{
+			self.invertDirection = !self.invertDirection;
+			self.distTraveled = 0;
+		}
+		self.distTraveled += speed;
+
+		//iterate over all tile types		
+		for (var row = 0; row < self.level.length; row++)
+		{
+			for (var col = 0; col < self.level[row].length; col++)
+			{
+				if ( self.level[row][col] === 1 ) //move down
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.y -= speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.y += speed;
+					
+				}
+				else if ( self.level[row][col] === 2 ) //move up
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.y += speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.y -= speed;
+				}
+				else if ( self.level[row][col] === 3 ) //move left
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.x += speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.x -= speed;
+					
+				}
+				else if ( self.level[row][col] === 4 ) //move right
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.x -= speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.x += speed;
+				}
+				else if ( self.level[row][col] === 5 ) //zig zag 1
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.x += speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.y -= speed;
+				}
+				else if ( self.level[row][col] === 6 ) //zig zag 2
+				{
+					if ( self.invertDirection === true)
+						self.spriteArray[row][col].position.x -= speed;
+					if ( self.invertDirection === false)
+						self.spriteArray[row][col].position.y += speed;
+				}				
+
+			}
+		}
+	}
+
 }
 
 function Player(){
@@ -485,10 +676,6 @@ function Player(){
 	}	
 
 
-	// this.playerMouseDown = function (){
-	// 	console.log('playerMouseDown');
-	// }
-
 	this.update = function()
 	{
 		if ( gameState === 'playing'){ 
@@ -529,7 +716,8 @@ function GameLoop(){
 		console.log("init");
 
 		self.player = new Player();
-		self.terrain = new Terrain(window.level);
+		self.terrain = new Terrain(window.levelBottom);
+		self.topTerrain = new TopLevelTerrain(window.levelTop);
 
 		self.promptText = new PIXI.Text('LITDark Click To Play', fontStyle);
 
@@ -544,6 +732,7 @@ function GameLoop(){
 		//self.stage.addChild(window.blackHole.sprite);
 		self.terrain.addToStage(self.stage);
 		self.stage.addChild(this.player.sprite);
+		self.topTerrain.addToStage(self.stage);
 		//self.stage.addChild(self.timer.promptText);
 		//self.stage.removeChild(self.loadingText);
 
@@ -570,16 +759,20 @@ function GameLoop(){
 				self.player.undoX();
 				self.player.undoY();
 			}
-			
-			
+
+			if (self.topTerrain.collidesWith(self.player.sprite) )
+			{
+				self.player.undoX();
+				self.player.undoY();
+			}				
+
+			self.topTerrain.update();
     	}
     	if  ( gameState === 'gameOver') {
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
-    	}
-    	
-    	self.renderer.render(self.stage);
-		
+    	}    	
+    	self.renderer.render(self.stage);		
 		requestAnimationFrame( self.animate );
 	}
 }
