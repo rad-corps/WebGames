@@ -181,7 +181,7 @@ var vector2 = {
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
-var gameState = 'loading'; //'playing', 'gameOver', 'loading'
+var gameState = 'loadMenu'; //'playing', 'gameOver', 'menu', 'loadMenu'
 var gameLoop = null;
 var lastUpdate = Date.now();
 
@@ -233,7 +233,7 @@ function onAssetsLoaded(){
 	window.gameLoop = new GameLoop();
 	//window.gameLoop.init();
 	window.gameLoop.run();
-	startGame();
+	//startGame();
 	document.getElementById("loader").style.display = "none";
 }
 
@@ -252,6 +252,9 @@ function preloadTextures() {
 	loader.add('terrain0', './img/terrain0.png');
 	loader.add('terrain1', './img/terrain1.png');
 	loader.add('wall', './img/wall.png');
+	loader.add('LitDarkTitle', './img/LitDarkTitle.png');
+
+
 	// use callback
 	loader.once('complete', onAssetsLoaded);
 	//begin load
@@ -261,11 +264,6 @@ function preloadTextures() {
 function startGame() {		
 	gameLoop.init();
 	gameState = 'playing';
-}
-
-function playAgain() {
-	startGame();
-	window.blackHole.SetPos(new PIXI.Point(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2));
 }
 
 function scaleSprite(sprite_){
@@ -309,21 +307,21 @@ function collisionManager(sprite1, sprite2)
 // 6 = goal
 
 var levelBottom = [
-[0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,2,2,1,0,1,0,2,2,2,2,2,2,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,2,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,2,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,2,2,0,1,0,1,2,2,2,2,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,2,2,2,2,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,2,0,1,0,1,0,1,2,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
-[0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+[2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,2,2,1,0,1,0,2,2,2,2,2,2,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,2,0,1,2,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,2,0,1,0,1,0,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,1,0,2,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,2,2,2,0,1,0,1,2,2,2,2,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,1,0,1,0,1,0,2,2,2,2,1,0,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,2,0,1,0,1,0,1,2,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,2],
+[2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,2],
+[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
 ];
 
 
@@ -332,8 +330,8 @@ var levelBottom = [
 //2 = wall moving up
 //3 = wall moving right/east
 //4 = wall moving right/east
-//5 = button 
-//6 = crate
+//5 = zig zag wall 1 
+//6 = zig zag wall 2
 
 var levelTop = [
 [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -712,6 +710,15 @@ function GameLoop(){
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
 
+	self.promptText = new PIXI.Text('Start LIT Dark', fontStyle);
+	self.promptText.interactive = true;
+	self.promptText.on('mousedown', startGame);	
+	self.promptText.on('touchstart', startGame);	
+	self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+	self.promptText.anchor.x = 0.5;
+	self.promptText.anchor.y = 0.5;
+
+
 	this.init = function(){
 		console.log("init");
 
@@ -719,14 +726,9 @@ function GameLoop(){
 		self.terrain = new Terrain(window.levelBottom);
 		self.topTerrain = new TopLevelTerrain(window.levelTop);
 
-		self.promptText = new PIXI.Text('LITDark Click To Play', fontStyle);
+		
 
-		self.promptText.interactive = true;
-		self.promptText.on('mousedown', playAgain);	
-		self.promptText.on('touchstart', playAgain);	
-		self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
-		self.promptText.anchor.x = 0.5;
-		self.promptText.anchor.y = 0.5;
+
 		
 		//self.stage.addChild(this.gameBG.sprite);
 		//self.stage.addChild(window.blackHole.sprite);
@@ -768,7 +770,8 @@ function GameLoop(){
 
 			self.topTerrain.update();
     	}
-    	if  ( gameState === 'gameOver') {
+    	if  ( gameState === 'loadMenu') {
+    		console.log('adding promptText');
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
     	}    	
