@@ -1,7 +1,7 @@
 function GameLoop(){
 
 	var self = this;
-	
+
 	//create the renderer
 	this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 
@@ -19,6 +19,7 @@ function GameLoop(){
 		self.topTerrain = new TopLevelTerrain(levelTop);
 		
 
+		//if ( self.stage.has)
 		self.stage.removeChild(self.promptText);
 		self.terrain.addToStage(self.stage);
 		self.stage.addChild(this.player.sprite);
@@ -27,6 +28,10 @@ function GameLoop(){
 
 	this.run = function() {
 		requestAnimationFrame( this.animate );
+	}
+
+	this.resetGame = function() {
+		while(self.stage.children[0]) { self.stage.removeChild(self.stage.children[0]); }
 	}
 
 	this.animate = function(){
@@ -51,7 +56,8 @@ function GameLoop(){
 				gameState = 'gameOver';
 	    		self.promptText = new PIXI.Text('Game Over', fontStyle);
 				self.promptText.interactive = true;
-				//self.promptText.on('mousedown', mainMenu);	
+				var setLoadMenuGameState = function(){gameState='loadMenu';};
+				self.promptText.on('mousedown', setLoadMenuGameState);	
 				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
 				self.promptText.anchor.x = 0.5;
 				self.promptText.anchor.y = 0.5;
@@ -61,6 +67,8 @@ function GameLoop(){
 			self.topTerrain.update();
     	}
     	if  ( gameState === 'loadMenu') {
+    		self.resetGame();
+
     		self.promptText = new PIXI.Text('Start LIT Dark', fontStyle);
 			self.promptText.interactive = true;
 			self.promptText.on('mousedown', startGame);	
