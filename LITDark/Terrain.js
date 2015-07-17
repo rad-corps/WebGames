@@ -266,8 +266,34 @@ function TopLevelTerrain(level_)
 		return false;
 	}
 
-	this.update = function(dt_)
+	this.checkCollisionWithTerrain = function(terrain_)
 	{
+		var tileType = 0;
+
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				tileType = self.level[row][col];
+
+				//check if crates collided with walls.
+				if ( tileType === 9)
+				{
+					if ( terrain_.collidesWith(self.spriteArray[row][col]))
+					{
+						return true;	
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	this.update = function(dt_, terrain_)
+	{
+		var oldX = 0;
+		var oldY = 0;
+		
 		var speed = AH_GLOBALS.WALL_SPEED;
 		if (self.distTraveled >= 32 )
 		{
@@ -276,11 +302,14 @@ function TopLevelTerrain(level_)
 		}
 		self.distTraveled += speed;
 
+
+
 		//iterate over all tile types		
 		for (var row = 0; row < self.level.length; row++)
 		{
 			for (var col = 0; col < self.level[row].length; col++)
 			{
+
 				if ( self.level[row][col] === 1 ) //move down
 				{
 					if ( self.invertDirection === true)
@@ -327,8 +356,16 @@ function TopLevelTerrain(level_)
 				}	
 				else if ( self.level[row][col] === 9 ) //crate
 				{					
+					oldX = self.spriteArray[row][col].position.x;
+					oldY = self.spriteArray[row][col].position.y;
+
 					self.spriteArray[row][col].position.x += self.spriteArray[row][col].velocity._x;
+					if ( self.checkCollisionWithTerrain(terrain_) )
+						self.spriteArray[row][col].position.x = oldX;
+
 					self.spriteArray[row][col].position.y += self.spriteArray[row][col].velocity._y;
+					if ( self.checkCollisionWithTerrain(terrain_) )
+						self.spriteArray[row][col].position.y = oldY;
 
 					//drag velocity
 					self.spriteArray[row][col].velocity.multiplyBy(0.90);

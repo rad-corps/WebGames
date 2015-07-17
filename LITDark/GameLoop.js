@@ -71,6 +71,10 @@ function GameLoop(){
 				self.stage.addChild(self.promptText);
 			}	
 
+			//rats move
+			//dummy var for delta time
+			self.topTerrain.update(1, self.terrain);
+
 			// //slow player down if moving a crate
 			// if (self.topTerrain.canMove(self.player.sprite) )
 			// {
@@ -94,8 +98,7 @@ function GameLoop(){
 				self.stage.addChild(self.promptText);
 			}
 
-			//rats move
-			self.topTerrain.update();
+
     	}
     	if  ( gameState === 'loadMenu') {
     		self.resetGame();
