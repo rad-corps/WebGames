@@ -8,6 +8,7 @@ function Player(){
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
 	this.sprite.velocity = vector2.create(0,0);	
+	this.reachedGoal = false;
 	//this.speedMulti = 1;
 
 	this.oldX = 0;

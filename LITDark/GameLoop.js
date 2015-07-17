@@ -21,8 +21,9 @@ function GameLoop(){
 		//if ( self.stage.has)
 		self.stage.removeChild(self.promptText);
 		self.terrain.addToStage(self.stage);
-		self.stage.addChild(this.player.sprite);
 		self.topTerrain.addToStage(self.stage);
+		self.stage.addChild(this.player.sprite);
+		
 	}
 
 	this.run = function() {
@@ -80,6 +81,18 @@ function GameLoop(){
 			// 	self.player.setSpeedMulti(1);	
 			// }
 			self.topTerrain.canMove(self.player.sprite);
+			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
+			{
+				self.player.reachedGoal = true;
+				self.promptText = new PIXI.Text('You Win!', fontStyle);
+				self.promptText.interactive = true;
+				var setLoadMenuGameState = function(){gameState='loadMenu';};
+				self.promptText.on('mousedown', setLoadMenuGameState);	
+				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+				self.promptText.anchor.x = 0.5;
+				self.promptText.anchor.y = 0.5;
+				self.stage.addChild(self.promptText);
+			}
 
 			//rats move
 			self.topTerrain.update();
