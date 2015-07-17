@@ -24,7 +24,7 @@
     <div id="loader" class="layer">
     	<br></br>
         <h3>Loading LIT Dark</h3>
-        <img src="loading_transparent.gif" alt="loader" />     
+        <img src="./img/loading_transparent.gif" alt="loader" />     
     </div>
 
 	<script>
@@ -325,7 +325,6 @@ var level = [
 [0,1,2,1,0,1,0,1,0,2,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
 [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0],
 [0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-
 ];
 
 
@@ -344,6 +343,7 @@ function Terrain(level_){
 	var tempSprite = undefined;
 
 	//2D array of sprites based on the level passed in
+	this.level = level_;
 	this.spriteArray = [];
 
 
@@ -373,6 +373,8 @@ function Terrain(level_){
 			}
 
 			//set the position of the sprite
+			tempSprite.anchor.x = 0.5;
+			tempSprite.anchor.y = 0.5;
 			tempSprite.position.x = col * 32;
 			tempSprite.position.y = row * 32;
 			spriteRow.push(tempSprite);			
@@ -401,6 +403,35 @@ function Terrain(level_){
 			}
 		}		
 	}
+
+	this.walkableTerrain = function(row_, col_)
+	{
+		if ( self.level[row_][col_] === 2 ) { 
+			return false;
+		}
+		return true;
+	}
+
+	this.collidesWith = function(playerSprite_)
+	{
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				if ( self.walkableTerrain(row, col) === false)
+				{
+					//check for collision
+					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
+					{
+
+						console.log("inside wall");
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }
 
 function Player(){
@@ -410,6 +441,9 @@ function Player(){
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
+
+	this.oldX = 0;
+	this.oldY = 0;
 	
 	this.velocity = vector2.create(0,0);	
 
@@ -459,11 +493,23 @@ function Player(){
 	{
 		if ( gameState === 'playing'){ 
 
+			self.oldX = self.sprite.position.x;
+			self.oldY = self.sprite.position.y;
+
 			self.sprite.position.x += this.velocity._x;
 			self.sprite.position.y += this.velocity._y;;
 			//self.sprite.rotation += 0.04;
 		}
 	}
+
+	this.undoX = function(){
+		self.sprite.position.x = self.oldX;
+	}
+
+	this.undoY = function() {
+		self.sprite.position.y = self.oldY;
+	}
+
 }
 
 function GameLoop(){
@@ -518,10 +564,12 @@ function GameLoop(){
 		if ( gameState === 'playing') {
     		self.player.update();
 
-			// if ( collisionManager( self.player.sprite, self.enemyList[i].sprite) ) {
-		   	//  			console.log('collision with enemy');
-		   	//  			gameState = 'gameOver';	    			
-		   	//	}
+    		//iterate over terrain. only check collision on the non walkable stuff
+			if (self.terrain.collidesWith(self.player.sprite) )
+			{
+				self.player.undoX();
+				self.player.undoY();
+			}
 			
 			
     	}
