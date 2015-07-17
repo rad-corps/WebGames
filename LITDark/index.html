@@ -39,6 +39,46 @@ window.addEventListener("load",function() {
 	}, 0);
 });
 
+
+//https://github.com/kittykatattack/learningPixi#keyboard
+function keyboard(keyCode) {
+  var key = {};
+  key.code = keyCode;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+  //The `downHandler`
+  key.downHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+    }
+    event.preventDefault();
+  };
+
+  //The `upHandler`
+  key.upHandler = function(event) {
+    if (event.keyCode === key.code) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+    }
+    event.preventDefault();
+  };
+
+  //Attach event listeners
+  window.addEventListener(
+    "keydown", key.downHandler.bind(key), false
+  );
+  window.addEventListener(
+    "keyup", key.upHandler.bind(key), false
+  );
+  return key;
+}
+
+
 //Keith Peter's Vector JS class
 var vector2 = {
 	_x: 1,
@@ -142,6 +182,7 @@ var lastUpdate = Date.now();
 var AH_GLOBALS = { 
 	SCREEN_W: 848,
 	SCREEN_H: 480,
+	PLAYER_SPEED: 1
 };
 
 var fontStyle = {
@@ -175,20 +216,19 @@ var scoreFontStyle = {
 function onAssetsLoaded(){
 
 	window.gameLoop = new GameLoop();
-	window.gameLoop.init();
+	//window.gameLoop.init();
 	window.gameLoop.run();
 	startGame();
 	document.getElementById("loader").style.display = "none";
 }
 
+//LOAD ALL PRELOADED TEXTURES IN HERE
+//////////////////////////////////////////////
 function preloadTextures() {
 	
 	// create a new loader
 	var loader = PIXI.loader;
-	loader.add('cow2', "cow2.png");
-	loader.add('blackhole', 'blackhole.png');
-	loader.add('sample_bg', 'sample_bg.png');
-	loader.add('ant', 'ant.png');
+	loader.add('player', 'player.png');
 	// use callback
 	loader.once('complete', onAssetsLoaded);
 	//begin load
@@ -250,85 +290,87 @@ function Timer() {
 
 
 
-function GameBackground(){
+// function GameBackground(){
 	
-	this.backgroundMouseDown = function(event_) {
-		window.blackHole.SetPos(event_.data.global);			
-	}
+// 	this.backgroundMouseDown = function(event_) {
+// 		window.blackHole.SetPos(event_.data.global);			
+// 	}
 
-	this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
-	this.sprite.position.set(0,0);
-	this.sprite.interactive = true;
-	this.sprite.on('mousedown', this.backgroundMouseDown);
-	this.sprite.on('touchstart', this.backgroundMouseDown);
+// 	this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
+// 	this.sprite.position.set(0,0);
+// 	this.sprite.interactive = true;
+// 	this.sprite.on('mousedown', this.backgroundMouseDown);
+// 	this.sprite.on('touchstart', this.backgroundMouseDown);
 
-	//scale the sprite
-	scaleSprite(this.sprite);
-}
+// 	//scale the sprite
+// 	scaleSprite(this.sprite);
+// }
 
 function Player(){
 	var self = this;
 
-	this.sprite = PIXI.Sprite.fromImage("ant.png");
+	this.sprite = PIXI.Sprite.fromImage("player.png");
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
-	this.sprite.interactive = true;
-	this.sprite.on('mousedown', this.playerMouseDown);	
+	//this.sprite.interactive = true;
+	//this.sprite.on('mousedown', this.playerMouseDown);	
 	
+	this.velocity = vector2.create(0,0);
+	
+
 	scaleSprite(this.sprite);
 
-	this.velocity = vector2.create(0,0);
-	this.direction = vector2.create(0,0);
+	//define keyObjects and listeners
+	this.kN = keyboard(38);
+	this.kS = keyboard(40);
+	this.kE = keyboard(39);
+	this.kW = keyboard(37);
 
-	this.playerMouseDown = function (){
-		console.log('playerMouseDown');
+	//NORTH
+	this.kN.press = function() {
+		self.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 	}
+	this.kN.release = function() {
+		self.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+	}
+	//SOUTH
+	this.kS.press = function() {
+		self.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+	}
+	this.kS.release = function() {
+		self.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
+	}	
+	//EAST
+	this.kE.press = function() {
+		self.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+	}
+	this.kE.release = function() {
+		self.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+	}	
+	//WEST
+	this.kW.press = function() {
+		self.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+	}
+	this.kW.release = function() {
+		self.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+	}	
+
+
+	// this.playerMouseDown = function (){
+	// 	console.log('playerMouseDown');
+	// }
 
 	this.update = function()
 	{
 		if ( gameState === 'playing'){ 
-			//get direction vector and add to velocity
-			var dirx = blackHole.sprite.x - self.sprite.x;
-			var diry = blackHole.sprite.y - self.sprite.y;
 
-			self.direction.setX(dirx);
-			self.direction.setY(diry);
-
-			self.direction.normalise();
-			self.direction.multiplyBy(AH_GLOBALS.ACCELLERATION);
-			self.velocity.addTo(self.direction);
-
-			if ( self.velocity.getLength() > AH_GLOBALS.MAX_SPEED ){
-				self.velocity.setLength(AH_GLOBALS.MAX_SPEED);
-			}			
-
-			self.sprite.position.x += self.velocity.getX();
-			self.sprite.position.y += self.velocity.getY();
-
-			self.sprite.rotation += 0.04;
+			self.sprite.position.x += this.velocity._x;
+			self.sprite.position.y += this.velocity._y;;
+			//self.sprite.rotation += 0.04;
 		}
 	}
 }
-
-function EnemySpawner() {
-	var self = this;
-
-	self.timeElapsed = 0.0;
-	self.spawnInterval = 2000.0;
-
-	this.update = function(dt_) { 
-		self.timeElapsed += dt_;
-
-		if (self.timeElapsed > self.spawnInterval){
-			self.spawnInterval *= 0.975;
-			console.log("spawnInterval: "+ self.spawnInterval);
-			self.timeElapsed = 0.0;
-			gameLoop.spawnEnemy();
-		}
-	}
-}
-
 
 function GameLoop(){
 
@@ -346,12 +388,9 @@ function GameLoop(){
 	this.init = function(){
 		console.log("init");
 
-		self.enemyList = [];
-		self.enemySpawner = new EnemySpawner();
 		self.player = new Player();
-		self.gameBG = new GameBackground();
-		self.timer = new Timer();
-		self.promptText = new PIXI.Text('Game Over - Tap To Start Again', fontStyle);
+
+		self.promptText = new PIXI.Text('LITDark Click To Play', fontStyle);
 
 		self.promptText.interactive = true;
 		self.promptText.on('mousedown', playAgain);	
@@ -359,22 +398,21 @@ function GameLoop(){
 		self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
 		self.promptText.anchor.x = 0.5;
 		self.promptText.anchor.y = 0.5;
-
 		
-		self.stage.addChild(this.gameBG.sprite);
-		self.stage.addChild(window.blackHole.sprite);
+		//self.stage.addChild(this.gameBG.sprite);
+		//self.stage.addChild(window.blackHole.sprite);
 		self.stage.addChild(this.player.sprite);
-		self.stage.addChild(self.timer.promptText);
+		//self.stage.addChild(self.timer.promptText);
 		//self.stage.removeChild(self.loadingText);
 	}
 
-	this.spawnEnemy = function(){
-		console.log("spawnEnemy");
-		//every 2 seconds add an enemy
-		var newEnemy = new Enemy();
-		self.enemyList.push(newEnemy);
-		self.stage.addChild(newEnemy.sprite);
-	}
+	// this.spawnEnemy = function(){
+	// 	console.log("spawnEnemy");
+	// 	//every 2 seconds add an enemy
+	// 	var newEnemy = new Enemy();
+	// 	self.enemyList.push(newEnemy);
+	// 	self.stage.addChild(newEnemy.sprite);
+	// }
 
 	this.run = function() {
 		requestAnimationFrame( this.animate );
@@ -388,24 +426,14 @@ function GameLoop(){
 		lastUpdate = now;
 
 		if ( gameState === 'playing') {
-			self.timer.update(dt);
     		self.player.update();
-    		self.enemySpawner.update(dt);
-    		window.blackHole.update();
 
-			for (i in self.enemyList){	    		
-				self.enemyList[i].update();
-
-				if ( collisionManager( self.player.sprite, self.enemyList[i].sprite) ) {
-	    			console.log('collision with enemy');
-	    			gameState = 'gameOver';	    			
-	    		}
-			}
-			// //check collision with black hole
-			// if ( collisionManager( self.player.sprite, blackHole.sprite) ){
-			// 	console.log('collision with black hole');
-			// 	gameState = 'gameOver';
-			// }
+			// if ( collisionManager( self.player.sprite, self.enemyList[i].sprite) ) {
+		   	//  			console.log('collision with enemy');
+		   	//  			gameState = 'gameOver';	    			
+		   	//	}
+			
+			
     	}
     	if  ( gameState === 'gameOver') {
     		self.stage.addChild(self.promptText);
