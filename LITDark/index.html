@@ -270,6 +270,14 @@ function collisionManager(sprite1, sprite2)
 	return true;
 }
 
+///////////////////////////////////////
+///////////////////////////////////////
+//////////////////////////////////////
+//GAME OBJECTS
+/////////////////////////////////////
+//////////////////////////////////////
+///////////////////////////////////////
+
 function Player(){
 	var self = this;
 
@@ -280,8 +288,7 @@ function Player(){
 	//this.sprite.interactive = true;
 	//this.sprite.on('mousedown', this.playerMouseDown);	
 	
-	this.velocity = vector2.create(0,0);
-	
+	this.velocity = vector2.create(0,0);	
 
 	scaleSprite(this.sprite);
 
@@ -369,14 +376,6 @@ function GameLoop(){
 		//self.stage.addChild(self.timer.promptText);
 		//self.stage.removeChild(self.loadingText);
 	}
-
-	// this.spawnEnemy = function(){
-	// 	console.log("spawnEnemy");
-	// 	//every 2 seconds add an enemy
-	// 	var newEnemy = new Enemy();
-	// 	self.enemyList.push(newEnemy);
-	// 	self.stage.addChild(newEnemy.sprite);
-	// }
 
 	this.run = function() {
 		requestAnimationFrame( this.animate );
