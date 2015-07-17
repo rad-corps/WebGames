@@ -270,42 +270,6 @@ function collisionManager(sprite1, sprite2)
 	return true;
 }
 
-function Timer() {
-	var self = this;
-
-	self.timer = 0.0;
-	self.promptText = new PIXI.Text('Score: ', scoreFontStyle);
-	self.promptText.position.set(10, 10);
-
-	this.update = function(dt_) {
-		self.timer += Math.floor(dt_ / 10);
-		self.promptText.text = "Score: " + self.timer;
-	}
-
-	this.reset = function() {
-		self.timer = 0.0;
-	}
-}
-
-
-
-
-// function GameBackground(){
-	
-// 	this.backgroundMouseDown = function(event_) {
-// 		window.blackHole.SetPos(event_.data.global);			
-// 	}
-
-// 	this.sprite = PIXI.Sprite.fromImage("sample_bg.png");
-// 	this.sprite.position.set(0,0);
-// 	this.sprite.interactive = true;
-// 	this.sprite.on('mousedown', this.backgroundMouseDown);
-// 	this.sprite.on('touchstart', this.backgroundMouseDown);
-
-// 	//scale the sprite
-// 	scaleSprite(this.sprite);
-// }
-
 function Player(){
 	var self = this;
 
