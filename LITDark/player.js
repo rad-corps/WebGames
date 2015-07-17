@@ -4,8 +4,8 @@ function Player(){
 	var self = this;
 
 	this.sprite = PIXI.Sprite.fromImage("./img/player.png");
-	this.sprite.anchor.x = 0.5;
-	this.sprite.anchor.y = 0.5;
+//	this.sprite.anchor.x = 0.5;
+//	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
 	this.sprite.velocity = vector2.create(0,0);	
 	this.reachedGoal = false;
