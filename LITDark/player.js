@@ -7,11 +7,13 @@ function Player(){
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
+	this.sprite.velocity = vector2.create(0,0);	
+	//this.speedMulti = 1;
 
 	this.oldX = 0;
 	this.oldY = 0;
 	
-	this.velocity = vector2.create(0,0);	
+	
 
 	scaleSprite(this.sprite);
 
@@ -23,52 +25,42 @@ function Player(){
 
 	//NORTH
 	this.kN.press = function() {
-		self.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kN.release = function() {
-		self.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 	}
 	//SOUTH
 	this.kS.press = function() {
-		self.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kS.release = function() {
-		self.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 	}	
 	//EAST
 	this.kE.press = function() {
-		self.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kE.release = function() {
-		self.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 	}	
 	//WEST
 	this.kW.press = function() {
-		self.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kW.release = function() {
-		self.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 	}	
 
-
-	// this.update = function()
-	// {
-	// 	if ( gameState === 'playing'){ 
-
-	// 		self.oldX = self.sprite.position.x;
-	// 		self.oldY = self.sprite.position.y;
-
-	// 		self.sprite.position.x += this.velocity._x;
-	// 		self.sprite.position.y += this.velocity._y;;
-	// 		//self.sprite.rotation += 0.04;
-	// 	}
+	// this.setSpeedMulti = function(val_){
+	// 	self.speedMulti = val_;
 	// }
 
 	this.updateX = function()
 	{
 		if ( gameState === 'playing'){ 
 			self.oldX = self.sprite.position.x;
-			self.sprite.position.x += this.velocity._x;
+			self.sprite.position.x += this.sprite.velocity._x;
 		}
 	}
 
@@ -76,7 +68,7 @@ function Player(){
 	{
 		if ( gameState === 'playing'){ 
 			self.oldY = self.sprite.position.y;
-			self.sprite.position.y += this.velocity._y;
+			self.sprite.position.y += this.sprite.velocity._y;
 		}
 	}
 

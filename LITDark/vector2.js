@@ -46,6 +46,10 @@ var vector2 = {
 		return Math.sqrt(this._x * this._x + this._y * this._y);
 	},
 
+	getCopy: function(){
+		return vector2.create(this._x, this._y);
+	},
+
 	// add: function(v2) {
 	// 	return vector2.create(this._x + v2.getX(), this._y + v2.getY());
 	// },

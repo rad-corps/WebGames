@@ -12,7 +12,6 @@ function GameLoop(){
 	self.stage = new PIXI.Container();
 
 	this.init = function(){
-		console.log("init");
 
 		self.player = new Player();
 		self.terrain = new Terrain(levelBottom);
@@ -58,7 +57,7 @@ function GameLoop(){
     		}
 
     		//check if rats collide with player
-			if (self.topTerrain.collidesWith(self.player.sprite) )
+			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
 				gameState = 'gameOver';
 	    		self.promptText = new PIXI.Text('Game Over', fontStyle);
@@ -69,7 +68,18 @@ function GameLoop(){
 				self.promptText.anchor.x = 0.5;
 				self.promptText.anchor.y = 0.5;
 				self.stage.addChild(self.promptText);
-			}				
+			}	
+
+			// //slow player down if moving a crate
+			// if (self.topTerrain.canMove(self.player.sprite) )
+			// {
+			// 	self.player.setSpeedMulti(0.3);
+			// }
+			// else
+			// {
+			// 	self.player.setSpeedMulti(1);	
+			// }
+			self.topTerrain.canMove(self.player.sprite);
 
 			//rats move
 			self.topTerrain.update();

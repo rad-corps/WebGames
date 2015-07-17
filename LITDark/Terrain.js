@@ -141,9 +141,13 @@ function TopLevelTerrain(level_)
 				tempSprite = undefined;
 				//tempSprite = PIXI.Sprite.fromImage("./img/terrain0.png");
 			}
-			else //none 0
+			else if ( tempTile >= 1 && tempTile <= 6 )
 			{
 				tempSprite = PIXI.Sprite.fromImage("./img/spikes.png");
+			}
+			else if ( tempTile === 9 )
+			{
+				tempSprite = PIXI.Sprite.fromImage("./img/crate.png");
 			}
 
 			if ( tempSprite !== undefined )
@@ -153,6 +157,7 @@ function TopLevelTerrain(level_)
 				tempSprite.anchor.y = 0.5;
 				tempSprite.position.x = col * 32;
 				tempSprite.position.y = row * 32;
+				tempSprite.velocity = vector2.create(0,0);
 						
 			}
 			spriteRow.push(tempSprite);	
@@ -183,17 +188,48 @@ function TopLevelTerrain(level_)
 		return false;
 	}
 
-	this.collidesWith = function(playerSprite_)
+	this.causesDeathTo = function(playerSprite_)
 	{
+		var tileType = 0;
+
 		for (var row = 0; row < self.spriteArray.length; row++)
 		{
 			for (var col = 0; col < self.spriteArray[row].length; col++)
 			{
-				if ( self.walkableTerrain(row, col) === false)
+				tileType = self.level[row][col];
+				
+				//from 1 to 6 are all rat types
+				if ( tileType >= 1 && tileType <= 6)
 				{
 					//check for collision
 					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
 					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	this.canMove = function(playerSprite_)
+	{
+		var tileType = 0;
+
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				tileType = self.level[row][col];
+				
+				//from 1 to 6 are all rat types
+				if ( tileType === 9 )
+				{
+					//check for collision
+					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
+					{						
+						//set the velocity to the players velocity.
+						self.spriteArray[row][col].velocity = playerSprite_.velocity.getCopy();
 						return true;
 					}
 				}
@@ -260,7 +296,15 @@ function TopLevelTerrain(level_)
 						self.spriteArray[row][col].position.x -= speed;
 					if ( self.invertDirection === false)
 						self.spriteArray[row][col].position.y += speed;
-				}				
+				}	
+				else if ( self.level[row][col] === 9 ) //crate
+				{					
+					self.spriteArray[row][col].position.x += self.spriteArray[row][col].velocity._x;
+					self.spriteArray[row][col].position.y += self.spriteArray[row][col].velocity._y;
+
+					//drag velocity
+					self.spriteArray[row][col].velocity.multiplyBy(0.90);
+				}	
 
 			}
 		}
