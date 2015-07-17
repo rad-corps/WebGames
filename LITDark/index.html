@@ -228,7 +228,7 @@ function preloadTextures() {
 	
 	// create a new loader
 	var loader = PIXI.loader;
-	loader.add('player', 'player.png');
+	loader.add('player', './img/player.png');
 	// use callback
 	loader.once('complete', onAssetsLoaded);
 	//begin load
@@ -309,7 +309,7 @@ function Timer() {
 function Player(){
 	var self = this;
 
-	this.sprite = PIXI.Sprite.fromImage("player.png");
+	this.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
