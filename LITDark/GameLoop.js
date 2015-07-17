@@ -15,8 +15,8 @@ function GameLoop(){
 		console.log("init");
 
 		self.player = new Player();
-		self.terrain = new Terrain(window.levelBottom);
-		self.topTerrain = new TopLevelTerrain(window.levelTop);
+		self.terrain = new Terrain(levelBottom);
+		self.topTerrain = new TopLevelTerrain(levelTop);
 		
 
 		self.stage.removeChild(self.promptText);
