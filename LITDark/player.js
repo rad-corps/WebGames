@@ -1,12 +1,12 @@
 //Player.js
 
-function Player(){
+function Player(row_, col_){
 	var self = this;
 
 	this.sprite = PIXI.Sprite.fromImage("./img/player.png");
 //	this.sprite.anchor.x = 0.5;
 //	this.sprite.anchor.y = 0.5;
-	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
+	this.sprite.position.set(col_*32, row_*32);
 	this.sprite.velocity = vector2.create(0,0);	
 	this.reachedGoal = false;
 	//this.speedMulti = 1;
@@ -84,11 +84,21 @@ function Player(){
 	}
 
 	this.undoX = function(){
-		self.sprite.position.x = self.oldX;
+		
+		//move back double the distance to avoid getting stuck to things
+		var direction = vector2.create(self.oldX - self.sprite.position.x, 0);
+		direction.normalise();
+		direction.multiplyBy(6);
+		self.sprite.position.x = self.sprite.position.x + direction._x;
+		self.sprite.velocity._x = 0;
 	}
 
 	this.undoY = function() {
-		self.sprite.position.y = self.oldY;
+		var direction = vector2.create(0, self.oldY - self.sprite.position.y);
+		direction.normalise();
+		direction.multiplyBy(6);
+		self.sprite.position.y = self.sprite.position.y + direction._y;
+		self.sprite.velocity._y = 0;
 	}
 
 }

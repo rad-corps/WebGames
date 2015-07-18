@@ -22,7 +22,7 @@ function GameLoop(){
 
 		//setup game objects
 		self.level = level_;
-		self.player = new Player();
+		self.player = new Player(level_.playerPos.row, level_.playerPos.col);
 		self.terrain = new Terrain(self.level.levelBottom);
 		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
 		self.buttons = [];

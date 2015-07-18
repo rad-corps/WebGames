@@ -62,7 +62,9 @@ var level1 = {
             swapRow : 7,
             swapCol : 3
         }
-    ]
+    ],
+
+    playerPos : { row: 6, col: 10 }
 };
 
 var level2 = {
@@ -100,7 +102,9 @@ var level2 = {
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     ],
 
-    buttons : []
+    buttons : [],
+
+    playerPos : { row: 5, col: 10 }
 };
 
 var level3 = {
@@ -138,7 +142,9 @@ var level3 = {
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     ],
 
-    buttons : []
+    buttons : [],
+
+    playerPos : { row: 5, col: 10 }
 };
 
 

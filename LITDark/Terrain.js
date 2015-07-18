@@ -273,7 +273,7 @@ function TopLevelTerrain(level_)
 			{
 				tileType = self.level[row][col];
 				
-				//from 1 to 6 are all rat types
+				//from 1 to 4 are all spike types
 				if ( tileType === 9 )
 				{
 					//check for collision
@@ -385,12 +385,20 @@ function TopLevelTerrain(level_)
 					oldY = self.spriteArray[row][col].position.y;
 
 					self.spriteArray[row][col].position.x += self.spriteArray[row][col].velocity._x;
-					if ( self.checkCollisionWithTerrain(terrain_) )
+					if ( self.checkCollisionWithTerrain(terrain_) ) {
+						
 						self.spriteArray[row][col].position.x = oldX;
+						self.spriteArray[row][col].velocity._x = 0;
+						self.spriteArray[row][col].velocity._y = 0;
+					}
 
 					self.spriteArray[row][col].position.y += self.spriteArray[row][col].velocity._y;
-					if ( self.checkCollisionWithTerrain(terrain_) )
+					if ( self.checkCollisionWithTerrain(terrain_) ){
+
 						self.spriteArray[row][col].position.y = oldY;
+						self.spriteArray[row][col].velocity._x = 0;
+						self.spriteArray[row][col].velocity._y = 0;
+					}
 
 					//drag velocity
 					self.spriteArray[row][col].velocity.multiplyBy(0.80);
