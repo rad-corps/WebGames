@@ -27,6 +27,8 @@ function Player(row_, col_){
 	this.oldX = 0;
 	this.oldY = 0;
 
+	this.receivingInput = true;
+
 	scaleSprite(this.sprite);
 
 	//define keyObjects and listeners
@@ -34,6 +36,11 @@ function Player(row_, col_){
 	this.kS = keyboard(40);
 	this.kE = keyboard(39);
 	this.kW = keyboard(37);
+
+	this.turnOffInput = function() {
+		self.receivingInput = false;
+		self.sprite.gotoAndStop(0);
+	}
 
 	this.cancelVelocity = function()
 	{
@@ -49,17 +56,21 @@ function Player(row_, col_){
 
 	//NORTH
 	this.kN.press = function() {
+		if ( self.receivingInput === false )
+			return;
 		self.cancelVelocity();
 		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 0;
 		self.sprite.play();
 	}
-	this.kN.release = function() {		
+	this.kN.release = function() {				
 		if ( self.sprite.velocity._y < 0 ) self.sprite.velocity._y = 0;
 		self.stopAnimationIfStill();
 	}
 	//SOUTH
 	this.kS.press = function() {
+		if ( self.receivingInput === false )
+			return;
 		self.cancelVelocity();
 		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14;
@@ -71,6 +82,8 @@ function Player(row_, col_){
 	}	
 	//EAST
 	this.kE.press = function() {
+		if ( self.receivingInput === false )
+			return;
 		self.cancelVelocity();
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = (3.14 /2) * 3;
@@ -82,6 +95,8 @@ function Player(row_, col_){
 	}	
 	//WEST
 	this.kW.press = function() {
+		if ( self.receivingInput === false )
+			return;		
 		self.cancelVelocity();
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14 /2;

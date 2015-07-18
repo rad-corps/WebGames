@@ -59,6 +59,11 @@ function GameLoop(){
 		// self.terrain = {};
 	}
 
+	this.setGameOverState = function() {
+		gameState = 'gameOver';
+		self.player.turnOffInput();
+	}
+
 	this.animate = function(){
 
 		//calc delta
@@ -119,7 +124,7 @@ function GameLoop(){
     		//check if rats collide with player
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
-				gameState = 'gameOver';
+				self.setGameOverState();
 	    		self.promptText = new PIXI.Text('Game Over', fontStyle);
 				self.promptText.interactive = true;
 				var setLoadMenuGameState = function(){gameState='loadMenu';};
@@ -136,6 +141,7 @@ function GameLoop(){
 			
 			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
 			{
+				self.setGameOverState();
 				self.player.reachedGoal = true;
 				self.promptText = new PIXI.Text('Level Complete! Click For Next Level', fontStyle);
 				self.promptText.interactive = true;
@@ -147,8 +153,6 @@ function GameLoop(){
 				self.promptText.anchor.y = 0.5;
 				self.stage.addChild(self.promptText);
 			}
-
-
     	}
     	if  ( gameState === 'loadMenu') {
     		self.resetGame();
