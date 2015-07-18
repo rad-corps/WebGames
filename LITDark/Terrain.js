@@ -150,7 +150,7 @@ function TopLevelTerrain(level_)
 				tempSprite = undefined;
 				//tempSprite = PIXI.Sprite.fromImage("./img/terrain0.png");
 			}
-			else if ( tempTile >= 1 && tempTile <= 6 )
+			else if ( tempTile >= 1 && tempTile <= 4 )
 			{
 				tempSprite = PIXI.Sprite.fromImage("./img/spikes.png");
 			}
@@ -212,8 +212,8 @@ function TopLevelTerrain(level_)
 			{
 				tileType = self.level[row][col];
 				
-				//from 1 to 6 are all rat types
-				if ( tileType >= 1 && tileType <= 6)
+				//from 1 to 6 are all spike types
+				if ( tileType >= 1 && tileType <= 4)
 				{
 					//check for collision
 					if ( collisionManager( playerSprite_, self.spriteArray[row][col]) )
@@ -360,27 +360,13 @@ function TopLevelTerrain(level_)
 				}
 				else if ( self.level[row][col] === 3 ) //move left
 				{
-					tempSprite.position.x -= speed * tempSprite.speedMulti;
-					
+					tempSprite.position.x -= speed * tempSprite.speedMulti;					
 				}
 				else if ( self.level[row][col] === 4 ) //move right
 				{
 					tempSprite.position.x += speed * tempSprite.speedMulti;
 				}
-				else if ( self.level[row][col] === 5 ) //zig zag 1
-				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.x += speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.y -= speed;
-				}
-				else if ( self.level[row][col] === 6 ) //zig zag 2
-				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.x -= speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.y += speed;
-				}	
+
 				else if ( self.level[row][col] === 9 ) //crate
 				{					
 					oldX = self.spriteArray[row][col].position.x;

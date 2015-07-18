@@ -24,33 +24,43 @@ function Player(){
 	this.kE = keyboard(39);
 	this.kW = keyboard(37);
 
+	this.cancelVelocity = function()
+	{
+		self.sprite.velocity._x = 0;
+		self.sprite.velocity._y = 0;
+	}
+
 	//NORTH
 	this.kN.press = function() {
+		self.cancelVelocity();
 		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 	}
-	this.kN.release = function() {
-		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+	this.kN.release = function() {		
+		if ( self.sprite.velocity._y < 0 ) self.sprite.velocity._y = 0;
 	}
 	//SOUTH
 	this.kS.press = function() {
+		self.cancelVelocity();
 		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kS.release = function() {
-		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
+		if ( self.sprite.velocity._y > 0 ) self.sprite.velocity._y = 0;
 	}	
 	//EAST
 	this.kE.press = function() {
+		self.cancelVelocity();
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kE.release = function() {
-		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+		if ( self.sprite.velocity._x > 0 ) self.sprite.velocity._x = 0;
 	}	
 	//WEST
 	this.kW.press = function() {
+		self.cancelVelocity();
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 	}
 	this.kW.release = function() {
-		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+		if ( self.sprite.velocity._x < 0 ) self.sprite.velocity._x = 0;
 	}	
 
 	// this.setSpeedMulti = function(val_){
