@@ -94,20 +94,8 @@ function preloadTextures() {
 	loader.load();
 }
 
-function startLevel1() {	
-	var clone = JSON.parse(JSON.stringify(level1));	
-	gameLoop.init(clone);
-	gameState = 'playing';
-}
-
-function startLevel2() {	
-	var clone = JSON.parse(JSON.stringify(level2));		
-	gameLoop.init(clone);
-	gameState = 'playing';
-}
-
-function startLevel3() {
-	var clone = JSON.parse(JSON.stringify(level3));				
+function startLevel() {	
+	var clone = JSON.parse(JSON.stringify(levels[currentLevel]));	
 	gameLoop.init(clone);
 	gameState = 'playing';
 }

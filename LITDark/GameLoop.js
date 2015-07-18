@@ -137,10 +137,11 @@ function GameLoop(){
 			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
 			{
 				self.player.reachedGoal = true;
-				self.promptText = new PIXI.Text('You Win!', fontStyle);
+				self.promptText = new PIXI.Text('Level Complete! Click For Next Level', fontStyle);
 				self.promptText.interactive = true;
 				var setLoadMenuGameState = function(){gameState='loadMenu';};
-				self.promptText.on('mousedown', setLoadMenuGameState);	
+				++window.currentLevel;
+				self.promptText.on('mousedown', startLevel);	
 				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
 				self.promptText.anchor.x = 0.5;
 				self.promptText.anchor.y = 0.5;
@@ -153,32 +154,32 @@ function GameLoop(){
     		self.resetGame();
 
     		self.promptText = new PIXI.Text('LIT Dark', fontStyle);
-    		self.promptText1 = new PIXI.Text('Level 1', fontStyle);
-    		self.promptText2 = new PIXI.Text('Level 2', fontStyle);
-    		self.promptText3 = new PIXI.Text('Level 3', fontStyle);
+    		self.promptText1 = new PIXI.Text('Start Game', fontStyle);
+    		// self.promptText2 = new PIXI.Text('Level 2', fontStyle);
+    		// self.promptText3 = new PIXI.Text('Level 3', fontStyle);
 			
 			self.promptText1.interactive = true;
-			self.promptText2.interactive = true;
-			self.promptText3.interactive = true;
+			// self.promptText2.interactive = true;
+			// self.promptText3.interactive = true;
 
-			self.promptText1.on('mousedown', startLevel1);	
-			self.promptText2.on('mousedown', startLevel2);	
-			self.promptText3.on('mousedown', startLevel3);	
+			self.promptText1.on('mousedown', startLevel);	
+			// self.promptText2.on('mousedown', startLevel2);	
+			// self.promptText3.on('mousedown', startLevel3);	
 
 			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
 			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 );
-			self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 40);
-			self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 80);
+			// self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 40);
+			// self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 80);
 			
 
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
 			self.promptText1.anchor.x = 0.5;
 			self.promptText1.anchor.y = 0.5;
-			self.promptText2.anchor.x = 0.5;
-			self.promptText2.anchor.y = 0.5;
-			self.promptText3.anchor.x = 0.5;
-			self.promptText3.anchor.y = 0.5;
+			// self.promptText2.anchor.x = 0.5;
+			// self.promptText2.anchor.y = 0.5;
+			// self.promptText3.anchor.x = 0.5;
+			// self.promptText3.anchor.y = 0.5;
 
 			self.menuSprite = PIXI.Sprite.fromImage("./img/LitDarkTitle.png");
 			self.menuSprite.position.set(0, 0);
@@ -186,8 +187,8 @@ function GameLoop(){
 			self.stage.addChild(self.menuSprite);
     		self.stage.addChild(self.promptText);
     		self.stage.addChild(self.promptText1);
-    		self.stage.addChild(self.promptText2);
-    		self.stage.addChild(self.promptText3);
+    		// self.stage.addChild(self.promptText2);
+    		// self.stage.addChild(self.promptText3);
     		gameState = 'mainMenu';
     	}    	
     	self.renderer.render(self.stage);		

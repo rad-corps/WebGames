@@ -70,7 +70,9 @@ var level1 = {
         }
     ],
 
-    playerPos : { row: 10, col: 22 }
+    playerPos : { row: 10, col: 22 },
+
+    levelNum: 0
 };
 
 var level2 = {
@@ -110,7 +112,9 @@ var level2 = {
 
     buttons : [],
 
-    playerPos : { row: 5, col: 10 }
+    playerPos : { row: 5, col: 10 },
+
+    levelNum: 1
 };
 
 var level3 = {
@@ -150,9 +154,17 @@ var level3 = {
 
     buttons : [],
 
-    playerPos : { row: 5, col: 10 }
+    playerPos : { row: 5, col: 10 },
+
+    levelNum: 2
 };
 
+var levels = [];
+levels.push(level1);
+levels.push(level2);
+levels.push(level3);
+
+var currentLevel = 0;
 
 var gameState = 'loadMenu'; //'playing', 'gameOver', 'menu', 'loadMenu'
 var gameLoop = null;
