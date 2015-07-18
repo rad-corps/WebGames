@@ -45,9 +45,6 @@ function GameLoop(){
 		self.topTerrain.addToStage(self.stage);		
 		//add player to stage
 		self.stage.addChild(this.player.sprite);
-
-
-		
 	}
 
 	this.run = function() {
@@ -56,6 +53,10 @@ function GameLoop(){
 
 	this.resetGame = function() {
 		while(self.stage.children[0]) { self.stage.removeChild(self.stage.children[0]); }
+
+		// //reset all buttons
+		// self.buttons = [];
+		// self.terrain = {};
 	}
 
 	this.animate = function(){
@@ -66,7 +67,6 @@ function GameLoop(){
 		lastUpdate = now;
 
 		if ( gameState === 'playing') {
-
 			
 			//check X collision
     		self.player.updateX();
