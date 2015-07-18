@@ -166,7 +166,7 @@ function GameLoop(){
 				soundLevelSuccess.play();
 				self.setGameOverState();
 				self.player.reachedGoal = true;
-				self.promptText = new PIXI.Text('Level Complete! Click For Next Level', fontStyle);
+				self.promptText = new PIXI.Text('CLICK TO GO UP STAIRS', fontStyle);
 				self.promptText.interactive = true;
 				//var setLoadMenuGameState = function(){gameState='loadMenu';};
 				++window.currentLevel;
