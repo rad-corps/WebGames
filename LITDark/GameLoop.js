@@ -20,6 +20,7 @@ function GameLoop(){
 
 		//if ( self.stage.has)
 		self.stage.removeChild(self.promptText);
+		self.stage.removeChild(self.menuSprite);
 		self.terrain.addToStage(self.stage);
 		self.topTerrain.addToStage(self.stage);
 		self.stage.addChild(this.player.sprite);
@@ -111,6 +112,10 @@ function GameLoop(){
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
 
+			self.menuSprite = PIXI.Sprite.fromImage("./img/LitDarkTitle.png");
+			self.menuSprite.position.set(0, 0);
+
+			self.stage.addChild(self.menuSprite);
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
     	}    	
