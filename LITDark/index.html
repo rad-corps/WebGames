@@ -16,7 +16,7 @@
     		text-align: center;
 		}
 	</style>
-	<script src="../bin/pixi.js"></script>
+	
 
 </head>
 <body>
@@ -27,6 +27,8 @@
         <img src="./img/loading_transparent.gif" alt="loader" />     
     </div>
 
+	<script src="../bin/pixi.js"></script>
+	<script src="../bin/howler.js/howler.min.js"></script>
 	<script src="vector2.js"></script>
 	<script src="keyboard.js"></script>
 	<script src="globals.js"></script>
@@ -86,6 +88,18 @@ function preloadTextures() {
 	loader.add('wall', './img/wall.png');
 	loader.add('LitDarkTitle', './img/LitDarkTitle.png');
 	loader.add('spikes', './img/spikes.png');
+
+	soundButtonDown = new Howl({
+  		urls: ['./sound/buttonDown.wav'],
+  		volume: 0.2,
+	});
+
+	soundButtonUp = new Howl({
+  		urls: ['./sound/buttonUp.wav'],
+  		volume: 0.2,
+	});
+
+	
 
 
 	// use callback

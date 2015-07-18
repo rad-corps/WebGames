@@ -163,6 +163,11 @@ var gameState = 'loadMenu'; //'playing', 'gameOver', 'menu', 'loadMenu'
 var gameLoop = null;
 var lastUpdate = Date.now();
 
+var soundButtonDown = {};
+var soundButtonUp = {};
+
+
+
 var AH_GLOBALS = { 
     //SCREEN_W: 848,
     //SCREEN_H: 480,

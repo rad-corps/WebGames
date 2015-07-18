@@ -96,6 +96,7 @@ function GameLoop(){
     					self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === true) 
     				{
 	    				self.buttons[i].buttonDown = true;
+	    				soundButtonDown.play();
 
 	    				//get terrain switching info and pass it to terrain
 	    				var swapRow = self.buttons[i].buttonDefinition.swapRow;
@@ -109,6 +110,7 @@ function GameLoop(){
 	    				self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === false)
 	    			{
 	    				self.buttons[i].buttonDown = false;
+	    				soundButtonUp.play();
 
 	    				//get terrain switching info and pass it to terrain
 	    				var swapRow = self.buttons[i].buttonDefinition.swapRow;
