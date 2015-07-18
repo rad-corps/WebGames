@@ -3,6 +3,36 @@
 function Terrain(level_){
 
 	var self = this;
+
+	this.createTileSprite = function(row_, col_, type_){
+		var tempSprite = undefined;
+
+		if ( type_ === 0 )
+		{
+			var terrainNum = col_ % 2;
+			if ( row_ % 2 === 1){
+				if (terrainNum === 0) {
+					terrainNum = 1;
+				}
+				else {
+					terrainNum = 0;	
+				}
+			}
+			tempSprite = PIXI.Sprite.fromImage("./img/terrain" + terrainNum + ".png");
+		}
+		else if ( type_ === 2)
+		{
+			tempSprite = PIXI.Sprite.fromImage("./img/wall.png");
+		}
+
+		//set the position of the sprite
+//			tempSprite.anchor.x = 0.5;
+//			tempSprite.anchor.y = 0.5;
+
+		tempSprite.position.x = col_ * 32;
+		tempSprite.position.y = row_ * 32;
+		return tempSprite;
+	}
 	
 	//iterators
 	var row = 0;
@@ -10,8 +40,7 @@ function Terrain(level_){
 	
 	//temp
 	var spriteRow = [];
-	var tempTile = undefined;
-	var tempSprite = undefined;
+	var tempType = undefined;	
 
 	//2D array of sprites based on the level passed in
 	this.level = level_;
@@ -28,42 +57,23 @@ function Terrain(level_){
 		for (col = 0; col < level_[row].length; ++col )	
 		{
 			//add one to the spriteRow
-			tempTile = level_[row][col];
-
-			if ( tempTile === 0 || tempTile === 1 )
-			{
-				var terrainNum = col % 2;
-				if ( row % 2 === 1){
-					if (terrainNum === 0) {
-						terrainNum = 1;
-					}
-					else {
-						terrainNum = 0;	
-					}
-				}
-				tempSprite = PIXI.Sprite.fromImage("./img/terrain" + terrainNum + ".png");
-			}
-			// else if ( tempTile === 1)
-			// {
-			// 	tempSprite = PIXI.Sprite.fromImage("./img/terrain1.png");
-			// }
-			else if ( tempTile === 2)
-			{
-				tempSprite = PIXI.Sprite.fromImage("./img/wall.png");
-			}
-
-			//set the position of the sprite
-//			tempSprite.anchor.x = 0.5;
-//			tempSprite.anchor.y = 0.5;
-			tempSprite.position.x = col * 32;
-			tempSprite.position.y = row * 32;
-			spriteRow.push(tempSprite);			
+			tempType = level_[row][col];
+			spriteRow.push(this.createTileSprite(row, col, tempType));			
 		}
 
 		this.spriteArray.push(spriteRow);
 	}
 
-	//console.log(this.spriteArray);
+	//only want to call this once per switch
+	this.switchTerrainTile = function(row_, col_, type_, stage_){
+		//remove the old one first		
+		var index = stage_.getChildIndex(self.spriteArray[row_][col_]);
+		stage_.removeChildAt(index);
+
+		self.level[row_][col_] = type_;
+		self.spriteArray[row_][col_] = self.createTileSprite(row_, col_, type_);		
+		stage_.addChildAt(self.spriteArray[row_][col_], index);
+	}
 
 	this.update = function() { 
 
@@ -193,6 +203,8 @@ function TopLevelTerrain(level_)
 			}
 		}		
 	}
+
+
 
 	this.walkableTerrain = function(row_, col_)
 	{

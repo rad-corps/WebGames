@@ -82,6 +82,38 @@ function GameLoop(){
     			self.player.undoY();
     		}
 
+    		//check if player or crate is colliding with button
+    		for (var i = 0; i < self.buttons.length; ++i)
+    		{
+    			if (self.buttons[i].buttonDown === false )
+    			{
+    				if ( self.buttons[i].collidesWith(self.player.sprite) === true ||
+    					self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === true) 
+    				{
+	    				self.buttons[i].buttonDown = true;
+
+	    				//get terrain switching info and pass it to terrain
+	    				var swapRow = self.buttons[i].buttonDefinition.swapRow;
+	    				var swapCol = self.buttons[i].buttonDefinition.swapCol;
+	    				self.terrain.switchTerrainTile(swapRow, swapCol, 0, self.stage);
+	    			}
+	    		}
+    			else if (self.buttons[i].buttonDown === true)
+    			{
+	    			if (self.buttons[i].collidesWith(self.player.sprite) === false &&
+	    				self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === false)
+	    			{
+	    				self.buttons[i].buttonDown = false;
+
+	    				//get terrain switching info and pass it to terrain
+	    				var swapRow = self.buttons[i].buttonDefinition.swapRow;
+	    				var swapCol = self.buttons[i].buttonDefinition.swapCol;
+	    				self.terrain.switchTerrainTile(swapRow, swapCol, 2, self.stage);
+	    			}
+	    		}
+    		}
+
+
     		self.topTerrain.moveCrates(self.player.sprite);
 
     		//check if rats collide with player
@@ -101,16 +133,6 @@ function GameLoop(){
 			//rats move
 			//dummy var for delta time
 			self.topTerrain.update(1, self.terrain);
-
-			// //slow player down if moving a crate
-			// if (self.topTerrain.canMove(self.player.sprite) )
-			// {
-			// 	self.player.setSpeedMulti(0.3);
-			// }
-			// else
-			// {
-			// 	self.player.setSpeedMulti(1);	
-			// }
 			
 			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
 			{
