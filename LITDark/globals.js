@@ -167,6 +167,7 @@ var soundButtonDown = {};
 var soundButtonUp = {};
 var soundSpikeWall = {};
 var soundLevelSuccess = {};
+var soundPlayerDeath = {};
 
 
 

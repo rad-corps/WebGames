@@ -126,6 +126,7 @@ function GameLoop(){
     		//check if rats collide with player
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
+				soundPlayerDeath.play();
 				self.setGameOverState();
 	    		self.promptText = new PIXI.Text('Game Menu', fontStyle);
 	    		self.promptText1 = new PIXI.Text('Try Again', fontStyle);
