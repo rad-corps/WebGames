@@ -13,21 +13,40 @@ function GameLoop(){
 
 	this.init = function(level_){
 
-		self.level = level_;
-		self.player = new Player();
-		self.terrain = new Terrain(self.level.levelBottom);
-		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
-		
-
-		//if ( self.stage.has)
+		//remove all the menu stuff
 		self.stage.removeChild(self.promptText);
 		self.stage.removeChild(self.promptText1);
 		self.stage.removeChild(self.promptText2);
 		self.stage.removeChild(self.promptText3);
 		self.stage.removeChild(self.menuSprite);
+
+		//setup game objects
+		self.level = level_;
+		self.player = new Player();
+		self.terrain = new Terrain(self.level.levelBottom);
+		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
+		self.buttons = [];
+		//iterate over all buttons in level_
+		for ( var i = 0; i < level_.buttons.length; ++i)
+		{
+			self.buttons.push(new Button(level_.buttons[i]));
+		}
+		
+		//add sprites to stage
 		self.terrain.addToStage(self.stage);
-		self.topTerrain.addToStage(self.stage);
+
+		//add buttons
+		for ( var i = 0; i < self.buttons.length; ++i)
+		{
+			self.stage.addChild(self.buttons[i].sprite);
+		}
+
+		//add top terrain (spikes, crates)
+		self.topTerrain.addToStage(self.stage);		
+		//add player to stage
 		self.stage.addChild(this.player.sprite);
+
+
 		
 	}
 
