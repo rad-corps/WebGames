@@ -165,6 +165,9 @@ var lastUpdate = Date.now();
 
 var soundButtonDown = {};
 var soundButtonUp = {};
+var soundSpikeWall = {};
+var soundLevelSuccess = {};
+
 
 
 

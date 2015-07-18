@@ -89,6 +89,7 @@ function preloadTextures() {
 	loader.add('LitDarkTitle', './img/LitDarkTitle.png');
 	loader.add('spikes', './img/spikes.png');
 
+//init sounds
 	soundButtonDown = new Howl({
   		urls: ['./sound/buttonDown.wav'],
   		volume: 0.2,
@@ -99,8 +100,17 @@ function preloadTextures() {
   		volume: 0.2,
 	});
 
-	
+	soundSpikeWall = new Howl({
+  		urls: ['./sound/spike_wall.wav'],
+  		volume: 0.2,
+	});
 
+	soundLevelSuccess = new Howl({
+  		urls: ['./sound/levelSuccess.wav'],
+  		volume: 0.2,
+	});
+
+	
 
 	// use callback
 	loader.once('complete', onAssetsLoaded);

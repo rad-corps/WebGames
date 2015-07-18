@@ -150,6 +150,7 @@ function GameLoop(){
 			
 			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
 			{
+				soundLevelSuccess.play();
 				self.setGameOverState();
 				self.player.reachedGoal = true;
 				self.promptText = new PIXI.Text('Level Complete! Click For Next Level', fontStyle);

@@ -413,6 +413,7 @@ function TopLevelTerrain(level_)
 						tempSprite.position.y = oldY;
 						tempSprite.position.x = oldX;
 						tempSprite.speedMulti = -tempSprite.speedMulti;
+						soundSpikeWall.play();
 					}	
 				}
 			}
