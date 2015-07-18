@@ -132,7 +132,7 @@ function GameLoop(){
 	    		self.promptText1 = new PIXI.Text('Try Again', fontStyle);
 				self.promptText.interactive = true;
 				self.promptText1.interactive = true;
-				var setLoadMenuGameState = function(){currentLevel = 0; gameState='loadMenu';};
+				var setLoadMenuGameState = function(){soundSelect.play(); currentLevel = 0; gameState='loadMenu';};
 				self.promptText.on('mousedown', setLoadMenuGameState);	
 				self.promptText1.on('mousedown', startLevel);	
 				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 50);
@@ -156,7 +156,7 @@ function GameLoop(){
 				self.player.reachedGoal = true;
 				self.promptText = new PIXI.Text('Level Complete! Click For Next Level', fontStyle);
 				self.promptText.interactive = true;
-				var setLoadMenuGameState = function(){gameState='loadMenu';};
+				//var setLoadMenuGameState = function(){gameState='loadMenu';};
 				++window.currentLevel;
 				self.promptText.on('mousedown', startLevel);	
 				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);

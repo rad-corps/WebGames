@@ -115,9 +115,10 @@ function preloadTextures() {
   		volume: 0.2,
 	});
 
-	
-
-	
+	soundSelect = new Howl({
+  		urls: ['./sound/select.wav'],
+  		volume: 0.5,
+	});
 
 	// use callback
 	loader.once('complete', onAssetsLoaded);
@@ -129,6 +130,7 @@ function startLevel() {
 	var clone = JSON.parse(JSON.stringify(levels[currentLevel]));	
 	gameLoop.init(clone);
 	gameState = 'playing';
+	soundSelect.play();
 }
 
 function scaleSprite(sprite_){
