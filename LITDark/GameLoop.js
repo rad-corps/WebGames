@@ -1,6 +1,8 @@
 function GameLoop(){
 
 	var self = this;
+	
+	
 
 	//create the renderer
 	this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
@@ -13,6 +15,9 @@ function GameLoop(){
 
 	this.init = function(level_){
 
+		self.timeElapsed = 0.0;
+		self.speachRemoved = false;
+
 		//remove all the menu stuff
 		self.stage.removeChild(self.promptText);
 		self.stage.removeChild(self.promptText1);
@@ -22,7 +27,7 @@ function GameLoop(){
 
 		//setup game objects
 		self.level = level_;
-		self.player = new Player(level_.playerPos.row, level_.playerPos.col);
+		self.player = new Player(level_.playerPos.row, level_.playerPos.col, level_.playerText);
 		self.terrain = new Terrain(self.level.levelBottom);
 		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
 		self.buttons = [];
@@ -45,6 +50,7 @@ function GameLoop(){
 		self.topTerrain.addToStage(self.stage);		
 		//add player to stage
 		self.stage.addChild(this.player.sprite);
+		self.stage.addChild(this.player.speachText);
 	}
 
 	this.run = function() {
@@ -69,9 +75,15 @@ function GameLoop(){
 		//calc delta
 		var now = Date.now();
 		var dt = now - lastUpdate;
+		self.timeElapsed += dt;
 		lastUpdate = now;
 
 		if ( gameState === 'playing') {
+
+			if ( self.timeElapsed > 4000 && self.speachRemoved === false ) {
+				self.stage.removeChild(self.player.speachText);
+				self.speachRemoved = true;
+			}
 			
 			//check X collision
     		self.player.updateX();
@@ -123,7 +135,7 @@ function GameLoop(){
 
     		self.topTerrain.moveCrates(self.player.sprite);
 
-    		//check if rats collide with player
+    		//check if spikes collide with player
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
 				soundPlayerDeath.play();
@@ -145,7 +157,7 @@ function GameLoop(){
 				self.stage.addChild(self.promptText1);
 			}	
 
-			//rats move
+			//spike move
 			//dummy var for delta time
 			self.topTerrain.update(1, self.terrain);
 			

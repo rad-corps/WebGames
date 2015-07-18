@@ -69,7 +69,9 @@ var level1 = {
         }
     ],
 
-    playerPos : { row: 10, col: 22 }
+    playerPos : { row: 10, col: 22 },
+
+    playerText : 'This is the first level'
 };
 
 var level2 = {
@@ -109,7 +111,9 @@ var level2 = {
 
     buttons : [],
 
-    playerPos : { row: 5, col: 10 }
+    playerPos : { row: 5, col: 10 },
+
+    playerText : 'this is the second level'
 };
 
 var level3 = {
@@ -149,7 +153,9 @@ var level3 = {
 
     buttons : [],
 
-    playerPos : { row: 5, col: 10 }
+    playerPos : { row: 5, col: 10 },
+
+    playerText : 'This is the third level'
 };
 
 var levels = [];
@@ -170,6 +176,7 @@ var soundLevelSuccess = {};
 var soundPlayerDeath = {};
 var soundSelect = {};
 var soundFootsteps = {};
+//var soundCrateDrag = {};
 
 
 
@@ -195,4 +202,14 @@ var fontStyle = {
     dropShadowDistance : 6,
     wordWrap : true,
     wordWrapWidth : 440
+};
+
+var playerTextFont = {
+    align: 'center',
+    font : '16px Arial bold italic',
+    fill : '#FFFFFF',
+    stroke : '#000000',
+    strokeThickness : 1,
+    dropShadow : false,
+    wordWrap : false,
 };

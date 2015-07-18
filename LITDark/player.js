@@ -1,6 +1,6 @@
 //Player.js
 
-function Player(row_, col_){
+function Player(row_, col_, text_){
 	var self = this;
 
 	this.frames = [];
@@ -23,6 +23,12 @@ function Player(row_, col_){
 	//this.sprite.play();
 	this.reachedGoal = false;
 	this.walkingSoundPlaying = false;
+
+	//speach bubble text
+	this.speachText = new PIXI.Text(text_, playerTextFont);
+	this.timeDisplayingSpeach = 0;
+
+
 	//this.speedMulti = 1;
 
 	this.oldX = 0;
@@ -134,6 +140,8 @@ function Player(row_, col_){
 	this.updateX = function()
 	{
 		if ( gameState === 'playing'){ 
+			this.speachText.position = this.sprite.position;
+			++this.timeDisplayingSpeach;
 			self.oldX = self.sprite.position.x;
 			self.sprite.position.x += this.sprite.velocity._x;
 		}
