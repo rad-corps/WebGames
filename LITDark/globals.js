@@ -64,7 +64,7 @@ var level1 = {
         }
     ],
 
-    playerPos : { row: 6, col: 10 }
+    playerPos : { row: 5, col: 11 }
 };
 
 var level2 = {

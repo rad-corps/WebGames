@@ -13,21 +13,19 @@ function Player(row_, col_){
     }
 
     this.sprite = new PIXI.extras.MovieClip(this.frames);
-    this.sprite.animationSpeed = 0.05;
+    this.sprite.animationSpeed = 0.08;
 
 	//this.sprite = PIXI.Sprite.fromImage("./img/player.png");
-//	this.sprite.anchor.x = 0.5;
-//	this.sprite.anchor.y = 0.5;
+	this.sprite.anchor.x = 0.5;
+	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(col_*32, row_*32);
 	this.sprite.velocity = vector2.create(0,0);	
-	this.sprite.play();
+	//this.sprite.play();
 	this.reachedGoal = false;
 	//this.speedMulti = 1;
 
 	this.oldX = 0;
 	this.oldY = 0;
-	
-	
 
 	scaleSprite(this.sprite);
 
@@ -43,37 +41,55 @@ function Player(row_, col_){
 		self.sprite.velocity._y = 0;
 	}
 
+	this.stopAnimationIfStill = function(){
+		if ( self.sprite.velocity._x === 0 && self.sprite.velocity._y === 0){
+			self.sprite.gotoAndStop(0);
+		}
+	}
+
 	//NORTH
 	this.kN.press = function() {
 		self.cancelVelocity();
 		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.rotation = 0;
+		self.sprite.play();
 	}
 	this.kN.release = function() {		
 		if ( self.sprite.velocity._y < 0 ) self.sprite.velocity._y = 0;
+		self.stopAnimationIfStill();
 	}
 	//SOUTH
 	this.kS.press = function() {
 		self.cancelVelocity();
 		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.rotation = 3.14;
+		self.sprite.play();
 	}
 	this.kS.release = function() {
 		if ( self.sprite.velocity._y > 0 ) self.sprite.velocity._y = 0;
+		self.stopAnimationIfStill();
 	}	
 	//EAST
 	this.kE.press = function() {
 		self.cancelVelocity();
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.rotation = (3.14 /2) * 3;
+		self.sprite.play();
 	}
 	this.kE.release = function() {
 		if ( self.sprite.velocity._x > 0 ) self.sprite.velocity._x = 0;
+		self.stopAnimationIfStill();
 	}	
 	//WEST
 	this.kW.press = function() {
 		self.cancelVelocity();
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
+		self.sprite.rotation = 3.14 /2;
+		self.sprite.play();
 	}
 	this.kW.release = function() {
 		if ( self.sprite.velocity._x < 0 ) self.sprite.velocity._x = 0;
+		self.stopAnimationIfStill();
 	}	
 
 	// this.setSpeedMulti = function(val_){

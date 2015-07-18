@@ -26,11 +26,11 @@ function Terrain(level_){
 		}
 
 		//set the position of the sprite
-//			tempSprite.anchor.x = 0.5;
-//			tempSprite.anchor.y = 0.5;
+		tempSprite.anchor.x = 0.5;
+		tempSprite.anchor.y = 0.5;
 
-		tempSprite.position.x = col_ * 32;
-		tempSprite.position.y = row_ * 32;
+		tempSprite.position.x = (col_ * 32) + 16;
+		tempSprite.position.y = (row_ * 32) + 16;
 		return tempSprite;
 	}
 	
@@ -176,10 +176,10 @@ function TopLevelTerrain(level_)
 			if ( tempSprite !== undefined )
 			{
 				//set the position of the sprite
-//				tempSprite.anchor.x = 0.5;
-//				tempSprite.anchor.y = 0.5;
-				tempSprite.position.x = col * 32;
-				tempSprite.position.y = row * 32;
+				tempSprite.anchor.x = 0.5;
+				tempSprite.anchor.y = 0.5;
+				tempSprite.position.x = (col * 32) + 16;
+				tempSprite.position.y = (row * 32) + 16;
 				tempSprite.velocity = vector2.create(0,0);
 				tempSprite.speedMulti = 1;
 						
