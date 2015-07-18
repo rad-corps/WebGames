@@ -101,13 +101,18 @@ function scaleSprite(sprite_){
 	// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
 }
 
-function collisionManager(sprite1, sprite2)
+function collisionManager(sprite1, sprite2, scale_)
 {
+	var scale = 0.75;
+	if (scale_ !== undefined){
+		scale = scale_;
+	}
+
 	//find left, right, top and bottom of sprite1
-	var s1W = sprite1.width * 0.75;
-	var s2W = sprite2.width * 0.75;
-	var s1H = sprite1.height * 0.75;
-	var s2H = sprite2.height * 0.75;	
+	var s1W = sprite1.width * scale;
+	var s2W = sprite2.width * scale;
+	var s1H = sprite1.height *scale;
+	var s2H = sprite2.height *scale;	
 
 	var l1 = sprite1.position.x - s1W /2;
 	var r1 = sprite1.position.x + s1W /2;

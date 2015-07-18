@@ -216,7 +216,7 @@ function TopLevelTerrain(level_)
 		return false;
 	}
 
-	this.canMove = function(playerSprite_)
+	this.moveCrates = function(playerSprite_)
 	{
 		var tileType = 0;
 
@@ -234,6 +234,29 @@ function TopLevelTerrain(level_)
 					{						
 						//set the velocity to the players velocity.
 						self.spriteArray[row][col].velocity = playerSprite_.velocity.getCopy();
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	this.collisionWithCrate = function(playerSprite_){
+		var tileType = 0;
+
+		for (var row = 0; row < self.spriteArray.length; row++)
+		{
+			for (var col = 0; col < self.spriteArray[row].length; col++)
+			{
+				tileType = self.level[row][col];
+				
+				//from 1 to 6 are all rat types
+				if ( tileType === 9 )
+				{
+					//check for collision
+					if ( collisionManager( playerSprite_, self.spriteArray[row][col], 0.66) )
+					{						
 						return true;
 					}
 				}

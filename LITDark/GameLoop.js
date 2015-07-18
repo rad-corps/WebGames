@@ -44,19 +44,22 @@ function GameLoop(){
 
 		if ( gameState === 'playing') {
 
+			
 			//check X collision
     		self.player.updateX();
-    		if (self.terrain.collidesWith(self.player.sprite) )
+    		if (self.terrain.collidesWith(self.player.sprite) || self.topTerrain.collisionWithCrate(self.player.sprite) )
     		{
     			self.player.undoX();
     		}
 
     		//check Y collision
     		self.player.updateY();
-    		if (self.terrain.collidesWith(self.player.sprite) )
+    		if (self.terrain.collidesWith(self.player.sprite) || self.topTerrain.collisionWithCrate(self.player.sprite) )
     		{
     			self.player.undoY();
     		}
+
+    		self.topTerrain.moveCrates(self.player.sprite);
 
     		//check if rats collide with player
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
@@ -85,7 +88,7 @@ function GameLoop(){
 			// {
 			// 	self.player.setSpeedMulti(1);	
 			// }
-			self.topTerrain.canMove(self.player.sprite);
+			
 			if (self.player.reachedGoal === false && self.topTerrain.reachedGoal(self.player.sprite) )
 			{
 				self.player.reachedGoal = true;
