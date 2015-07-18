@@ -51,6 +51,7 @@ function Player(row_, col_){
 	this.stopAnimationIfStill = function(){
 		if ( self.sprite.velocity._x === 0 && self.sprite.velocity._y === 0){
 			self.sprite.gotoAndStop(0);
+			
 		}
 	}
 
@@ -62,8 +63,10 @@ function Player(row_, col_){
 		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 0;
 		self.sprite.play();
+		soundFootsteps.play();
 	}
 	this.kN.release = function() {				
+		soundFootsteps.stop();
 		if ( self.sprite.velocity._y < 0 ) self.sprite.velocity._y = 0;
 		self.stopAnimationIfStill();
 	}
@@ -75,8 +78,10 @@ function Player(row_, col_){
 		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14;
 		self.sprite.play();
+		soundFootsteps.play();
 	}
 	this.kS.release = function() {
+		soundFootsteps.stop();
 		if ( self.sprite.velocity._y > 0 ) self.sprite.velocity._y = 0;
 		self.stopAnimationIfStill();
 	}	
@@ -88,8 +93,10 @@ function Player(row_, col_){
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = (3.14 /2) * 3;
 		self.sprite.play();
+		soundFootsteps.play();
 	}
 	this.kE.release = function() {
+		soundFootsteps.stop();
 		if ( self.sprite.velocity._x > 0 ) self.sprite.velocity._x = 0;
 		self.stopAnimationIfStill();
 	}	
@@ -101,8 +108,10 @@ function Player(row_, col_){
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14 /2;
 		self.sprite.play();
+		soundFootsteps.play();
 	}
 	this.kW.release = function() {
+		soundFootsteps.stop();
 		if ( self.sprite.velocity._x < 0 ) self.sprite.velocity._x = 0;
 		self.stopAnimationIfStill();
 	}	

@@ -169,6 +169,7 @@ var soundSpikeWall = {};
 var soundLevelSuccess = {};
 var soundPlayerDeath = {};
 var soundSelect = {};
+var soundFootsteps = {};
 
 
 
