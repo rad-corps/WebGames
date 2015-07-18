@@ -391,11 +391,10 @@ function TopLevelTerrain(level_)
 						self.spriteArray[row][col].position.y = oldY;
 
 					//drag velocity
-					self.spriteArray[row][col].velocity.multiplyBy(0.90);
+					self.spriteArray[row][col].velocity.multiplyBy(0.80);
 				}	
 
 			}
 		}
 	}
-
 }
