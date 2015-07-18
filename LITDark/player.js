@@ -3,11 +3,24 @@
 function Player(row_, col_){
 	var self = this;
 
-	this.sprite = PIXI.Sprite.fromImage("./img/player.png");
+	this.frames = [];
+	this.sprite = {};
+
+	for (var i = 0; i < 4; i++) 
+	{
+        // magically works since the spritesheet was loaded with the pixi loader
+        this.frames.push(PIXI.Texture.fromFrame('./img/player_' + i + '.png'));
+    }
+
+    this.sprite = new PIXI.extras.MovieClip(this.frames);
+    this.sprite.animationSpeed = 0.05;
+
+	//this.sprite = PIXI.Sprite.fromImage("./img/player.png");
 //	this.sprite.anchor.x = 0.5;
 //	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(col_*32, row_*32);
 	this.sprite.velocity = vector2.create(0,0);	
+	this.sprite.play();
 	this.reachedGoal = false;
 	//this.speedMulti = 1;
 
