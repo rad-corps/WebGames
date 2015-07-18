@@ -18,7 +18,7 @@ function Player(row_, col_){
 	//this.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	this.sprite.anchor.x = 0.5;
 	this.sprite.anchor.y = 0.5;
-	this.sprite.position.set(col_*32, row_*32);
+	this.sprite.position.set(col_*32 + 16, row_*32 + 16);
 	this.sprite.velocity = vector2.create(0,0);	
 	//this.sprite.play();
 	this.reachedGoal = false;
