@@ -16,7 +16,6 @@
 //2 = spikes moving up
 //3 = spikes moving left/west
 //4 = spikes moving right/east
-//7 = player
 //8 = goal
 //9 = crate
 

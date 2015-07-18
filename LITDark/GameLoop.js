@@ -125,14 +125,21 @@ function GameLoop(){
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
 				self.setGameOverState();
-	    		self.promptText = new PIXI.Text('Game Over', fontStyle);
+	    		self.promptText = new PIXI.Text('Game Menu', fontStyle);
+	    		self.promptText1 = new PIXI.Text('Try Again', fontStyle);
 				self.promptText.interactive = true;
-				var setLoadMenuGameState = function(){gameState='loadMenu';};
+				self.promptText1.interactive = true;
+				var setLoadMenuGameState = function(){currentLevel = 0; gameState='loadMenu';};
 				self.promptText.on('mousedown', setLoadMenuGameState);	
-				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+				self.promptText1.on('mousedown', startLevel);	
+				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 50);
+				self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 50);
 				self.promptText.anchor.x = 0.5;
 				self.promptText.anchor.y = 0.5;
+				self.promptText1.anchor.x = 0.5;
+				self.promptText1.anchor.y = 0.5;
 				self.stage.addChild(self.promptText);
+				self.stage.addChild(self.promptText1);
 			}	
 
 			//rats move
@@ -170,8 +177,8 @@ function GameLoop(){
 			// self.promptText2.on('mousedown', startLevel2);	
 			// self.promptText3.on('mousedown', startLevel3);	
 
-			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
-			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 );
+			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 50);
+			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 50);
 			// self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 40);
 			// self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 80);
 			
