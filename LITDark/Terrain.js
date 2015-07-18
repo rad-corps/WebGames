@@ -30,14 +30,23 @@ function Terrain(level_){
 			//add one to the spriteRow
 			tempTile = level_[row][col];
 
-			if ( tempTile === 0 )
+			if ( tempTile === 0 || tempTile === 1 )
 			{
-				tempSprite = PIXI.Sprite.fromImage("./img/terrain0.png");
+				var terrainNum = col % 2;
+				if ( row % 2 === 1){
+					if (terrainNum === 0) {
+						terrainNum = 1;
+					}
+					else {
+						terrainNum = 0;	
+					}
+				}
+				tempSprite = PIXI.Sprite.fromImage("./img/terrain" + terrainNum + ".png");
 			}
-			else if ( tempTile === 1)
-			{
-				tempSprite = PIXI.Sprite.fromImage("./img/terrain1.png");
-			}
+			// else if ( tempTile === 1)
+			// {
+			// 	tempSprite = PIXI.Sprite.fromImage("./img/terrain1.png");
+			// }
 			else if ( tempTile === 2)
 			{
 				tempSprite = PIXI.Sprite.fromImage("./img/wall.png");
@@ -162,6 +171,7 @@ function TopLevelTerrain(level_)
 				tempSprite.position.x = col * 32;
 				tempSprite.position.y = row * 32;
 				tempSprite.velocity = vector2.create(0,0);
+				tempSprite.speedMulti = 1;
 						
 			}
 			spriteRow.push(tempSprite);	
@@ -318,12 +328,13 @@ function TopLevelTerrain(level_)
 		var oldY = 0;
 		
 		var speed = AH_GLOBALS.WALL_SPEED;
-		if (self.distTraveled >= 32 )
-		{
-			self.invertDirection = !self.invertDirection;
-			self.distTraveled = 0;
-		}
-		self.distTraveled += speed;
+		var tempSprite = undefined;
+		// if (self.distTraveled >= 32 )
+		// {
+		// 	self.invertDirection = !self.invertDirection;
+		// 	self.distTraveled = 0;
+		// }
+		// self.distTraveled += speed;
 
 
 
@@ -332,36 +343,29 @@ function TopLevelTerrain(level_)
 		{
 			for (var col = 0; col < self.level[row].length; col++)
 			{
+				if ( self.level[row][col] !== 0 )
+				{
+					tempSprite = self.spriteArray[row][col];
+					oldX = tempSprite.position.x;
+					oldY = tempSprite.position.y;
+				}
 
 				if ( self.level[row][col] === 1 ) //move down
 				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.y -= speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.y += speed;
-					
+					tempSprite.position.y += speed * tempSprite.speedMulti;
 				}
 				else if ( self.level[row][col] === 2 ) //move up
 				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.y += speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.y -= speed;
+					tempSprite.position.y -= speed * tempSprite.speedMulti;
 				}
 				else if ( self.level[row][col] === 3 ) //move left
 				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.x += speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.x -= speed;
+					tempSprite.position.x -= speed * tempSprite.speedMulti;
 					
 				}
 				else if ( self.level[row][col] === 4 ) //move right
 				{
-					if ( self.invertDirection === true)
-						self.spriteArray[row][col].position.x -= speed;
-					if ( self.invertDirection === false)
-						self.spriteArray[row][col].position.x += speed;
+					tempSprite.position.x += speed * tempSprite.speedMulti;
 				}
 				else if ( self.level[row][col] === 5 ) //zig zag 1
 				{
@@ -392,8 +396,19 @@ function TopLevelTerrain(level_)
 
 					//drag velocity
 					self.spriteArray[row][col].velocity.multiplyBy(0.80);
-				}	
+				}
 
+				//moving spike, check collision and reverse if necessary
+				if ( self.level[row][col] >= 1 && self.level[row][col] <= 4) 
+				{
+					//check if it is colliding with terrain
+					if ( terrain_.collidesWith(tempSprite) )
+					{
+						tempSprite.position.y = oldY;
+						tempSprite.position.x = oldX;
+						tempSprite.speedMulti = -tempSprite.speedMulti;
+					}	
+				}
 			}
 		}
 	}
