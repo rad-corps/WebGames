@@ -22,6 +22,7 @@ function Player(row_, col_){
 	this.sprite.velocity = vector2.create(0,0);	
 	//this.sprite.play();
 	this.reachedGoal = false;
+	this.walkingSoundPlaying = false;
 	//this.speedMulti = 1;
 
 	this.oldX = 0;
@@ -48,10 +49,24 @@ function Player(row_, col_){
 		self.sprite.velocity._y = 0;
 	}
 
+	this.playWalkingSound = function() {
+		if ( self.walkingSoundPlaying === false ) {
+			self.walkingSoundPlaying = true;
+			soundFootsteps.play();
+		}
+	}
+
+	this.stopWalkingSound = function() {
+		if ( self.walkingSoundPlaying === true ) {
+			self.walkingSoundPlaying = false;
+			soundFootsteps.stop();
+		}
+	}
+
 	this.stopAnimationIfStill = function(){
 		if ( self.sprite.velocity._x === 0 && self.sprite.velocity._y === 0){
-			self.sprite.gotoAndStop(0);
-			
+			self.sprite.gotoAndStop(0);	
+			self.stopWalkingSound();
 		}
 	}
 
@@ -63,10 +78,9 @@ function Player(row_, col_){
 		self.sprite.velocity._y -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 0;
 		self.sprite.play();
-		soundFootsteps.play();
+		self.playWalkingSound();
 	}
 	this.kN.release = function() {				
-		soundFootsteps.stop();
 		if ( self.sprite.velocity._y < 0 ) self.sprite.velocity._y = 0;
 		self.stopAnimationIfStill();
 	}
@@ -78,10 +92,9 @@ function Player(row_, col_){
 		self.sprite.velocity._y += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14;
 		self.sprite.play();
-		soundFootsteps.play();
+		self.playWalkingSound();
 	}
 	this.kS.release = function() {
-		soundFootsteps.stop();
 		if ( self.sprite.velocity._y > 0 ) self.sprite.velocity._y = 0;
 		self.stopAnimationIfStill();
 	}	
@@ -93,10 +106,9 @@ function Player(row_, col_){
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = (3.14 /2) * 3;
 		self.sprite.play();
-		soundFootsteps.play();
+		self.playWalkingSound();
 	}
 	this.kE.release = function() {
-		soundFootsteps.stop();
 		if ( self.sprite.velocity._x > 0 ) self.sprite.velocity._x = 0;
 		self.stopAnimationIfStill();
 	}	
@@ -108,10 +120,9 @@ function Player(row_, col_){
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
 		self.sprite.rotation = 3.14 /2;
 		self.sprite.play();
-		soundFootsteps.play();
+		self.playWalkingSound();
 	}
 	this.kW.release = function() {
-		soundFootsteps.stop();
 		if ( self.sprite.velocity._x < 0 ) self.sprite.velocity._x = 0;
 		self.stopAnimationIfStill();
 	}	
