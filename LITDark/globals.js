@@ -12,10 +12,10 @@
 
 //Level top key
 //0 = nothing
-//1 = wall moving down
-//2 = wall moving up
-//3 = wall moving left/west
-//4 = wall moving right/east
+//1 = spikes moving down
+//2 = spikes moving up
+//3 = spikes moving left/west
+//4 = spikes moving right/east
 //7 = player
 //8 = goal
 //9 = crate
