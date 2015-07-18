@@ -11,15 +11,19 @@ function GameLoop(){
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
 
-	this.init = function(){
+	this.init = function(level_){
 
+		self.level = level_;
 		self.player = new Player();
-		self.terrain = new Terrain(levelBottom);
-		self.topTerrain = new TopLevelTerrain(levelTop);
+		self.terrain = new Terrain(self.level.levelBottom);
+		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
 		
 
 		//if ( self.stage.has)
 		self.stage.removeChild(self.promptText);
+		self.stage.removeChild(self.promptText1);
+		self.stage.removeChild(self.promptText2);
+		self.stage.removeChild(self.promptText3);
 		self.stage.removeChild(self.menuSprite);
 		self.terrain.addToStage(self.stage);
 		self.topTerrain.addToStage(self.stage);
@@ -107,19 +111,42 @@ function GameLoop(){
     	if  ( gameState === 'loadMenu') {
     		self.resetGame();
 
-    		self.promptText = new PIXI.Text('Start LIT Dark', fontStyle);
-			self.promptText.interactive = true;
-			self.promptText.on('mousedown', startGame);	
-			self.promptText.on('touchstart', startGame);	
-			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+    		self.promptText = new PIXI.Text('LIT Dark', fontStyle);
+    		self.promptText1 = new PIXI.Text('Level 1', fontStyle);
+    		self.promptText2 = new PIXI.Text('Level 2', fontStyle);
+    		self.promptText3 = new PIXI.Text('Level 3', fontStyle);
+			
+			self.promptText1.interactive = true;
+			self.promptText2.interactive = true;
+			self.promptText3.interactive = true;
+
+			self.promptText1.on('mousedown', startLevel1);	
+			self.promptText2.on('mousedown', startLevel2);	
+			self.promptText3.on('mousedown', startLevel3);	
+
+			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
+			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 );
+			self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 40);
+			self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 80);
+			
+
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
+			self.promptText1.anchor.x = 0.5;
+			self.promptText1.anchor.y = 0.5;
+			self.promptText2.anchor.x = 0.5;
+			self.promptText2.anchor.y = 0.5;
+			self.promptText3.anchor.x = 0.5;
+			self.promptText3.anchor.y = 0.5;
 
 			self.menuSprite = PIXI.Sprite.fromImage("./img/LitDarkTitle.png");
 			self.menuSprite.position.set(0, 0);
 
 			self.stage.addChild(self.menuSprite);
     		self.stage.addChild(self.promptText);
+    		self.stage.addChild(self.promptText1);
+    		self.stage.addChild(self.promptText2);
+    		self.stage.addChild(self.promptText3);
     		gameState = 'mainMenu';
     	}    	
     	self.renderer.render(self.stage);		

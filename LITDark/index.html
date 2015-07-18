@@ -89,8 +89,18 @@ function preloadTextures() {
 	loader.load();
 }
 
-function startGame() {		
-	gameLoop.init();
+function startLevel1() {		
+	gameLoop.init(level1);
+	gameState = 'playing';
+}
+
+function startLevel2() {		
+	gameLoop.init(level2);
+	gameState = 'playing';
+}
+
+function startLevel3() {		
+	gameLoop.init(level3);
 	gameState = 'playing';
 }
 
