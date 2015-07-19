@@ -168,10 +168,13 @@ function GameLoop(){
     		//check if spikes collide with player
 			if (self.topTerrain.causesDeathTo(self.player.sprite) )
 			{
+				self.stage.removeChild(self.player.sprite);
+				self.stage.addChild(self.player.deathSprite);
+
 				soundPlayerDeath.play();
 				self.setGameOverState();
-	    		self.promptText = new PIXI.Text('Game Menu', fontStyle);
-	    		self.promptText1 = new PIXI.Text('Try Again', fontStyle);
+	    		self.promptText = new PIXI.Text('CLICK FOR GAME MENU', fontStyle);
+	    		self.promptText1 = new PIXI.Text('SPACE TO TRY AGAIN', fontStyle);
 				self.promptText.interactive = true;
 				self.promptText1.interactive = true;
 				var setLoadMenuGameState = function(){soundSelect.play(); currentLevel = 0; gameState='loadMenu';};
@@ -216,8 +219,8 @@ function GameLoop(){
     	if  ( gameState === 'loadMenu') {
     		self.resetGame();
 
-    		self.promptText = new PIXI.Text('LIT Dark', fontStyle);
-    		self.promptText1 = new PIXI.Text('Start Game', fontStyle);
+    		self.promptText = new PIXI.Text('LIT DARK', fontStyle);
+    		self.promptText1 = new PIXI.Text('START GAME', fontStyle);
     		// self.promptText2 = new PIXI.Text('Level 2', fontStyle);
     		// self.promptText3 = new PIXI.Text('Level 3', fontStyle);
 			

@@ -20,6 +20,13 @@ function Player(row_, col_, text_, textAnchor_){
 	this.sprite.anchor.y = 0.5;
 	this.sprite.position.set(col_*32 + 16, row_*32 + 16);
 	this.sprite.velocity = vector2.create(0,0);	
+
+	//death sprite
+    this.deathSprite = PIXI.Sprite.fromImage("./img/player_death.png");
+    this.deathSprite.anchor.x = 0.5;
+	this.deathSprite.anchor.y = 0.5;
+	this.deathSprite.position = this.sprite.position;
+
 	//this.sprite.play();
 	this.reachedGoal = false;
 	this.walkingSoundPlaying = false;
