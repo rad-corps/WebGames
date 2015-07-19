@@ -17,6 +17,8 @@ function GameLoop(){
 
 	//key listeners
 	this.kEsc.press = function() {
+		soundPlayerDeath.play();
+		self.setGameOverState();
 		startLevel();
 	}
 	this.kEsc.release = function() {				
@@ -31,7 +33,17 @@ function GameLoop(){
 		self.buttons = [];		
 	}
 
+	this.resetGame = function() {
+		while(self.stage.children[0]) { self.stage.removeChild(self.stage.children[0]); }
+
+		// //reset all buttons
+		// self.buttons = [];
+		// self.terrain = {};
+	}
+
 	this.init = function(level_){
+
+		self.resetGame();
 
 		self.timeElapsed = 0.0;
 		self.speachRemoved = false;
@@ -76,13 +88,7 @@ function GameLoop(){
 		requestAnimationFrame( this.animate );
 	}
 
-	this.resetGame = function() {
-		while(self.stage.children[0]) { self.stage.removeChild(self.stage.children[0]); }
 
-		// //reset all buttons
-		// self.buttons = [];
-		// self.terrain = {};
-	}
 
 	this.setGameOverState = function() {
 		gameState = 'gameOver';
