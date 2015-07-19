@@ -58,7 +58,7 @@ var level0 = {
 
     playerPos : { row: 1, col: 1 },
 
-    playerText : 'WHAT\'S UP THESE STAIRS?',
+    playerText : 'BETTER DART UP THOSE STAIRS',
 
     textAnchor : { x: -0.1, y: -0 }
 };
@@ -109,7 +109,7 @@ var level1 = {
 
     playerPos : { row: 11, col: 21 },
 
-    playerText : 'ESC TO SUICIDE. GULP',
+    playerText : 'IF I PUSH THAT CRATE INTO A CORNER I SHOULD JUST KILL MYSELF',
 
     textAnchor : { x: 1.1, y: 1.3 }
 };
@@ -153,7 +153,7 @@ var level2 = {
 
     playerPos : { row: 2, col: 22 },
 
-    playerText : 'SMELLS LIKE RATS',
+    playerText : 'THE AIR IS MOIST. SMELLS LIKE BLOOD',
 
     textAnchor : { x: 1.1, y: -0 }
 };
@@ -210,7 +210,7 @@ var level3 = {
 
     playerPos : { row: 10, col: 22 },
 
-    playerText : 'WHERES THE SAFETY OFFICER?',
+    playerText : 'WHERE\'S THE SAFETY OFFICER?',
 
     textAnchor : { x: 1.15, y: 0.5 }
 };

@@ -13,7 +13,7 @@ function GameLoop(){
 
 	//add a keyboard listener for escape key
 	self.kEsc = keyboard(27);
-
+	self.kSpace = keyboard(32);
 
 	//key listeners
 	this.kEsc.press = function() {
@@ -22,6 +22,11 @@ function GameLoop(){
 		startLevel();
 	}
 	this.kEsc.release = function() {				
+	}
+
+	this.kSpace.press = function() {
+		if  (gameState === 'gameOver' )
+			startLevel();
 	}
 
 	this.clean = function()
@@ -87,8 +92,6 @@ function GameLoop(){
 	this.run = function() {
 		requestAnimationFrame( this.animate );
 	}
-
-
 
 	this.setGameOverState = function() {
 		gameState = 'gameOver';
@@ -191,7 +194,7 @@ function GameLoop(){
 				soundLevelSuccess.play();
 				self.setGameOverState();
 				self.player.reachedGoal = true;
-				self.promptText = new PIXI.Text('CLICK TO GO UP STAIRS', fontStyle);
+				self.promptText = new PIXI.Text('PRESS SPACE FOR MORE', fontStyle);
 				self.promptText.interactive = true;
 				//var setLoadMenuGameState = function(){gameState='loadMenu';};
 				++window.currentLevel;
