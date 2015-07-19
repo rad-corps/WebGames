@@ -140,6 +140,7 @@ function preloadTextures() {
 
 function startLevel() {	
 	var clone = JSON.parse(JSON.stringify(levels[currentLevel]));	
+	gameLoop.clean();
 	gameLoop.init(clone);
 	gameState = 'playing';
 	soundSelect.play();

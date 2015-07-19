@@ -1,6 +1,6 @@
 //Player.js
 
-function Player(row_, col_, text_){
+function Player(row_, col_, text_, textAnchor_){
 	var self = this;
 
 	this.frames = [];
@@ -26,11 +26,11 @@ function Player(row_, col_, text_){
 
 	//speach bubble text
 	this.speachText = new PIXI.Text(text_, playerTextFont);
+	this.speachText.anchor.x = textAnchor_.x;
+	this.speachText.anchor.y = textAnchor_.y;
 	this.timeDisplayingSpeach = 0;
 
-
 	//this.speedMulti = 1;
-
 	this.oldX = 0;
 	this.oldY = 0;
 

@@ -2,8 +2,6 @@ function GameLoop(){
 
 	var self = this;
 	
-	
-
 	//create the renderer
 	this.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 
@@ -12,6 +10,26 @@ function GameLoop(){
 
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
+
+	//add a keyboard listener for escape key
+	self.kEsc = keyboard(27);
+
+
+	//key listeners
+	this.kEsc.press = function() {
+		startLevel();
+	}
+	this.kEsc.release = function() {				
+	}
+
+	this.clean = function()
+	{
+		self.level = null;
+		self.player = null;
+		self.terrain = null;
+		self.topTerrain = null;
+		self.buttons = [];		
+	}
 
 	this.init = function(level_){
 
@@ -25,9 +43,10 @@ function GameLoop(){
 		self.stage.removeChild(self.promptText3);
 		self.stage.removeChild(self.menuSprite);
 
+
 		//setup game objects
 		self.level = level_;
-		self.player = new Player(level_.playerPos.row, level_.playerPos.col, level_.playerText);
+		self.player = new Player(level_.playerPos.row, level_.playerPos.col, level_.playerText, level_.textAnchor);
 		self.terrain = new Terrain(self.level.levelBottom);
 		self.topTerrain = new TopLevelTerrain(self.level.levelTop);
 		self.buttons = [];
@@ -80,7 +99,7 @@ function GameLoop(){
 
 		if ( gameState === 'playing') {
 
-			if ( self.timeElapsed > 4000 && self.speachRemoved === false ) {
+			if ( self.timeElapsed > 6000 && self.speachRemoved === false ) {
 				self.stage.removeChild(self.player.speachText);
 				self.speachRemoved = true;
 			}
