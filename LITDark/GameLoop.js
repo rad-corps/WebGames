@@ -38,6 +38,8 @@ function GameLoop(){
 		self.buttons = [];		
 	}
 
+
+
 	this.resetGame = function() {
 		while(self.stage.children[0]) { self.stage.removeChild(self.stage.children[0]); }
 
@@ -198,11 +200,17 @@ function GameLoop(){
 				self.promptText.interactive = true;
 				//var setLoadMenuGameState = function(){gameState='loadMenu';};
 				++window.currentLevel;
-				self.promptText.on('mousedown', startLevel);	
-				self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
-				self.promptText.anchor.x = 0.5;
-				self.promptText.anchor.y = 0.5;
-				self.stage.addChild(self.promptText);
+
+				if (window.currentLevel < levels.length ){
+					self.promptText.on('mousedown', startLevel);	
+					self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2);
+					self.promptText.anchor.x = 0.5;
+					self.promptText.anchor.y = 0.5;
+					self.stage.addChild(self.promptText);
+				}
+				else { 
+					gameState = 'loadEndScreen';
+				}
 			}
     	}
     	if  ( gameState === 'loadMenu') {
@@ -246,6 +254,80 @@ function GameLoop(){
     		// self.stage.addChild(self.promptText3);
     		gameState = 'mainMenu';
     	}    	
+
+		if  ( gameState === 'loadEndScreen') {
+    		self.resetGame();
+
+    		var yPos = -180;
+
+    		self.promptText = new PIXI.Text('LIT DARK', creditsFontStyle);
+			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText.anchor.x = 0.5;
+			self.promptText.anchor.y = 0.5;
+			yPos += 50;
+
+			self.promptText1 = new PIXI.Text('BY', creditsFontStyle);
+			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText1.anchor.x = 0.5;
+			self.promptText1.anchor.y = 0.5;
+			yPos += 50;
+
+			self.promptText2 = new PIXI.Text('JAVIER MUNOZ - ART / GAME DESIGN', creditsFontStyle);
+			self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText2.anchor.x = 0.5;
+			self.promptText2.anchor.y = 0.5;
+			yPos += 50;
+
+
+			self.promptText4 = new PIXI.Text('ADAM HULBERT - PROGRAMMING / GAME DESIGN', creditsFontStyle);
+			self.promptText4.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText4.anchor.x = 0.5;
+			self.promptText4.anchor.y = 0.5;
+			yPos += 50;
+
+
+			self.promptText6 = new PIXI.Text('FOR AIE 48HR GAME JAM', creditsFontStyle);
+			self.promptText6.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText6.anchor.x = 0.5;
+			self.promptText6.anchor.y = 0.5;
+			yPos += 50;
+
+			self.promptText7 = new PIXI.Text('JULY 19TH, 2015', creditsFontStyle);
+			self.promptText7.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText7.anchor.x = 0.5;
+			self.promptText7.anchor.y = 0.5;
+			yPos += 50;
+
+			self.promptText8 = new PIXI.Text('www.adamhportfolio.com', creditsFontStyle);
+			self.promptText8.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText8.anchor.x = 0.5;
+			self.promptText8.anchor.y = 0.5;			
+			yPos += 50;
+
+			self.promptText9 = new PIXI.Text('THANKS FOR PLAYING', creditsFontStyle);
+			self.promptText9.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText9.anchor.x = 0.5;
+			self.promptText9.anchor.y = 0.5;						
+
+			self.menuSprite = PIXI.Sprite.fromImage("./img/LitDarkEndScreen.png");
+			self.menuSprite.position.set(0, 0);
+
+			self.stage.addChild(self.menuSprite);
+    		self.stage.addChild(self.promptText);
+    		self.stage.addChild(self.promptText1);
+    		self.stage.addChild(self.promptText2);
+    		//self.stage.addChild(self.promptText3);
+    		self.stage.addChild(self.promptText4);
+    		//self.stage.addChild(self.promptText5);
+    		self.stage.addChild(self.promptText6);
+    		self.stage.addChild(self.promptText7);
+    		self.stage.addChild(self.promptText8);
+    		self.stage.addChild(self.promptText9);
+
+
+    		gameState = 'end';
+    	}    	
+
     	self.renderer.render(self.stage);		
 		requestAnimationFrame( self.animate );
 	}

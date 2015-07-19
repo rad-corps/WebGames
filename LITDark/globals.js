@@ -267,7 +267,7 @@ var level4 = {
 
     playerPos : { row: 10, col: 22 },
 
-    playerText : 'I HATE BEING LEFT IN THE DARK',
+    playerText : 'SO LOST. LOST AS.',
 
     textAnchor : { x: 1.5, y: 0.5 }
 };
@@ -312,7 +312,7 @@ var AH_GLOBALS = {
 
 var fontStyle = {
     align: 'center',
-    font : '36px Arial bold italic',
+    font : '36px Verdana bold italic',
     fill : '#F7EDCA',
     stroke : '#4a1850',
     strokeThickness : 5,
@@ -324,9 +324,23 @@ var fontStyle = {
     wordWrapWidth : 440
 };
 
+var creditsFontStyle = {
+    align: 'center',
+    font : '30px Verdana bold italic',
+    fill : '#F7EDCA',
+    stroke : '#4a1850',
+    strokeThickness : 5,
+    dropShadow : true,
+    dropShadowColor : '#000000',
+    dropShadowAngle : Math.PI / 6,
+    dropShadowDistance : 6,
+    wordWrap : false
+};
+
+
 var playerTextFont = {
     align: 'center',
-    font : '16px Arial bold italic',
+    font : '16px Verdana bold italic',
     fill : '#FFFFFF',
     stroke : '#000000',
     strokeThickness : 1,
