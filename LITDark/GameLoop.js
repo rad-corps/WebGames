@@ -273,39 +273,53 @@ function GameLoop(){
 			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
 			self.promptText1.anchor.x = 0.5;
 			self.promptText1.anchor.y = 0.5;
-			yPos += 50;
+			yPos += 60;
 
 			self.promptText2 = new PIXI.Text('JAVIER MUNOZ - ART / GAME DESIGN', creditsFontStyle);
 			self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
 			self.promptText2.anchor.x = 0.5;
 			self.promptText2.anchor.y = 0.5;
-			yPos += 50;
+			yPos += 25;
+
+			self.promptText3 = new PIXI.Text('javier.munoz@students.aie.edu.au', creditsFontStyle);
+			self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText3.anchor.x = 0.5;
+			self.promptText3.anchor.y = 0.5;
+			yPos += 60;			
 
 
 			self.promptText4 = new PIXI.Text('ADAM HULBERT - PROGRAMMING / GAME DESIGN', creditsFontStyle);
 			self.promptText4.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
 			self.promptText4.anchor.x = 0.5;
 			self.promptText4.anchor.y = 0.5;
-			yPos += 50;
+			yPos += 25;
 
-
-			self.promptText6 = new PIXI.Text('FOR AIE 48HR GAME JAM', creditsFontStyle);
-			self.promptText6.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
-			self.promptText6.anchor.x = 0.5;
-			self.promptText6.anchor.y = 0.5;
-			yPos += 50;
-
-			self.promptText7 = new PIXI.Text('JULY 19TH, 2015', creditsFontStyle);
-			self.promptText7.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
-			self.promptText7.anchor.x = 0.5;
-			self.promptText7.anchor.y = 0.5;
-			yPos += 50;
+			self.promptText5 = new PIXI.Text('hulbert.adam@gmail.com', creditsFontStyle);
+			self.promptText5.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText5.anchor.x = 0.5;
+			self.promptText5.anchor.y = 0.5;
+			yPos += 25;			
 
 			self.promptText8 = new PIXI.Text('www.adamhportfolio.com', creditsFontStyle);
 			self.promptText8.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
 			self.promptText8.anchor.x = 0.5;
 			self.promptText8.anchor.y = 0.5;			
-			yPos += 50;
+			yPos += 65;
+
+
+			self.promptText6 = new PIXI.Text('FOR AIE 48HR GAME JAM - JULY 19TH, 2015', creditsFontStyle);
+			self.promptText6.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			self.promptText6.anchor.x = 0.5;
+			self.promptText6.anchor.y = 0.5;
+			yPos += 65;
+
+			// self.promptText7 = new PIXI.Text('JULY 19TH, 2015', creditsFontStyle);
+			// self.promptText7.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
+			// self.promptText7.anchor.x = 0.5;
+			// self.promptText7.anchor.y = 0.5;
+			// yPos += 50;
+
+
 
 			self.promptText9 = new PIXI.Text('THANKS FOR PLAYING', creditsFontStyle);
 			self.promptText9.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + yPos);
@@ -319,11 +333,11 @@ function GameLoop(){
     		self.stage.addChild(self.promptText);
     		self.stage.addChild(self.promptText1);
     		self.stage.addChild(self.promptText2);
-    		//self.stage.addChild(self.promptText3);
+    		self.stage.addChild(self.promptText3);
     		self.stage.addChild(self.promptText4);
-    		//self.stage.addChild(self.promptText5);
+    		self.stage.addChild(self.promptText5);
     		self.stage.addChild(self.promptText6);
-    		self.stage.addChild(self.promptText7);
+    		//self.stage.addChild(self.promptText7);
     		self.stage.addChild(self.promptText8);
     		self.stage.addChild(self.promptText9);
 
