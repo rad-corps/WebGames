@@ -117,7 +117,7 @@ function Player(row_, col_, text_, textAnchor_){
 			return;
 		self.cancelVelocity();
 		self.sprite.velocity._x += AH_GLOBALS.PLAYER_SPEED;
-		self.sprite.rotation = (3.14 /2) * 3;
+		self.sprite.rotation = 3.14 /2;
 		self.sprite.play();
 		self.playWalkingSound();
 	}
@@ -131,7 +131,7 @@ function Player(row_, col_, text_, textAnchor_){
 			return;		
 		self.cancelVelocity();
 		self.sprite.velocity._x -= AH_GLOBALS.PLAYER_SPEED;
-		self.sprite.rotation = 3.14 /2;
+		self.sprite.rotation = (3.14 /2) * 3;		
 		self.sprite.play();
 		self.playWalkingSound();
 	}
