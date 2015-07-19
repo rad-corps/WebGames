@@ -272,8 +272,8 @@ var level5 = {
         {
             row : 5,
             col : 11,
-            swapRow : 6,
-            swapCol : 19
+            swapRow : 7,
+            swapCol : 20
         }        
     ],
 
@@ -374,7 +374,6 @@ levelTop : [
 
 
 var levels = [];
-
 
 
 levels.push(level0);
