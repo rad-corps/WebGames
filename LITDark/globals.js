@@ -153,7 +153,7 @@ var level2 = {
 
     playerPos : { row: 2, col: 22 },
 
-    playerText : 'THE AIR IS MOIST. SMELLS LIKE BLOOD',
+    playerText : 'SMELLS LIKE A MOIST RAT',
 
     textAnchor : { x: 1.1, y: -0 }
 };
