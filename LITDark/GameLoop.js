@@ -137,6 +137,12 @@ function GameLoop(){
     				if ( self.buttons[i].collidesWith(self.player.sprite) === true ||
     					self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === true) 
     				{
+    					//swap button animation
+    					var tempIndex = self.stage.getChildIndex(self.buttons[i].sprite);
+    					self.stage.removeChild(self.buttons[i].sprite);
+    					self.stage.addChildAt(self.buttons[i].spriteDown, tempIndex);
+	    				
+
 	    				self.buttons[i].buttonDown = true;
 	    				soundButtonDown.play();
 
@@ -151,6 +157,11 @@ function GameLoop(){
 	    			if (self.buttons[i].collidesWith(self.player.sprite) === false &&
 	    				self.topTerrain.collisionWithCrate(self.buttons[i].sprite) === false)
 	    			{
+	    				//swap button animation
+    					var tempIndex = self.stage.getChildIndex(self.buttons[i].spriteDown);
+    					self.stage.removeChild(self.buttons[i].spriteDown);
+    					self.stage.addChildAt(self.buttons[i].sprite, tempIndex);
+
 	    				self.buttons[i].buttonDown = false;
 	    				soundButtonUp.play();
 
@@ -161,7 +172,6 @@ function GameLoop(){
 	    			}
 	    		}
     		}
-
 
     		self.topTerrain.moveCrates(self.player.sprite);
 
@@ -221,31 +231,18 @@ function GameLoop(){
 
     		self.promptText = new PIXI.Text('LIT DARK', fontStyle);
     		self.promptText1 = new PIXI.Text('START GAME', fontStyle);
-    		// self.promptText2 = new PIXI.Text('Level 2', fontStyle);
-    		// self.promptText3 = new PIXI.Text('Level 3', fontStyle);
 			
 			self.promptText1.interactive = true;
-			// self.promptText2.interactive = true;
-			// self.promptText3.interactive = true;
 
 			self.promptText1.on('mousedown', startLevel);	
-			// self.promptText2.on('mousedown', startLevel2);	
-			// self.promptText3.on('mousedown', startLevel3);	
 
 			self.promptText.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 160);
-			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 20);
-			// self.promptText2.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 40);
-			// self.promptText3.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 + 80);
-			
+			self.promptText1.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 20);			
 
 			self.promptText.anchor.x = 0.5;
 			self.promptText.anchor.y = 0.5;
 			self.promptText1.anchor.x = 0.5;
 			self.promptText1.anchor.y = 0.5;
-			// self.promptText2.anchor.x = 0.5;
-			// self.promptText2.anchor.y = 0.5;
-			// self.promptText3.anchor.x = 0.5;
-			// self.promptText3.anchor.y = 0.5;
 
 			self.menuSprite = PIXI.Sprite.fromImage("./img/LitDarkTitle.png");
 			self.menuSprite.position.set(0, 0);

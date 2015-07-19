@@ -5,7 +5,11 @@ function Button(buttonDefinition_){
 	self.buttonDefinition = buttonDefinition_;
 
 	self.sprite = PIXI.Sprite.fromImage("./img/button0.png");
+	self.spriteDown = PIXI.Sprite.fromImage("./img/button1.png");
 	self.sprite.position.set((buttonDefinition_.col * 32) + 16, (buttonDefinition_.row * 32) + 16);
+	self.spriteDown.position = self.sprite.position;
+	self.spriteDown.anchor.x = 0.5;
+	self.spriteDown.anchor.y = 0.5;
 
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
