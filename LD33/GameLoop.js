@@ -27,8 +27,15 @@ function GameLoop(){
 		for (var i = 0; i < 27; ++i)
 		{
 			self.platformArray.push(new Platform());
-			self.platformArray[i].SetPos(i*32, 460);
-			self.stage.addChild(self.platformArray[i].sprite);
+			self.platformArray[self.platformArray.length - 1].SetPos(i*32, 460);
+			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+		}
+
+		for (var i = 0; i < 7; ++i)
+		{
+			self.platformArray.push(new Platform());
+			self.platformArray[self.platformArray.length - 1].SetPos(500, 480 - (i*32));
+			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
 		}
 
 		self.platformArray.push(new Platform());
@@ -38,6 +45,7 @@ function GameLoop(){
 		self.platformArray.push(new Platform());
 		self.platformArray[self.platformArray.length - 1].SetPos(300, 300);
 		self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+		//end test platforms
 
 		self.stage.addChild(self.player.sprite);
 	}
@@ -67,7 +75,7 @@ function GameLoop(){
 			//if program is not keeping up report it
 			if (self.timeSinceAnimate > AH_GLOBALS.TIME_STEP )
 			{
-				console.log('PROGRAM IS NOT KEEPING UP WITH TIMESTEP (IGNORE ON STARTUP)!');
+				//console.log('PROGRAM IS NOT KEEPING UP WITH TIMESTEP (IGNORE ON STARTUP)!');
 			}
 
 			// if ( self.logTime > 1000)
@@ -88,13 +96,16 @@ function GameLoop(){
 	    			self.player.setOnGround(true, self.platformArray[i].sprite);
 	    		}
 				if ( collisionManager( self.player.tCol, self.platformArray[i].sprite) ) {
-	    			console.log('top collider triggered');
+	    			//console.log('top collider triggered');
+	    			self.player.bumpHead(self.platformArray[i].sprite);
 	    		}
 	    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
-	    			console.log('left collider triggered');
+	    			//console.log('left collider triggered');
+	    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
 	    		}
 				if ( collisionManager( self.player.rCol, self.platformArray[i].sprite) ) {
-	    			console.log('right collider triggered');
+	    			//console.log('right collider triggered');
+	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
 	    		}	    		
 			}
     	}

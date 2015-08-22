@@ -18,17 +18,17 @@ function Player(){
 	self.tCol = {};
 	self.bCol = {};
 
-	self.lCol.height = 24;
+	self.lCol.height = 10;
 	self.lCol.width = 1;
 	self.lCol.position = {x : 0, y : 0};
-	self.rCol.height = 24;
+	self.rCol.height = 10;
 	self.rCol.width = 1;
 	self.rCol.position = {x : 0, y : 0};
 	self.bCol.height = 1;
-	self.bCol.width = 24;	
+	self.bCol.width = 10;	
 	self.bCol.position = {x : 0, y : 0};
 	self.tCol.height = 1;
-	self.tCol.width = 24;		
+	self.tCol.width = 10;		
 	self.tCol.position = {x : 0, y : 0};
 
 	self.maxSpeed = 14;
@@ -37,8 +37,6 @@ function Player(){
 	self.kNDown = false;
 	self.kSDown = false;
 
-
-	
 	scaleSprite(this.sprite);
 
 	self.velocity = vector2.create(0,0);
@@ -94,6 +92,32 @@ function Player(){
 		}
 	}
 
+	this.bumpHead = function(groundSprite_)
+	{
+		console.log('bump head');
+		if ( self.velocity._y < 0 )
+		{
+			console.log('inverting velocity');
+			self.velocity._y = -self.velocity._y;
+		}
+	}
+
+	this.pushAgainstTerrain = function(direction_, groundSprite_) 
+	{
+		self.velocity._x = 0;
+
+		if ( direction_ === 'right')
+		{
+			console.log('RIGHT');
+			self.sprite.position.x = groundSprite_.position.x - 32;	
+		}
+		else
+		{
+			console.log('LEFT');
+			self.sprite.position.x = groundSprite_.position.x + 32;	
+		}
+	}
+
 	this.playerMouseDown = function (){
 		console.log('playerMouseDown');
 	}
@@ -127,14 +151,14 @@ function Player(){
 			self.sprite.position.y += self.velocity.getY();
 
 			//update the players 4 colliders
-			self.rCol.position.x = self.sprite.position.x + 16;
+			self.rCol.position.x = self.sprite.position.x + 10;
 			self.rCol.position.y = self.sprite.position.y;
-			self.lCol.position.x = self.sprite.position.x - 16;
+			self.lCol.position.x = self.sprite.position.x - 10;
 			self.lCol.position.y = self.sprite.position.y;
 			self.bCol.position.x = self.sprite.position.x;
 			self.bCol.position.y = self.sprite.position.y + 16;
 			self.tCol.position.x = self.sprite.position.x;
-			self.tCol.position.y = self.sprite.position.y - 16;
+			self.tCol.position.y = self.sprite.position.y - 10;
 
 			//console.log(self.lCol);
 
