@@ -8,10 +8,7 @@ function Player(){
 
 	self.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	self.sprite.anchor.x = 0.5;
-	self.sprite.anchor.y = 0.5;
-	
-	self.sprite.interactive = true;
-	self.sprite.on('mousedown', this.playerMouseDown);	
+	self.sprite.anchor.y = 0.5;	
 
 	self.lCol = {};
 	self.rCol = {};

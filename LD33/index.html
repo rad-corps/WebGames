@@ -35,7 +35,8 @@
     <script src="Player.js"></script>
     <script src="Enemy.js"></script>
     <script src="Platform.js"></script>
-    <script src="Camera.js"></script>
+    <script src="Goal.js"></script>
+    <!--<script src="Camera.js"></script>-->
     <script src="GameLoop.js"></script>
 
 	<script>
@@ -56,6 +57,7 @@ function preloadTextures() {
 	loader.add('player', './img/player.png');
 	loader.add('enemy', './img/enemy.png');
 	loader.add('ground', './img/wall_stone_grass_1.png');
+	loader.add('goal', './img/goal.png');
 	loader.add('wall_stone_grass_1', './img/wall_stone_grass_1.png');
 	loader.add('wall_stone_grass_2', './img/wall_stone_grass_2.png');
 	loader.add('wall_stone_grass_3', './img/wall_stone_grass_3.png');
@@ -65,6 +67,7 @@ function preloadTextures() {
 	loader.add('wall_stone_grass_7', './img/wall_stone_grass_7.png');
 	loader.add('wall_stone_grass_8', './img/wall_stone_grass_8.png');
 	loader.add('wall_stone_grass_9', './img/wall_stone_grass_9.png');
+	loader.add('bg1', './img/bg1.jpg');
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);

@@ -8,16 +8,23 @@ function GameLoop(){
 	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 	self.renderer.backgroundColor = 0xE0F0FF;
 
-
 	//add it to the DOM body
 	document.body.appendChild(this.renderer.view);
 
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
+	//self.bgStage = new PIXI.Container();
 
 	this.init = function(){
 		console.log("init");
 		console.log(AH_GLOBALS.FPS);
+
+		//load the background and add it to the scene
+		self.bgSprite = PIXI.Sprite.fromImage("./img/bg1.jpg");
+		self.bgSprite.anchor.x = 0.5;
+		self.bgSprite.anchor.y = 0.5;
+		self.bgSprite.scale = {x: 2, y: 2};
+		self.stage.addChild(self.bgSprite);
 
 		//the list of enemies
 		self.enemyArray = [];
@@ -28,25 +35,29 @@ function GameLoop(){
 
 		//create the player
 		self.player = new Player();
-		self.player.setPos(level0.playerRow, level0.playerCol);
+		self.player.setPos(levels[0].playerRow, levels[0].playerCol);
 
 		self.platformArray = [];
 
 		//load platforms from level0.platforms
-		for (row in level0.platforms)
+		for (row in levels[0].platforms)
 		{
-			for (col in level0.platforms[row])
+			for (col in levels[0].platforms[row])
 			{
-				if (level0.platforms[row][col] !== '.')
+				if (levels[0].platforms[row][col] !== '.')
 				{
-					console.log(level0.platforms[row][col]);
-					self.platformArray.push(new Platform(level0.platforms[row][col]));
+					console.log(levels[0].platforms[row][col]);
+					self.platformArray.push(new Platform(levels[0].platforms[row][col]));
 					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
 					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
 				}
 			}
 		}
 
+		//load the goal
+		self.goal = new Goal(levels[0].goalRow, levels[0].goalCol);
+		self.stage.addChild(self.goal.sprite);
+		
 		self.stage.addChild(self.player.sprite);
 		console.log('init end');
 	}
@@ -119,7 +130,7 @@ function GameLoop(){
 	    		//check for enemy collisions
 	    		for ( e in self.enemyArray )
 	    		{
-	    			//collision with platforms
+	    			//enemy collision with platforms
 	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
 	    			{
 	    				self.enemyArray[e].changeDirection();
@@ -134,8 +145,12 @@ function GameLoop(){
 	    		}
 	    	}
 
-	    	//check enemy collision with platform
-
+	    	//handle player goal collision 
+	    	if ( collisionManager( self.goal.sprite, self.player.sprite) )
+	    	{
+	    		console.log('Reached Goal');
+	    		gameState = 'loadNewLevel';
+	    	}
     	}
     	if  ( gameState === 'gameOver') {
     		self.promptText = new PIXI.Text('GAME OVER', fontStyle);
@@ -144,12 +159,18 @@ function GameLoop(){
     		gameState = 'mainMenu';
     	}
 
+    	//update the bg position
+    	self.bgSprite.position.x = self.player.sprite.position.x - self.player.sprite.position.x * 0.1;
+    	self.bgSprite.position.y = self.player.sprite.position.y - self.player.sprite.position.y * 0.1;
+
     	//set the stage position to the player position
     	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
     	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
-    	//applyCamera(self.player, self.platformArray);    	
-    	self.renderer.render(self.stage);		
-		//reapplyWorldPositions(self.player, self.platformArray);
+    	
+    	//render
+    	self.renderer.render(self.stage);	
+
+		//loop again
 		requestAnimationFrame( self.animate );
 
 	}
