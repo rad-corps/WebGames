@@ -145,7 +145,8 @@ var AH_GLOBALS = {
 	SCREEN_W: 848,
 	SCREEN_H: 480,
 	MAX_SPEED: 3.5,
-	ACCELLERATION: 0.15
+	ACCELLERATION: 0.15,
+	TIME_STEP: 30
 };
 
 var fontStyle = {
@@ -234,25 +235,37 @@ function collisionManager(sprite1, sprite2)
 function Player(){
 	var self = this;
 
-	this.sprite = PIXI.Sprite.fromImage("player.png");
-	this.sprite.anchor.x = 0.5;
-	this.sprite.anchor.y = 0.5;
-	this.sprite.position.set(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2 - 100);
-	this.sprite.interactive = true;
-	this.sprite.on('mousedown', this.playerMouseDown);	
+	self.groundYPos = AH_GLOBALS.SCREEN_H/2;
+
+	self.sprite = PIXI.Sprite.fromImage("player.png");
+	self.sprite.anchor.x = 0.5;
+	self.sprite.anchor.y = 0.5;
+	self.sprite.position.set(AH_GLOBALS.SCREEN_W/2, self.groundYPos);
+	self.sprite.interactive = true;
+	self.sprite.on('mousedown', this.playerMouseDown);	
 	
 	scaleSprite(this.sprite);
 
-	this.velocity = vector2.create(0,0);
-	this.direction = vector2.create(0,0);
+	self.velocity = vector2.create(0,0);
+	self.direction = vector2.create(0,0);
+	self.onGround = true;
 
-	this.kN = keyboard(38);
-	this.kS = keyboard(40);
-	this.kE = keyboard(39);
-	this.kW = keyboard(37);
+	self.kN = keyboard(38);
+	self.kS = keyboard(40);
+	self.kE = keyboard(39);
+	self.kW = keyboard(37);
 
 	this.kN.press = function() {
 		console.log('KN Pressed');
+
+		if (self.onGround === true){
+			self.velocity._y = -15;
+			self.onGround = false;
+		}
+	}
+
+	this.kN.release = function() {				
+		console.log('KN Released');
 	}
 
 	this.playerMouseDown = function (){
@@ -262,25 +275,21 @@ function Player(){
 	this.update = function()
 	{
 		if ( gameState === 'playing'){ 
-			//get direction vector and add to velocity
-			//var dirx = blackHole.sprite.x - self.sprite.x;
-			//var diry = blackHole.sprite.y - self.sprite.y;
-
-			//self.direction.setX(dirx);
-			//self.direction.setY(diry);
-
-			// self.direction.normalise();
-			// self.direction.multiplyBy(AH_GLOBALS.ACCELLERATION);
-			// self.velocity.addTo(self.direction);
-
-			// if ( self.velocity.getLength() > AH_GLOBALS.MAX_SPEED ){
-			// 	self.velocity.setLength(AH_GLOBALS.MAX_SPEED);
-			// }			
 
 			self.sprite.position.x += self.velocity.getX();
 			self.sprite.position.y += self.velocity.getY();
 
-			//self.sprite.rotation += 0.04;
+			//apply gravity if not on ground
+			if ( self.onGround === false ){
+				self.velocity._y += 1;
+				if ( self.sprite.position.y >= self.groundYPos )
+				{
+					console.log('collided with ground');
+					self.sprite.position.y = self.groundYPos;
+					self.onGround = true;
+					self.velocity._y = 0;
+				}
+			}
 		}
 	}
 }
@@ -302,6 +311,7 @@ function GameLoop(){
 
 	this.init = function(){
 		console.log("init");
+		console.log(AH_GLOBALS.TIME_STEP);
 
 		self.player = new Player();
 		//self.timer = new Timer();
@@ -319,6 +329,7 @@ function GameLoop(){
 
 
 	this.run = function() {
+		self.timeSinceAnimate = 0.0;
 		requestAnimationFrame( this.animate );
 	}
 
@@ -329,8 +340,19 @@ function GameLoop(){
 		var dt = now - lastUpdate;
 		lastUpdate = now;
 
-		if ( gameState === 'playing') {
-			//self.timer.update(dt);
+		//fixed update step (30FPS)
+		self.timeSinceAnimate += dt;
+
+		//console.log(self.timeSinceAnimate);
+		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.TIME_STEP) {
+			self.timeSinceAnimate -= AH_GLOBALS.TIME_STEP;
+
+			//if program is not keeping up report it
+			if (self.timeSinceAnimate > AH_GLOBALS.TIME_STEP )
+			{
+				console.log('PROGRAM IS NOT KEEPING UP WITH TIMESTEP (IGNORE ON STARTUP)!');
+			}
+			
     		self.player.update();
 
 			for (i in self.enemyList){	    		
@@ -341,11 +363,6 @@ function GameLoop(){
 	    			gameState = 'gameOver';	    			
 	    		}
 			}
-			// //check collision with black hole
-			// if ( collisionManager( self.player.sprite, blackHole.sprite) ){
-			// 	console.log('collision with black hole');
-			// 	gameState = 'gameOver';
-			// }
     	}
     	if  ( gameState === 'gameOver') {
     		self.stage.addChild(self.promptText);
