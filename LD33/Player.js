@@ -18,17 +18,17 @@ function Player(){
 	self.tCol = {};
 	self.bCol = {};
 
-	self.lCol.height = 10;
-	self.lCol.width = 1;
+	self.lCol.height = PLAYER_CONSTS.L_COLLIDER_H;
+	self.lCol.width = PLAYER_CONSTS.L_COLLIDER_W;
 	self.lCol.position = {x : 0, y : 0};
-	self.rCol.height = 10;
-	self.rCol.width = 1;
+	self.rCol.height = PLAYER_CONSTS.R_COLLIDER_H;
+	self.rCol.width = PLAYER_CONSTS.R_COLLIDER_W;
 	self.rCol.position = {x : 0, y : 0};
-	self.bCol.height = 1;
-	self.bCol.width = 10;	
+	self.bCol.height = PLAYER_CONSTS.B_COLLIDER_H;
+	self.bCol.width = PLAYER_CONSTS.B_COLLIDER_W;	
 	self.bCol.position = {x : 0, y : 0};
-	self.tCol.height = 1;
-	self.tCol.width = 10;		
+	self.tCol.height = PLAYER_CONSTS.T_COLLIDER_H;
+	self.tCol.width = PLAYER_CONSTS.T_COLLIDER_W;		
 	self.tCol.position = {x : 0, y : 0};
 
 	self.maxSpeed = 14;
@@ -53,7 +53,7 @@ function Player(){
 		self.kNDown = true;	
 
 		if (self.onGround === true){
-			self.velocity._y = -AH_GLOBALS.JUMP_FORCE;
+			self.velocity._y = -PLAYER_CONSTS.JUMP_FORCE;
 			self.onGround = false;
 		}
 	}
@@ -150,14 +150,14 @@ function Player(){
 			self.sprite.position.y += self.velocity.getY();
 
 			//update the players 4 colliders
-			self.rCol.position.x = self.sprite.position.x + 10;
+			self.rCol.position.x = self.sprite.position.x + PLAYER_CONSTS.R_COLLIDER_OFFSET;
 			self.rCol.position.y = self.sprite.position.y;
-			self.lCol.position.x = self.sprite.position.x - 10;
+			self.lCol.position.x = self.sprite.position.x - PLAYER_CONSTS.L_COLLIDER_OFFSET;
 			self.lCol.position.y = self.sprite.position.y;
 			self.bCol.position.x = self.sprite.position.x;
-			self.bCol.position.y = self.sprite.position.y + 16;
+			self.bCol.position.y = self.sprite.position.y + PLAYER_CONSTS.B_COLLIDER_OFFSET;
 			self.tCol.position.x = self.sprite.position.x;
-			self.tCol.position.y = self.sprite.position.y - 10;
+			self.tCol.position.y = self.sprite.position.y - PLAYER_CONSTS.T_COLLIDER_OFFSET;
 
 			//console.log(self.lCol);
 
@@ -168,16 +168,16 @@ function Player(){
 				{ 
 					if ( self.velocity._y < 0 )//not falling yet
 					{
-						self.velocity._y += AH_GLOBALS.GRAV_HOLDING_JUMP_RISING; 
+						self.velocity._y += PLAYER_CONSTS.GRAV_HOLDING_JUMP_RISING; 
 					}
 					else if ( self.velocity._y >= 0 ) //although apply the more gravity if we are falling. 
 					{
-						self.velocity._y += AH_GLOBALS.GRAV_HOLDING_JUMP_FALLING; 	
+						self.velocity._y += PLAYER_CONSTS.GRAV_HOLDING_JUMP_FALLING; 	
 					}					
 				}
 				if ( self.kNDown === false ) 
 				{
-					self.velocity._y += AH_GLOBALS.GRAV;	
+					self.velocity._y += PLAYER_CONSTS.GRAV;	
 				}
 
 				// if ( self.sprite.position.y >= self.groundYPos )

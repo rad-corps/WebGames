@@ -99,6 +99,11 @@ function GameLoop(){
 	    			//console.log('top collider triggered');
 	    			self.player.bumpHead(self.platformArray[i].sprite);
 	    		}
+    		
+			}
+			for (i in self.platformArray)
+			{	    
+
 	    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
 	    			//console.log('left collider triggered');
 	    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
@@ -106,8 +111,8 @@ function GameLoop(){
 				if ( collisionManager( self.player.rCol, self.platformArray[i].sprite) ) {
 	    			//console.log('right collider triggered');
 	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
-	    		}	    		
-			}
+	    		}	
+	    	}
     	}
     	if  ( gameState === 'gameOver') {
     		self.stage.addChild(self.promptText);
