@@ -31,7 +31,7 @@ function Player(){
 	self.tCol.width = PLAYER_CONSTS.T_COLLIDER_W;		
 	self.tCol.position = {x : 0, y : 0};
 
-	self.maxSpeed = 14;
+	self.maxSpeed = PLAYER_CONSTS.MAX_SPEED;
 	self.kEDown = false;
 	self.kWDown = false;
 	self.kNDown = false;
@@ -47,6 +47,19 @@ function Player(){
 	self.kS = keyboard(40);
 	self.kE = keyboard(39);
 	self.kW = keyboard(37);
+
+	this.updateColliders = function()
+	{
+		//update the players 4 colliders
+		self.rCol.position.x = self.sprite.position.x + PLAYER_CONSTS.R_COLLIDER_OFFSET;
+		self.rCol.position.y = self.sprite.position.y;
+		self.lCol.position.x = self.sprite.position.x - PLAYER_CONSTS.L_COLLIDER_OFFSET;
+		self.lCol.position.y = self.sprite.position.y;
+		self.bCol.position.x = self.sprite.position.x;
+		self.bCol.position.y = self.sprite.position.y + PLAYER_CONSTS.B_COLLIDER_OFFSET;
+		self.tCol.position.x = self.sprite.position.x;
+		self.tCol.position.y = self.sprite.position.y - PLAYER_CONSTS.T_COLLIDER_OFFSET;
+	}	
 
 	//jump key
 	this.kN.press = function() {
@@ -89,6 +102,7 @@ function Player(){
 
 			//move player to the top of the ground
 			self.sprite.position.y = groundSprite_.position.y - 32;
+			self.updateColliders();
 		}
 	}
 
@@ -116,11 +130,14 @@ function Player(){
 			console.log('LEFT');
 			self.sprite.position.x = groundSprite_.position.x + 32;	
 		}
+		self.updateColliders();
 	}
 
 	this.playerMouseDown = function (){
 		console.log('playerMouseDown');
 	}
+
+
 
 	this.update = function()
 	{
@@ -149,15 +166,7 @@ function Player(){
 			self.sprite.position.x += self.velocity.getX();
 			self.sprite.position.y += self.velocity.getY();
 
-			//update the players 4 colliders
-			self.rCol.position.x = self.sprite.position.x + PLAYER_CONSTS.R_COLLIDER_OFFSET;
-			self.rCol.position.y = self.sprite.position.y;
-			self.lCol.position.x = self.sprite.position.x - PLAYER_CONSTS.L_COLLIDER_OFFSET;
-			self.lCol.position.y = self.sprite.position.y;
-			self.bCol.position.x = self.sprite.position.x;
-			self.bCol.position.y = self.sprite.position.y + PLAYER_CONSTS.B_COLLIDER_OFFSET;
-			self.tCol.position.x = self.sprite.position.x;
-			self.tCol.position.y = self.sprite.position.y - PLAYER_CONSTS.T_COLLIDER_OFFSET;
+			self.updateColliders();
 
 			//console.log(self.lCol);
 
