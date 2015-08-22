@@ -235,7 +235,14 @@ function collisionManager(sprite1, sprite2)
 function Player(){
 	var self = this;
 
+	//just for testing until platforms are included
 	self.groundYPos = AH_GLOBALS.SCREEN_H/2;
+
+	self.maxSpeed = 14;
+	self.kEDown = false;
+	self.kWDown = false;
+	self.kNDown = false;
+	self.kSDown = false;
 
 	self.sprite = PIXI.Sprite.fromImage("player.png");
 	self.sprite.anchor.x = 0.5;
@@ -269,21 +276,21 @@ function Player(){
 	}
 
 	this.kE.press = function() {
-		self.velocity._x += 5;
+		self.kEDown = true;		
 		self.sprite.scale.x = 1; //flip sprite
 	}
 
 	this.kE.release = function() {
-		self.velocity._x -= 5;
+		self.kEDown = false;
 	}
 
 	this.kW.press = function() {
-		self.velocity._x -= 5;
+		self.kWDown = true;
 		self.sprite.scale.x = -1; //flip sprite
 	}
 
 	this.kW.release = function() {
-		self.velocity._x += 5;
+		self.kWDown = false;
 	}
 
 
@@ -294,6 +301,27 @@ function Player(){
 	this.update = function()
 	{
 		if ( gameState === 'playing'){ 
+
+			//accellerate player
+			if ( self.kEDown === true )
+				self.velocity._x += 1;
+			if ( self.kWDown === true )
+				self.velocity._x -= 1;
+
+
+			//dont go faster than max speed
+			if ( self.velocity._x > self.maxSpeed)
+				self.velocity._x = self.maxSpeed;
+			if ( self.velocity._x < -self.maxSpeed)
+				self.velocity._x = -self.maxSpeed;
+
+			//drag
+			if ( self.kEDown === false && self.kWDown === false)
+			{
+				//scale down the velocity x vector
+				self.velocity._x = 0.9 * self.velocity._x;
+			}
+			
 
 			self.sprite.position.x += self.velocity.getX();
 			self.sprite.position.y += self.velocity.getY();
