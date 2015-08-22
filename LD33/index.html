@@ -24,7 +24,7 @@
     <div id="loader" class="layer">
     	<br></br>
         <h3>Loading LD 33 Entry - Javier Munoz and Adam Hulbert</h3>
-        <img src="loading_transparent.gif" alt="loader" />     
+        <img src="./img/loading_transparent.gif" alt="loader" />     
     </div>
 
     <script src="keyboard.js"></script>
@@ -190,7 +190,8 @@ function preloadTextures() {
 	
 	// create a new loader
 	var loader = PIXI.loader;
-	loader.add('player', 'player.png');
+	loader.add('player', './img/player.png');
+	loader.add('ground', './img/ground.png');
 	// use callback
 	loader.once('complete', onAssetsLoaded);
 	//begin load
@@ -232,6 +233,12 @@ function collisionManager(sprite1, sprite2)
 	return true;
 }
 
+function Platform() {
+	var self = this;
+	self.sprite = PIXI.Sprite.fromImage("./img/ground.png");
+}
+
+
 function Player(){
 	var self = this;
 
@@ -244,7 +251,7 @@ function Player(){
 	self.kNDown = false;
 	self.kSDown = false;
 
-	self.sprite = PIXI.Sprite.fromImage("player.png");
+	self.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
 	self.sprite.position.set(AH_GLOBALS.SCREEN_W/2, self.groundYPos);
