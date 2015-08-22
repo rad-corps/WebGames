@@ -27,7 +27,7 @@ function GameLoop(){
 		for (var i = 0; i < 27; ++i)
 		{
 			self.platformArray.push(new Platform());
-			self.platformArray[self.platformArray.length - 1].SetPos(i*32, 460);
+			self.platformArray[self.platformArray.length - 1].SetPos(i*32, 480);
 			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
 		}
 
@@ -36,6 +36,14 @@ function GameLoop(){
 			self.platformArray.push(new Platform());
 			self.platformArray[self.platformArray.length - 1].SetPos(500, 480 - (i*32));
 			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+
+			self.platformArray.push(new Platform());
+			self.platformArray[self.platformArray.length - 1].SetPos(532, 480 - (i*32));
+			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);			
+
+			self.platformArray.push(new Platform());
+			self.platformArray[self.platformArray.length - 1].SetPos(564, 480 - (i*32));
+			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);						
 		}
 
 		self.platformArray.push(new Platform());

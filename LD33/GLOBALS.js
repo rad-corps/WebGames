@@ -18,6 +18,7 @@ var PLAYER_CONSTS = {
     GRAV : 1,
     JUMP_FORCE: 10,
     MAX_SPEED: 8,
+    ACCELL: 0.6,
 
     //player collider vars
     T_COLLIDER_W: 10,
@@ -34,7 +35,9 @@ var PLAYER_CONSTS = {
 
     R_COLLIDER_W: 1,
     R_COLLIDER_H: 5,
-    R_COLLIDER_OFFSET: 10
+    R_COLLIDER_OFFSET: 10,
+
+    DRAG: 0.8
 
 };
 

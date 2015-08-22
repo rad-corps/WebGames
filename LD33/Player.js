@@ -145,9 +145,9 @@ function Player(){
 
 			//accellerate player
 			if ( self.kEDown === true )
-				self.velocity._x += 1;
+				self.velocity._x += PLAYER_CONSTS.ACCELL;
 			if ( self.kWDown === true )
-				self.velocity._x -= 1;
+				self.velocity._x -= PLAYER_CONSTS.ACCELL;
 
 
 			//dont go faster than max speed
@@ -160,7 +160,7 @@ function Player(){
 			if ( self.kEDown === false && self.kWDown === false)
 			{
 				//scale down the velocity x vector
-				self.velocity._x = 0.8 * self.velocity._x;
+				self.velocity._x = PLAYER_CONSTS.DRAG * self.velocity._x;
 			}
 			
 			self.sprite.position.x += self.velocity.getX();
