@@ -262,8 +262,9 @@ function Player(){
 	self.kE = keyboard(39);
 	self.kW = keyboard(37);
 
+	//jump key
 	this.kN.press = function() {
-		console.log('KN Pressed');
+		self.kNDown = true;	
 
 		if (self.onGround === true){
 			self.velocity._y = -15;
@@ -272,9 +273,10 @@ function Player(){
 	}
 
 	this.kN.release = function() {				
-		console.log('KN Released');
+		self.kNDown = false;	
 	}
 
+	//run left and right
 	this.kE.press = function() {
 		self.kEDown = true;		
 		self.sprite.scale.x = 1; //flip sprite
@@ -304,9 +306,9 @@ function Player(){
 
 			//accellerate player
 			if ( self.kEDown === true )
-				self.velocity._x += 1;
+				self.velocity._x += 2;
 			if ( self.kWDown === true )
-				self.velocity._x -= 1;
+				self.velocity._x -= 2;
 
 
 			//dont go faster than max speed
@@ -327,11 +329,26 @@ function Player(){
 			self.sprite.position.y += self.velocity.getY();
 
 			//apply gravity if not on ground
-			if ( self.onGround === false ){
-				self.velocity._y += 1;
+			if ( self.onGround === false )
+			{
+				if ( self.kNDown === true ) //apply less gravity if still holding jump
+				{ 
+					if ( self.velocity._y < 0 )//not falling yet
+					{
+						self.velocity._y += 0.5; 
+					}
+					else if ( self.velocity._y >= 0 ) //although apply the more gravity if we are falling. 
+					{
+						self.velocity._y += 1; 	
+					}					
+				}
+				if ( self.kNDown === false ) 
+				{
+					self.velocity._y += 2;	
+				}
+
 				if ( self.sprite.position.y >= self.groundYPos )
 				{
-					console.log('collided with ground');
 					self.sprite.position.y = self.groundYPos;
 					self.onGround = true;
 					self.velocity._y = 0;
