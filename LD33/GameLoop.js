@@ -126,9 +126,14 @@ function GameLoop(){
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
     	}
-    	
-    	self.renderer.render(self.stage);
-		
+
+    	//set the stage position to the player position
+    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
+    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
+    	//applyCamera(self.player, self.platformArray);    	
+    	self.renderer.render(self.stage);		
+		//reapplyWorldPositions(self.player, self.platformArray);
 		requestAnimationFrame( self.animate );
+
 	}
 }
