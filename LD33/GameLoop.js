@@ -19,43 +19,36 @@ function GameLoop(){
 		console.log("init");
 		console.log(AH_GLOBALS.FPS);
 
+		//the list of enemies
+		self.enemyArray = [];
+
+		//create a test Enemy
+		self.enemyArray.push(new Enemy(12,15));
+		self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
+
+		//create the player
 		self.player = new Player();
+		self.player.setPos(level0.playerRow, level0.playerCol);
 
 		self.platformArray = [];
 
-		//some test platforms
-		for (var i = 0; i < 27; ++i)
+		//load platforms from level0.platforms
+		for (row in level0.platforms)
 		{
-			self.platformArray.push(new Platform());
-			self.platformArray[self.platformArray.length - 1].SetPos(i*32, 480);
-			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+			for (col in level0.platforms[row])
+			{
+				if (level0.platforms[row][col] !== '.')
+				{
+					console.log(level0.platforms[row][col]);
+					self.platformArray.push(new Platform(level0.platforms[row][col]));
+					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
+					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+				}
+			}
 		}
-
-		for (var i = 0; i < 7; ++i)
-		{
-			self.platformArray.push(new Platform());
-			self.platformArray[self.platformArray.length - 1].SetPos(500, 480 - (i*32));
-			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
-
-			self.platformArray.push(new Platform());
-			self.platformArray[self.platformArray.length - 1].SetPos(532, 480 - (i*32));
-			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);			
-
-			self.platformArray.push(new Platform());
-			self.platformArray[self.platformArray.length - 1].SetPos(564, 480 - (i*32));
-			self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);						
-		}
-
-		self.platformArray.push(new Platform());
-		self.platformArray[self.platformArray.length - 1].SetPos(200, 200);
-		self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
-
-		self.platformArray.push(new Platform());
-		self.platformArray[self.platformArray.length - 1].SetPos(300, 300);
-		self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
-		//end test platforms
 
 		self.stage.addChild(self.player.sprite);
+		console.log('init end');
 	}
 
 
@@ -86,17 +79,19 @@ function GameLoop(){
 				//console.log('PROGRAM IS NOT KEEPING UP WITH TIMESTEP (IGNORE ON STARTUP)!');
 			}
 
-			// if ( self.logTime > 1000)
-			// {
-			// 	self.logTime = 0;
-			// 	console.log("x: " + self.player.bCol.position.x);
-			// 	console.log("y: " + self.player.bCol.position.y);
-			// }
+			//enemy movement
+			for (i in self.enemyArray)
+			{
+				self.enemyArray[i].update();
+			}
 			
+			//player movement
     		self.player.update();
 
-    		//check player collision with platform
+    		//check collisions with platform
     		self.player.setOnGround(false);
+
+    		//handle player bottom and top collision
 			for (i in self.platformArray)
 			{	    		
 				if ( collisionManager( self.player.bCol, self.platformArray[i].sprite) ) {
@@ -107,11 +102,11 @@ function GameLoop(){
 	    			//console.log('top collider triggered');
 	    			self.player.bumpHead(self.platformArray[i].sprite);
 	    		}
-    		
 			}
+
+			//handle player and enemy side collision
 			for (i in self.platformArray)
 			{	    
-
 	    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
 	    			//console.log('left collider triggered');
 	    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
@@ -120,7 +115,18 @@ function GameLoop(){
 	    			//console.log('right collider triggered');
 	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
 	    		}	
+
+	    		for ( e in self.enemyArray )
+	    		{
+	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
+	    			{
+	    				self.enemyArray[e].changeDirection();
+	    			}
+	    		}
 	    	}
+
+	    	//check enemy collision with platform
+
     	}
     	if  ( gameState === 'gameOver') {
     		self.stage.addChild(self.promptText);

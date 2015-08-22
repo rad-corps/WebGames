@@ -9,7 +9,7 @@ function Player(){
 	self.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
-	self.sprite.position.set(AH_GLOBALS.SCREEN_W/2, self.groundYPos);
+	
 	self.sprite.interactive = true;
 	self.sprite.on('mousedown', this.playerMouseDown);	
 
@@ -47,6 +47,12 @@ function Player(){
 	self.kS = keyboard(40);
 	self.kE = keyboard(39);
 	self.kW = keyboard(37);
+
+	this.setPos = function(row_, col_)
+	{
+		this.sprite.position.x = col_ * 32;
+		this.sprite.position.y = row_ * 32;
+	}
 
 	this.updateColliders = function()
 	{
@@ -136,8 +142,6 @@ function Player(){
 	this.playerMouseDown = function (){
 		console.log('playerMouseDown');
 	}
-
-
 
 	this.update = function()
 	{

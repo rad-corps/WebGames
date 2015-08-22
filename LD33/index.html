@@ -33,6 +33,7 @@
 	<script src="vector.js"></script>
     <script src="Rect.js"></script>
     <script src="Player.js"></script>
+    <script src="Enemy.js"></script>
     <script src="Platform.js"></script>
     <script src="Camera.js"></script>
     <script src="GameLoop.js"></script>
@@ -53,7 +54,18 @@ function preloadTextures() {
 	// create a new loader
 	var loader = PIXI.loader;
 	loader.add('player', './img/player.png');
-	loader.add('ground', './img/ground.png');
+	loader.add('enemy', './img/enemy.png');
+	loader.add('ground', './img/wall_stone_grass_1.png');
+	loader.add('wall_stone_grass_1', './img/wall_stone_grass_1.png');
+	loader.add('wall_stone_grass_2', './img/wall_stone_grass_2.png');
+	loader.add('wall_stone_grass_3', './img/wall_stone_grass_3.png');
+	loader.add('wall_stone_grass_4', './img/wall_stone_grass_4.png');
+	loader.add('wall_stone_grass_5', './img/wall_stone_grass_5.png');
+	loader.add('wall_stone_grass_6', './img/wall_stone_grass_6.png');
+	loader.add('wall_stone_grass_7', './img/wall_stone_grass_7.png');
+	loader.add('wall_stone_grass_8', './img/wall_stone_grass_8.png');
+	loader.add('wall_stone_grass_9', './img/wall_stone_grass_9.png');
+	
 	// use callback
 	loader.once('complete', onAssetsLoaded);
 	//begin load
@@ -77,17 +89,22 @@ function scaleSprite(sprite_){
 	// sprite_.scale.y = window.innerHeight / AH_GLOBALS.SCREEN_H;
 }
 
-function collisionManager(sprite1, sprite2)
+function collisionManager(sprite1, sprite2, scale)
 {
+	if ( !scale ){
+		scale = 1;
+		//console.log('setting scale to 1 as it is undefined');
+	}
+
 	//find left, right, top and bottom of sprite1
-	var l1 = sprite1.position.x - sprite1.width /2;
-	var r1 = sprite1.position.x + sprite1.width /2;
-	var t1 = sprite1.position.y + sprite1.height /2;
-	var b1 = sprite1.position.y - sprite1.height /2;
-	var l2 = sprite2.position.x - sprite2.width /2;
-	var r2 = sprite2.position.x + sprite2.width /2;
-	var t2 = sprite2.position.y + sprite2.height /2;
-	var b2 = sprite2.position.y - sprite2.height /2;
+	var l1 = sprite1.position.x - (sprite1.width  * scale) / 2;
+	var r1 = sprite1.position.x + (sprite1.width  * scale) / 2;
+	var t1 = sprite1.position.y + (sprite1.height * scale) / 2;
+	var b1 = sprite1.position.y - (sprite1.height * scale) / 2;
+	var l2 = sprite2.position.x - (sprite2.width  * scale) / 2;
+	var r2 = sprite2.position.x + (sprite2.width  * scale) / 2;
+	var t2 = sprite2.position.y + (sprite2.height * scale) / 2;
+	var b2 = sprite2.position.y - (sprite2.height * scale) / 2;
 
 	if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
 		return false;
