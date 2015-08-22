@@ -17,7 +17,7 @@ function GameLoop(){
 
 	this.init = function(){
 		console.log("init");
-		console.log(AH_GLOBALS.TIME_STEP);
+		console.log(AH_GLOBALS.FPS);
 
 		self.player = new Player();
 
@@ -69,11 +69,11 @@ function GameLoop(){
 		self.logTime += dt;
 
 		//console.log(self.timeSinceAnimate);
-		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.TIME_STEP) {
-			self.timeSinceAnimate -= AH_GLOBALS.TIME_STEP;
+		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
+			self.timeSinceAnimate -= AH_GLOBALS.FPS;
 
 			//if program is not keeping up report it
-			if (self.timeSinceAnimate > AH_GLOBALS.TIME_STEP )
+			if (self.timeSinceAnimate > AH_GLOBALS.FPS )
 			{
 				//console.log('PROGRAM IS NOT KEEPING UP WITH TIMESTEP (IGNORE ON STARTUP)!');
 			}

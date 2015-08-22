@@ -4,7 +4,7 @@ function Player(){
 	var self = this;
 
 	//just for testing until platforms are included
-	self.groundYPos = AH_GLOBALS.SCREEN_H/2;
+	//self.groundYPos = AH_GLOBALS.SCREEN_H/2;
 
 	self.sprite = PIXI.Sprite.fromImage("./img/player.png");
 	self.sprite.anchor.x = 0.5;
@@ -53,7 +53,7 @@ function Player(){
 		self.kNDown = true;	
 
 		if (self.onGround === true){
-			self.velocity._y = -15;
+			self.velocity._y = -AH_GLOBALS.JUMP_FORCE;
 			self.onGround = false;
 		}
 	}
@@ -128,9 +128,9 @@ function Player(){
 
 			//accellerate player
 			if ( self.kEDown === true )
-				self.velocity._x += 2;
+				self.velocity._x += 1;
 			if ( self.kWDown === true )
-				self.velocity._x -= 2;
+				self.velocity._x -= 1;
 
 
 			//dont go faster than max speed
@@ -146,7 +146,6 @@ function Player(){
 				self.velocity._x = 0.8 * self.velocity._x;
 			}
 			
-
 			self.sprite.position.x += self.velocity.getX();
 			self.sprite.position.y += self.velocity.getY();
 
@@ -169,16 +168,16 @@ function Player(){
 				{ 
 					if ( self.velocity._y < 0 )//not falling yet
 					{
-						self.velocity._y += 0.5; 
+						self.velocity._y += AH_GLOBALS.GRAV_HOLDING_JUMP_RISING; 
 					}
 					else if ( self.velocity._y >= 0 ) //although apply the more gravity if we are falling. 
 					{
-						self.velocity._y += 1; 	
+						self.velocity._y += AH_GLOBALS.GRAV_HOLDING_JUMP_FALLING; 	
 					}					
 				}
 				if ( self.kNDown === false ) 
 				{
-					self.velocity._y += 2;	
+					self.velocity._y += AH_GLOBALS.GRAV;	
 				}
 
 				// if ( self.sprite.position.y >= self.groundYPos )

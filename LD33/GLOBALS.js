@@ -8,9 +8,11 @@ var lastUpdate = Date.now();
 var AH_GLOBALS = { 
 	SCREEN_W: 848,
 	SCREEN_H: 480,
-	MAX_SPEED: 3.5,
-	ACCELLERATION: 0.15,
-	TIME_STEP: 30
+	GRAV_HOLDING_JUMP_RISING: 0.25,
+	GRAV_HOLDING_JUMP_FALLING : 0.5,
+	GRAV : 1,
+	JUMP_FORCE: 12,
+	FPS: 16.66666
 };
 
 var fontStyle = {
