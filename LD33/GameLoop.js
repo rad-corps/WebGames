@@ -23,6 +23,7 @@ function GameLoop(){
 
 		self.platformArray = [];
 
+		//some test platforms
 		for (var i = 0; i < 27; ++i)
 		{
 			self.platformArray.push(new Platform());
@@ -32,7 +33,11 @@ function GameLoop(){
 
 		self.platformArray.push(new Platform());
 		self.platformArray[self.platformArray.length - 1].SetPos(200, 200);
-		self.stage.addChild(self.platformArray[i].sprite);
+		self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+
+		self.platformArray.push(new Platform());
+		self.platformArray[self.platformArray.length - 1].SetPos(300, 300);
+		self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
 
 		self.stage.addChild(self.player.sprite);
 	}
