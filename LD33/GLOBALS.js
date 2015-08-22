@@ -21,11 +21,11 @@ var PLAYER_CONSTS = {
     ACCELL: 0.6,
 
     //player collider vars
-    T_COLLIDER_W: 10,
+    T_COLLIDER_W: 1,
     T_COLLIDER_H: 1,
     T_COLLIDER_OFFSET: 16,
 
-    B_COLLIDER_W: 8,
+    B_COLLIDER_W: 1,
     B_COLLIDER_H: 1,
     B_COLLIDER_OFFSET: 16,
 
