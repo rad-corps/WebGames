@@ -36,5 +36,4 @@ function Enemy(row_, col_)
 			self.direction = 'left';
 		}
 	}
-
 }

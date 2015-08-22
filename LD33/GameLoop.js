@@ -116,11 +116,20 @@ function GameLoop(){
 	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
 	    		}	
 
+	    		//check for enemy collisions
 	    		for ( e in self.enemyArray )
 	    		{
+	    			//collision with platforms
 	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
 	    			{
 	    				self.enemyArray[e].changeDirection();
+	    			}
+
+	    			//collision with player
+	    			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
+	    			{
+	    				console.log('Game Over');
+	    				gameState = 'gameOver';
 	    			}
 	    		}
 	    	}
@@ -129,6 +138,8 @@ function GameLoop(){
 
     	}
     	if  ( gameState === 'gameOver') {
+    		self.promptText = new PIXI.Text('GAME OVER', fontStyle);
+			self.promptText.position.set(self.player.sprite.position.x, self.player.sprite.position.y);
     		self.stage.addChild(self.promptText);
     		gameState = 'mainMenu';
     	}
