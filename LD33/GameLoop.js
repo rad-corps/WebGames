@@ -8,12 +8,33 @@ function GameLoop(){
 	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 	self.renderer.backgroundColor = 0xE0F0FF;
 
+	self.currentLevel = 0;
+	self.kSpace = keyboard(32);
+
 	//add it to the DOM body
 	document.body.appendChild(this.renderer.view);
 
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
 	//self.bgStage = new PIXI.Container();
+
+	this.cleanStage = function() {
+		while(self.stage.children.length > 0)
+		{ 
+  			var child = self.stage.getChildAt(0);
+  			self.stage.removeChild(child);
+		}
+	}
+
+	this.kSpace.press = function() {
+		console.log('space pressed');
+		console.log(gameState);
+		if (gameState === 'waitingToAdvance')
+		{
+			console.log('space pressed');
+			gameState = 'loadNewLevel';
+		}
+	}
 
 	this.init = function(){
 		console.log("init");
@@ -35,19 +56,19 @@ function GameLoop(){
 
 		//create the player
 		self.player = new Player();
-		self.player.setPos(levels[0].playerRow, levels[0].playerCol);
+		self.player.setPos(levels[self.currentLevel].playerRow, levels[self.currentLevel].playerCol);
 
 		self.platformArray = [];
 
 		//load platforms from level0.platforms
-		for (row in levels[0].platforms)
+		for (row in levels[self.currentLevel].platforms)
 		{
-			for (col in levels[0].platforms[row])
+			for (col in levels[self.currentLevel].platforms[row])
 			{
-				if (levels[0].platforms[row][col] !== '.')
+				if (levels[self.currentLevel].platforms[row][col] !== '.')
 				{
-					console.log(levels[0].platforms[row][col]);
-					self.platformArray.push(new Platform(levels[0].platforms[row][col]));
+					console.log(levels[self.currentLevel].platforms[row][col]);
+					self.platformArray.push(new Platform(levels[self.currentLevel].platforms[row][col]));
 					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
 					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
 				}
@@ -55,7 +76,7 @@ function GameLoop(){
 		}
 
 		//load the goal
-		self.goal = new Goal(levels[0].goalRow, levels[0].goalCol);
+		self.goal = new Goal(levels[self.currentLevel].goalRow, levels[self.currentLevel].goalCol);
 		self.stage.addChild(self.goal.sprite);
 		
 		self.stage.addChild(self.player.sprite);
@@ -79,6 +100,24 @@ function GameLoop(){
 		//fixed update step (30FPS)
 		self.timeSinceAnimate += dt;
 		self.logTime += dt;
+
+		if (gameState === 'levelComplete')
+		{
+			self.promptText = new PIXI.Text('PRESS SPACEBAR TO ADVANCE', fontStyle);
+			self.promptText.position.set(self.player.sprite.position.x, self.player.sprite.position.y);
+			self.stage.addChild(self.promptText);
+			gameState = 'waitingToAdvance';
+		}
+
+		if ( gameState === 'loadNewLevel' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
+			gameState = 'playing';
+			self.cleanStage();
+
+			//TODO: check for self.currentLevel === window.levels.length
+
+			self.currentLevel++;
+			self.init();
+		}
 
 		//console.log(self.timeSinceAnimate);
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
@@ -149,7 +188,8 @@ function GameLoop(){
 	    	if ( collisionManager( self.goal.sprite, self.player.sprite) )
 	    	{
 	    		console.log('Reached Goal');
-	    		gameState = 'loadNewLevel';
+	    		//gameState = 'loadNewLevel';
+	    		gameState = 'levelComplete';
 	    	}
     	}
     	if  ( gameState === 'gameOver') {

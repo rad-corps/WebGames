@@ -18,6 +18,7 @@
 		}
 	</style>
 	<script src="../bin/pixi.js"></script>
+	<script src="../bin/howler.js/howler.min.js"></script>
 
 </head>
 <body>
@@ -68,6 +69,22 @@ function preloadTextures() {
 	loader.add('wall_stone_grass_8', './img/wall_stone_grass_8.png');
 	loader.add('wall_stone_grass_9', './img/wall_stone_grass_9.png');
 	loader.add('bg1', './img/bg1.jpg');
+
+	//load sounds
+	soundStep = new Howl({
+  		urls: ['./sounds/footstep.wav'],
+  		volume: 0.2
+	});
+
+	soundLandJump = new Howl({
+  		urls: ['./sounds/landjump.wav'],
+  		volume: 0.2
+	});
+
+	soundJump = new Howl({
+  		urls: ['./sounds/jump.wav'],
+  		volume: 0.2
+	});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);

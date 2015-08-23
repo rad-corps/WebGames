@@ -10,6 +10,10 @@ function Player(){
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;	
 
+	self.timeSinceFootstep = 0;
+
+	self.wasInAir = false;
+
 	self.lCol = {};
 	self.rCol = {};
 	self.tCol = {};
@@ -70,6 +74,7 @@ function Player(){
 
 		if (self.onGround === true){
 			self.velocity._y = -PLAYER_CONSTS.JUMP_FORCE;
+			soundJump.play();
 			self.onGround = false;
 		}
 	}
@@ -106,6 +111,12 @@ function Player(){
 			//move player to the top of the ground
 			self.sprite.position.y = groundSprite_.position.y - 32;
 			self.updateColliders();
+
+			//play landing sound
+			if ( self.wasInAir === true )
+			{
+				soundLandJump.play();
+			}
 		}
 	}
 
@@ -150,6 +161,23 @@ function Player(){
 			if ( self.kWDown === true )
 				self.velocity._x -= PLAYER_CONSTS.ACCELL;
 
+			//play footstep sound
+			if ( self.kEDown === true || self.kWDown === true )
+			{
+				if ( self.onGround === true )
+				{					
+					self.timeSinceFootstep += AH_GLOBALS.FPS;
+
+					if ( self.timeSinceFootstep > 100 )
+					{
+						self.timeSinceFootstep = 0;
+						soundStep.play();
+					}
+				}
+
+			}
+			//self.timeSinceFootstep
+
 
 			//dont go faster than max speed
 			if ( self.velocity._x > self.maxSpeed)
@@ -174,6 +202,7 @@ function Player(){
 			//apply gravity if not on ground
 			if ( self.onGround === false )
 			{
+				self.wasInAir = true;
 				if ( self.kNDown === true ) //apply less gravity if still holding jump
 				{ 
 					if ( self.velocity._y < 0 )//not falling yet
@@ -189,13 +218,10 @@ function Player(){
 				{
 					self.velocity._y += PLAYER_CONSTS.GRAV;	
 				}
-
-				// if ( self.sprite.position.y >= self.groundYPos )
-				// {
-				// 	self.sprite.position.y = self.groundYPos;
-				// 	self.onGround = true;
-				// 	self.velocity._y = 0;
-				// }
+			}
+			else
+			{
+				self.wasInAir = false;
 			}
 		}
 	}
