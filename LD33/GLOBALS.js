@@ -8,7 +8,6 @@ var lastUpdate = Date.now();
 var AH_GLOBALS = { 
 	SCREEN_W: 848,
 	SCREEN_H: 480,
-
 	FPS: 16.66666
 };
 

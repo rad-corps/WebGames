@@ -3,6 +3,11 @@
 function Enemy(row_, col_)
 {
 	var self = this;
+
+	self.timeSinceProjectileThrown = 0;
+	self.whenNextProjectileWillBeThrown = 0;
+	self.readyToThrowProjectile = false;
+
 	self.sprite = PIXI.Sprite.fromImage("./img/enemy.png");
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
@@ -21,10 +26,17 @@ function Enemy(row_, col_)
 	self.brCol.height = 1;
 	self.brCol.width = 1;
 	self.brCol.position = {x : 0, y : 0};
-	
-
 
 	self.direction = 'left'; //can be left or right
+
+	this.randomiseProjectileFrequency = function()
+	{
+		//number between 2 and 5
+		self.whenNextProjectileWillBeThrown = (Math.random() * 3000) + 2000;
+		console.log(self.whenNextProjectileWillBeThrown);
+	}
+
+	self.randomiseProjectileFrequency();
 
 	this.updateColliders = function()
 	{
@@ -36,6 +48,17 @@ function Enemy(row_, col_)
 
 	this.update = function(environment_)
 	{
+		self.timeSinceProjectileThrown += AH_GLOBALS.FPS;
+		if ( self.timeSinceProjectileThrown > self.whenNextProjectileWillBeThrown )
+		{
+			//throw projectile
+			console.log('throw projectile');
+			self.readyToThrowProjectile = true;
+			self.randomiseProjectileFrequency();
+			self.timeSinceProjectileThrown = 0;
+		}
+
+
 		self.lastX = self.sprite.x;
 
 		if (self.direction === 'left')

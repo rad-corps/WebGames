@@ -71,7 +71,11 @@ function GameLoop(){
 		self.player = new Player();
 		self.player.setPos(levels[self.currentLevel].playerRow, levels[self.currentLevel].playerCol);
 
+		//create the platform array
 		self.platformArray = [];
+
+		//create the projectile array
+		self.projectileArray = [];
 
 		//set the world height
 		self.worldHeight = levels[self.currentLevel].platforms.length * 32;
@@ -185,10 +189,31 @@ function GameLoop(){
 			for (i in self.enemyArray)
 			{
 				self.enemyArray[i].update();
+
+				//do we need to throw a projectile at the player?
+				if ( self.enemyArray[i].readyToThrowProjectile === true )
+				{
+					console.log('dbg1');
+					//throw the projectile
+					self.projectileArray.push(new Projectile(self.enemyArray[i].sprite.position, self.player.sprite.position));
+					console.log('dbg2');
+					console.log(self.projectileArray.length);
+					self.stage.addChild(self.projectileArray[self.projectileArray.length - 1].sprite);
+
+					console.log('dbg3');
+					//turn off the enemy readyness var
+					self.enemyArray[i].readyToThrowProjectile = false;
+				}
 			}
 			
 			//player movement
     		self.player.update();
+
+    		//projectile movement
+    		for (i in self.projectileArray)
+    		{
+    			self.projectileArray[i].update();
+    		}
 
     		//check collisions with platform
     		self.player.setOnGround(false);
