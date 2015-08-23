@@ -3,6 +3,8 @@
 function Platform(platformType_) {
 	var self = this;
 
+    self.spike = false;
+
 	//self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_5.png");
 
 	switch (platformType_)
@@ -33,6 +35,22 @@ function Platform(platformType_) {
 
         case '9': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_9.png");
         break;
+
+        case 'v': self.sprite = PIXI.Sprite.fromImage("./img/spikes_down.png");
+        self.spike = true;
+        break;
+
+        case '^': self.sprite = PIXI.Sprite.fromImage("./img/spikes_up.png");
+        self.spike = true;
+        break;
+
+        case '<': self.sprite = PIXI.Sprite.fromImage("./img/spikes_left.png");
+        self.spike = true;
+        break;
+
+        case '>': self.sprite = PIXI.Sprite.fromImage("./img/spikes_right.png");
+        self.spike = true;
+        break;        
 
         default: console.log('unknown platform type: ' + platformType_);
     }

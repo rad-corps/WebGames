@@ -101,6 +101,11 @@ function GameLoop(){
 		requestAnimationFrame( this.animate );
 	}
 
+	this.gameOver = function() {
+		console.log('Game Over');
+	    gameState = 'gameOver';
+	}
+
 	this.animate = function(){
 
 		//calc delta
@@ -150,7 +155,6 @@ function GameLoop(){
 			self.currentLevel++;
 		}
 
-		//console.log(self.timeSinceAnimate);
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
 			self.timeSinceAnimate -= AH_GLOBALS.FPS;
 
@@ -185,7 +189,7 @@ function GameLoop(){
 	    		}
 			}
 
-			//handle player and enemy side collision
+			//handle player and enemy collision with platforms
 			for (i in self.platformArray)
 			{	    
 	    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
@@ -197,7 +201,7 @@ function GameLoop(){
 	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
 	    		}	
 
-	    		//check for enemy collisions
+	    		//check for enemy collisions with platforms
 	    		for ( e in self.enemyArray )
 	    		{
 	    			//enemy collision with platforms
@@ -205,14 +209,29 @@ function GameLoop(){
 	    			{
 	    				self.enemyArray[e].changeDirection();
 	    			}
+	    		}
+	    	}
 
-	    			//collision with player
-	    			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
+	    	//check for player collision with spike
+	    	for (i in self.platformArray)
+	    	{
+	    		if (self.platformArray[i].spike === true ) 
+	    		{
+	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite))
 	    			{
-	    				console.log('Game Over');
-	    				gameState = 'gameOver';
+	    				self.gameOver();
 	    			}
 	    		}
+	    	}
+
+	    	//enemy collision with player
+	    	for ( e in self.enemyArray )
+	    	{
+    			//enemy collision with player
+    			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
+    			{
+    				self.gameOver();
+    			}
 	    	}
 
 	    	//handle player goal collision 
