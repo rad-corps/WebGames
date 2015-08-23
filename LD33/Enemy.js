@@ -32,7 +32,7 @@ function Enemy(row_, col_)
 	this.randomiseProjectileFrequency = function()
 	{
 		//number between 2 and 5
-		self.whenNextProjectileWillBeThrown = (Math.random() * 3000) + 2000;
+		self.whenNextProjectileWillBeThrown = (Math.random() * 2000) + 1000;
 		console.log(self.whenNextProjectileWillBeThrown);
 	}
 
