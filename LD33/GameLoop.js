@@ -214,7 +214,7 @@ function GameLoop(){
     			for (t in self.platformArray)
     			{
     				//if projectile collides with platform or leaves screan boundary
-    				if ( collisionManager(self.platformArray[t].sprite, self.projectileArray[i].sprite, 0.7) 
+    				if ( collisionManager(self.platformArray[t].sprite, self.projectileArray[i].sprite, 0.5) 
     					|| self.projectileArray[i].sprite.x < 0 
     					|| self.projectileArray[i].sprite.x > self.worldWidth 
 						|| self.projectileArray[i].sprite.y < 0
