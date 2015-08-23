@@ -69,6 +69,7 @@ function preloadTextures() {
 	loader.add('wall_stone_grass_8', './img/wall_stone_grass_8.png');
 	loader.add('wall_stone_grass_9', './img/wall_stone_grass_9.png');
 	loader.add('bg1', './img/bg1.jpg');
+	loader.add('mainMenu', './img/mainMenu.png');
 
 	//load sounds
 	soundStep = new Howl({
@@ -94,7 +95,7 @@ function preloadTextures() {
 
 function startGame() {		
 	//gameLoop.init();
-	gameState = 'playing';
+	gameState = 'showMainMenu';
 }
 
 function playAgain() {

@@ -10,6 +10,7 @@ function GameLoop(){
 
 	self.currentLevel = 0;
 	self.kSpace = keyboard(32);
+	self.kEsc = keyboard(27);
 
 	//add it to the DOM body
 	document.body.appendChild(this.renderer.view);
@@ -33,6 +34,15 @@ function GameLoop(){
 		{
 			console.log('space pressed');
 			gameState = 'loadNewLevel';
+		}
+	}
+
+	this.kEsc.press = function() {
+		console.log('esc pressed');
+		if (gameState === 'waitingToAdvance')
+		{
+			self.cleanStage();
+			gameState = 'showMainMenu';
 		}
 	}
 
@@ -101,6 +111,27 @@ function GameLoop(){
 		self.timeSinceAnimate += dt;
 		self.logTime += dt;
 
+		if ( gameState === 'showMainMenu')
+		{
+			self.stage.position.x = 0;
+			self.stage.position.y = 0;
+			//show main menu bg image
+			self.mainMenuSprite = PIXI.Sprite.fromImage("./img/mainMenu.png");
+			self.mainMenuSprite.position.x = 0;
+			self.mainMenuSprite.position.y = 0;
+			//self.mainMenuSprite.anchor.x = 0.5;
+			//self.mainMenuSprite.anchor.y = 0.5;
+			self.stage.addChild(self.mainMenuSprite);
+
+
+			//add main menu text
+			self.promptText = new PIXI.Text('PRESS SPACE TO START', fontStyle);
+			self.promptText.position.set(220, 100);
+    		self.stage.addChild(self.promptText);
+
+    		gameState = 'waitingToAdvance';
+		}
+
 		if (gameState === 'levelComplete')
 		{
 			self.promptText = new PIXI.Text('PRESS SPACEBAR TO ADVANCE', fontStyle);
@@ -113,10 +144,9 @@ function GameLoop(){
 			gameState = 'playing';
 			self.cleanStage();
 
-			//TODO: check for self.currentLevel === window.levels.length
-
-			self.currentLevel++;
+			//TODO: check for self.currentLevel === window.levels.length			
 			self.init();
+			self.currentLevel++;
 		}
 
 		//console.log(self.timeSinceAnimate);
@@ -194,9 +224,19 @@ function GameLoop(){
     	}
     	if  ( gameState === 'gameOver') {
     		self.promptText = new PIXI.Text('GAME OVER', fontStyle);
-			self.promptText.position.set(self.player.sprite.position.x, self.player.sprite.position.y);
+			self.promptText2 = new PIXI.Text('SPACE - RESTART LEVEL', fontStyle);
+			self.promptText3 = new PIXI.Text('ESC - EXIT TO MENU ', fontStyle);
+			
+			self.promptText.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y);
+			self.promptText2.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 40);
+			self.promptText3.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 80);
+
     		self.stage.addChild(self.promptText);
-    		gameState = 'mainMenu';
+    		self.stage.addChild(self.promptText2);
+    		self.stage.addChild(self.promptText3);
+    		
+    		self.currentLevel--;
+    		gameState = 'waitingToAdvance';
     	}
 
     	//update the bg position
@@ -204,8 +244,12 @@ function GameLoop(){
     	self.bgSprite.position.y = self.player.sprite.position.y - self.player.sprite.position.y * 0.1;
 
     	//set the stage position to the player position
-    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
-    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
+    	if ( gameState === 'playing')
+    	{
+	    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
+	    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
+	    }
+
     	
     	//render
     	self.renderer.render(self.stage);	
