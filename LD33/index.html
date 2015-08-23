@@ -76,16 +76,16 @@ function preloadTextures() {
 	loader.add('mainMenu', './img/mainMenu.png');
 
 	//load sounds
-	soundStep1 = new Howl({urls: ['./sounds/footstep1.wav'],volume: 0.2});
-	soundStep2 = new Howl({urls: ['./sounds/footstep2.wav'],volume: 0.2});
-	soundLandJump = new Howl({urls: ['./sounds/landjump.wav'],volume: 0.2});
-	soundJump = new Howl({urls: ['./sounds/jump.wav'],volume: 0.2});
-	soundFallThrough = new Howl({urls: ['./sounds/fallThrough.wav'],volume: 0.2});
-	soundSpikeDeath = new Howl({urls: ['./sounds/spikeDeath.wav'],volume: 0.2});
-	soundHitByEnemy = new Howl({urls: ['./sounds/hitByEnemy.wav'],volume: 0.2});
-	soundGoal = new Howl({urls: ['./sounds/goal.wav'],volume: 0.2});
+	soundStep1 = new Howl({urls: ['./sounds/running1.mp3'],volume: 0.2});
+	soundStep2 = new Howl({urls: ['./sounds/running2.mp3'],volume: 0.2});
+	soundLandJump = new Howl({urls: ['./sounds/landing.mp3'],volume: 0.2});
+	soundJump = new Howl({urls: ['./sounds/jumping2.mp3'],volume: 0.1});
+	soundFallThrough = new Howl({urls: ['./sounds/death_fall.mp3'],volume: 0.2});
+	soundSpikeDeath = new Howl({urls: ['./sounds/death_spike.mp3'],volume: 0.2});
+	soundHitByEnemy = new Howl({urls: ['./sounds/collision.mp3'],volume: 0.2});
+	soundGoal = new Howl({urls: ['./sounds/goal.mp3'],volume: 0.2});
 	soundMainMenu = new Howl({urls: ['./sounds/main_menu.mp3'],volume: 0.2, loop: true});
-	soundGameBG = new Howl({urls: ['./sounds/game_bg.mp3'],volume: 0.2, loop: true});
+	soundGameBG = new Howl({urls: ['./sounds/game_music.mp3'],volume: 0.2, loop: true});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);
