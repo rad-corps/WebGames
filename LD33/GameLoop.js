@@ -266,7 +266,10 @@ function GameLoop(){
 	    		console.log('Reached Goal');
 	    		//gameState = 'loadNewLevel';
 	    		gameState = 'levelComplete';
+	    		soundMainMenu.stop();
+	    		soundGameBG.stop();
 	    		soundGoal.play();
+
 	    	}
     	}
     	if  ( gameState === 'gameOver') {
