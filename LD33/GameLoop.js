@@ -25,7 +25,7 @@ function GameLoop(){
   			var child = self.stage.getChildAt(0);
   			self.stage.removeChild(child);
 		}
-		self.player = {};
+		self.player = {};		
 	}
 
 	this.kSpace.press = function() {
@@ -42,7 +42,7 @@ function GameLoop(){
 		console.log('esc pressed');
 		if (gameState === 'waitingToAdvance')
 		{
-			self.cleanStage();
+			self.cleanStage();			
 			gameState = 'showMainMenu';
 		}
 	}
@@ -135,6 +135,7 @@ function GameLoop(){
 			self.promptText.position.set(220, 100);
     		self.stage.addChild(self.promptText);
 
+			self.currentLevel = 0;
     		gameState = 'waitingToAdvance';
 		}
 
