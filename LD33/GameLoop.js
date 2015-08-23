@@ -231,7 +231,7 @@ function GameLoop(){
 	    		for ( e in self.enemyArray )
 	    		{
 	    			//enemy collision with platforms
-	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.05) )
+	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
 	    			{
 	    				self.enemyArray[e].changeDirection();
 	    			}
