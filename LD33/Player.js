@@ -20,6 +20,7 @@ function Player(){
 	self.sprite.anchor.y = 0.5;	
 
 	self.timeSinceFootstep = 0;
+	self.timeSinceLand = 0;
 	self.stepNum = 0;
 
 	self.wasInAir = false;
@@ -132,16 +133,17 @@ function Player(){
 			if ( self.wasInAir === true )
 			{
 				soundLandJump.play();
+				self.sprite.texture = self.textureLand;
+				self.timeSinceLand = 0;
+				self.wasInAir = false;
 			}
 		}
 	}
 
 	this.bumpHead = function(groundSprite_)
 	{
-		console.log('bump head');
 		if ( self.velocity._y < 0 )
 		{
-			console.log('inverting velocity');
 			self.velocity._y = -self.velocity._y;
 		}
 	}
@@ -171,6 +173,8 @@ function Player(){
 	{
 		if ( gameState === 'playing'){ 
 
+			self.timeSinceLand += AH_GLOBALS.FPS;
+
 			//accellerate player
 			if ( self.kEDown === true )
 				self.velocity._x += PLAYER_CONSTS.ACCELL;
@@ -183,15 +187,19 @@ function Player(){
 				if ( self.onGround === true )
 				{					
 					self.timeSinceFootstep += AH_GLOBALS.FPS;
+					
 
 					if ( self.timeSinceFootstep > 100 )
 					{
+						//animate player and play footstep sounds
 						if ( self.stepNum % 2 === 0)
-						{						
+						{			
+							self.sprite.texture = self.textureRun1;
 							soundStep1.play();
 						}
 						else
 						{
+							self.sprite.texture = self.textureRun2;
 							soundStep2.play();	
 						}
 
@@ -199,10 +207,19 @@ function Player(){
 						self.timeSinceFootstep = 0;
 					}
 				}
-
 			}
-			//self.timeSinceFootstep
-
+			//set texture to idle
+			else if (self.onGround === true)
+			{
+				if ( self.timeSinceLand < 100 )
+				{
+					self.sprite.texture = self.textureLand;	
+				}
+				else
+				{
+					self.sprite.texture = self.textureIdle;
+				}
+			}
 
 			//dont go faster than max speed
 			if ( self.velocity._x > self.maxSpeed)
@@ -222,8 +239,6 @@ function Player(){
 
 			self.updateColliders();
 
-			//console.log(self.lCol);
-
 			//apply gravity if not on ground
 			if ( self.onGround === false )
 			{
@@ -232,15 +247,18 @@ function Player(){
 				{ 
 					if ( self.velocity._y < 0 )//not falling yet
 					{
+						self.sprite.texture = self.textureJump1;
 						self.velocity._y += PLAYER_CONSTS.GRAV_HOLDING_JUMP_RISING; 
 					}
 					else if ( self.velocity._y >= 0 ) //although apply the more gravity if we are falling. 
 					{
+						self.sprite.texture = self.textureJump2;
 						self.velocity._y += PLAYER_CONSTS.GRAV_HOLDING_JUMP_FALLING; 	
 					}					
 				}
 				if ( self.kNDown === false ) 
 				{
+					self.sprite.texture = self.textureJump2;
 					self.velocity._y += PLAYER_CONSTS.GRAV;	
 				}
 			}

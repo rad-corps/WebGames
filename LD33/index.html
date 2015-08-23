@@ -55,7 +55,19 @@ function preloadTextures() {
 	
 	// create a new loader
 	var loader = PIXI.loader;
+
+	// self.textureRun1 = PIXI.Texture.fromImage("./img/player_run1.png");
+	// self.textureRun2 = PIXI.Texture.fromImage("./img/player_run2.png");
+	// self.textureJump1 = PIXI.Texture.fromImage("./img/player_jump1.png");
+	// self.textureJump2 = PIXI.Texture.fromImage("./img/player_jump2.png");
+	// self.textureLand = PIXI.Texture.fromImage("./img/player_land.png");
+
 	loader.add('player', './img/player.png');
+	loader.add('player_run1', './img/player_run1.png');
+	loader.add('player_run2', './img/player_run2.png');
+	loader.add('player_jump1', './img/player_jump1.png');
+	loader.add('player_jump2', './img/player_jump2.png');
+	loader.add('player_land', './img/player_land.png');
 	loader.add('enemy', './img/enemy.png');
 	loader.add('ground', './img/wall_stone_grass_1.png');
 	loader.add('goal', './img/goal.png');
