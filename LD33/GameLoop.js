@@ -195,35 +195,43 @@ function GameLoop(){
 
     		//handle player bottom and top collision
 			for (i in self.platformArray)
-			{	    		
-				if ( collisionManager( self.player.bCol, self.platformArray[i].sprite) ) {
-	    			//console.log('bottom collider triggered');
-	    			self.player.setOnGround(true, self.platformArray[i].sprite);
-	    		}
-				if ( collisionManager( self.player.tCol, self.platformArray[i].sprite) ) {
-	    			//console.log('top collider triggered');
-	    			self.player.bumpHead(self.platformArray[i].sprite);
-	    			soundHeadBump.play();
-	    		}
+			{	    
+				if (self.platformArray[i].spike === false ) 		
+				{
+					if ( collisionManager( self.player.bCol, self.platformArray[i].sprite) ) {
+
+		    			//console.log('bottom collider triggered');
+		    			self.player.setOnGround(true, self.platformArray[i].sprite);
+		    		}
+					if ( collisionManager( self.player.tCol, self.platformArray[i].sprite) ) {
+		    			//console.log('top collider triggered');
+		    			self.player.bumpHead(self.platformArray[i].sprite);
+		    			soundHeadBump.play();
+		    		}
+		    	}
 			}
 
 			//handle player and enemy collision with platforms
 			for (i in self.platformArray)
 			{	    
-	    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
-	    			//console.log('left collider triggered');
-	    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
-	    		}
-				if ( collisionManager( self.player.rCol, self.platformArray[i].sprite) ) {
-	    			//console.log('right collider triggered');
-	    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
-	    		}	
+				//handle player left/right collision with platforms
+				if (self.platformArray[i].spike === false ) 	
+				{
+		    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
+		    			//console.log('left collider triggered');
+		    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
+		    		}
+					if ( collisionManager( self.player.rCol, self.platformArray[i].sprite) ) {
+		    			//console.log('right collider triggered');
+		    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
+		    		}	
+		    	}
 
 	    		//check for enemy collisions with platforms
 	    		for ( e in self.enemyArray )
 	    		{
 	    			//enemy collision with platforms
-	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
+	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.05) )
 	    			{
 	    				self.enemyArray[e].changeDirection();
 	    			}
@@ -235,7 +243,7 @@ function GameLoop(){
 	    	{
 	    		if (self.platformArray[i].spike === true ) 
 	    		{
-	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite))
+	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite, 0.75))
 	    			{
 	    				self.gameOver();
 	    				soundSpikeDeath.play();
