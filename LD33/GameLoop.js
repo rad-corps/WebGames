@@ -251,6 +251,32 @@ function GameLoop(){
 	    		}
 	    	}
 
+	    	
+	    	//check if enemy needs to turn around due to an edge
+	    	for (e in self.enemyArray)
+	    	{
+	    		var enemyLColOnGround = false;
+	    		var enemyRColOnGround = false;
+
+
+	    		for ( i in self.platformArray )
+	    		{
+		    		if (collisionManager( self.enemyArray[e].blCol, self.platformArray[i].sprite) )
+	    			{
+	    				enemyLColOnGround = true;
+	    			}
+	    			if (collisionManager( self.enemyArray[e].brCol, self.platformArray[i].sprite) )
+	    			{
+	    				enemyRColOnGround = true;
+	    			}
+	    		}
+
+	    		if (enemyLColOnGround === false || enemyRColOnGround === false)
+	    		{
+	    			self.enemyArray[e].changeDirection();
+	    		}
+	    	}
+
 	    	//check if player has fallen through the world
 			if ( self.player.sprite.position.y > self.worldHeight + 300 )
 			{
