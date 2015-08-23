@@ -203,6 +203,7 @@ function GameLoop(){
 				if ( collisionManager( self.player.tCol, self.platformArray[i].sprite) ) {
 	    			//console.log('top collider triggered');
 	    			self.player.bumpHead(self.platformArray[i].sprite);
+	    			soundHeadBump.play();
 	    		}
 			}
 
