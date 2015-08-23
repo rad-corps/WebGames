@@ -79,6 +79,7 @@ function GameLoop(){
 
 		//set the world height
 		self.worldHeight = levels[self.currentLevel].platforms.length * 32;
+		self.worldWidth = levels[self.currentLevel].platforms[0].length * 32;
 		console.log('worldHeight: ' + self.worldHeight);
 
 		//load platforms from level0.platforms
@@ -193,14 +194,10 @@ function GameLoop(){
 				//do we need to throw a projectile at the player?
 				if ( self.enemyArray[i].readyToThrowProjectile === true )
 				{
-					console.log('dbg1');
 					//throw the projectile
 					self.projectileArray.push(new Projectile(self.enemyArray[i].sprite.position, self.player.sprite.position));
-					console.log('dbg2');
 					console.log(self.projectileArray.length);
 					self.stage.addChild(self.projectileArray[self.projectileArray.length - 1].sprite);
-
-					console.log('dbg3');
 					//turn off the enemy readyness var
 					self.enemyArray[i].readyToThrowProjectile = false;
 				}
@@ -213,6 +210,44 @@ function GameLoop(){
     		for (i in self.projectileArray)
     		{
     			self.projectileArray[i].update();
+
+    			for (t in self.platformArray)
+    			{
+    				//if projectile collides with platform or leaves screan boundary
+    				if ( collisionManager(self.platformArray[t].sprite, self.projectileArray[i].sprite, 0.7) 
+    					|| self.projectileArray[i].sprite.x < 0 
+    					|| self.projectileArray[i].sprite.x > self.worldWidth 
+						|| self.projectileArray[i].sprite.y < 0
+						|| self.projectileArray[i].sprite.y > self.worldHeight 
+    					)
+    				{
+    					//flag it for removal
+    					self.projectileArray[i].flagForRemoval = true;
+    					self.stage.removeChild(self.projectileArray[i].sprite);
+    				}
+    			}
+    		}
+
+    		//TODO remove projectiles flagged for removal
+    		for(var i = self.projectileArray.length - 1; i >= 0; i--) 
+    		{
+    			if(self.projectileArray[i].flagForRemoval === true) 
+    			{
+    				console.log('projectiles before removal' + self.projectileArray.length);
+       				self.projectileArray.splice(i, 1);
+       				console.log('projectiles after removal' + self.projectileArray.length);
+    			}
+			}
+
+    		
+    		//check if projectile collided with player
+    		for (i in self.projectileArray)
+    		{
+    			if ( collisionManager(self.player.sprite, self.projectileArray[i].sprite, 0.75))
+    			{
+    				self.gameOver();
+					soundSpikeFire.play();
+    			}
     		}
 
     		//check collisions with platform
