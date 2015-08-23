@@ -11,6 +11,7 @@ function Player(){
 	self.sprite.anchor.y = 0.5;	
 
 	self.timeSinceFootstep = 0;
+	self.stepNum = 0;
 
 	self.wasInAir = false;
 
@@ -70,8 +71,8 @@ function Player(){
 	}
 
 	this.kData.press = function() {	
-		console.log('w: ' + self.sprite.width);
-		console.log('h: ' + self.sprite.height);
+		console.log('x: ' + self.sprite.position.x);
+		console.log('y: ' + self.sprite.position.y);
 	}
 
 	//jump key
@@ -176,8 +177,17 @@ function Player(){
 
 					if ( self.timeSinceFootstep > 100 )
 					{
+						if ( self.stepNum % 2 === 0)
+						{						
+							soundStep1.play();
+						}
+						else
+						{
+							soundStep2.play();	
+						}
+
+ 						++self.stepNum;
 						self.timeSinceFootstep = 0;
-						soundStep.play();
 					}
 				}
 

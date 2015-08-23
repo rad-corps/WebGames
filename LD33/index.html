@@ -76,20 +76,14 @@ function preloadTextures() {
 	loader.add('mainMenu', './img/mainMenu.png');
 
 	//load sounds
-	soundStep = new Howl({
-  		urls: ['./sounds/footstep.wav'],
-  		volume: 0.2
-	});
-
-	soundLandJump = new Howl({
-  		urls: ['./sounds/landjump.wav'],
-  		volume: 0.2
-	});
-
-	soundJump = new Howl({
-  		urls: ['./sounds/jump.wav'],
-  		volume: 0.2
-	});
+	soundStep1 = new Howl({urls: ['./sounds/footstep1.wav'],volume: 0.2});
+	soundStep2 = new Howl({urls: ['./sounds/footstep2.wav'],volume: 0.2});
+	soundLandJump = new Howl({urls: ['./sounds/landjump.wav'],volume: 0.2});
+	soundJump = new Howl({urls: ['./sounds/jump.wav'],volume: 0.2});
+	soundFallThrough = new Howl({urls: ['./sounds/fallThrough.wav'],volume: 0.2});
+	soundSpikeDeath = new Howl({urls: ['./sounds/spikeDeath.wav'],volume: 0.2});
+	soundHitByEnemy = new Howl({urls: ['./sounds/hitByEnemy.wav'],volume: 0.2});
+	soundGoal = new Howl({urls: ['./sounds/goal.wav'],volume: 0.2});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);

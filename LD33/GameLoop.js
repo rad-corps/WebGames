@@ -61,9 +61,9 @@ function GameLoop(){
 		//the list of enemies
 		self.enemyArray = [];
 
-		//create a test Enemy
-		self.enemyArray.push(new Enemy(12,15));
-		self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
+		// //create a test Enemy
+		// self.enemyArray.push(new Enemy(12,15));
+		// self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
 
 		//create the player
 		self.player = new Player();
@@ -71,17 +71,28 @@ function GameLoop(){
 
 		self.platformArray = [];
 
+		//set the world height
+		self.worldHeight = levels[self.currentLevel].platforms.length * 32;
+		console.log('worldHeight: ' + self.worldHeight);
+
 		//load platforms from level0.platforms
 		for (row in levels[self.currentLevel].platforms)
 		{
 			for (col in levels[self.currentLevel].platforms[row])
 			{
-				if (levels[self.currentLevel].platforms[row][col] !== '.')
+				if (levels[self.currentLevel].platforms[row][col] !== '.'
+					&& levels[self.currentLevel].platforms[row][col] !== 'e'
+					)
 				{
 					//console.log(levels[self.currentLevel].platforms[row][col]);
 					self.platformArray.push(new Platform(levels[self.currentLevel].platforms[row][col]));
 					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
 					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
+				}
+				else if (levels[self.currentLevel].platforms[row][col] == 'e')
+				{
+					self.enemyArray.push(new Enemy(row, col));
+					self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
 				}
 			}
 		}
@@ -221,9 +232,17 @@ function GameLoop(){
 	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite))
 	    			{
 	    				self.gameOver();
+	    				soundSpikeDeath.play();
 	    			}
 	    		}
 	    	}
+
+	    	//check if player has fallen through the world
+			if ( self.player.sprite.position.y > self.worldHeight + 300 )
+			{
+				soundFallThrough.play();
+				self.gameOver();
+			}
 
 	    	//enemy collision with player
 	    	for ( e in self.enemyArray )
@@ -232,6 +251,7 @@ function GameLoop(){
     			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
     			{
     				self.gameOver();
+    				soundHitByEnemy.play();
     			}
 	    	}
 
@@ -241,6 +261,7 @@ function GameLoop(){
 	    		console.log('Reached Goal');
 	    		//gameState = 'loadNewLevel';
 	    		gameState = 'levelComplete';
+	    		soundGoal.play();
 	    	}
     	}
     	if  ( gameState === 'gameOver') {
