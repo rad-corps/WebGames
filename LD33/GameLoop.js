@@ -35,6 +35,8 @@ function GameLoop(){
 		{
 			console.log('space pressed');
 			gameState = 'loadNewLevel';
+			soundMainMenu.stop();
+			soundGameBG.stop();
 		}
 	}
 
@@ -148,6 +150,7 @@ function GameLoop(){
 
 			self.currentLevel = 0;
     		gameState = 'waitingToAdvance';
+    		soundMainMenu.play();
 		}
 
 		if (gameState === 'levelComplete')
@@ -165,6 +168,8 @@ function GameLoop(){
 			//TODO: check for self.currentLevel === window.levels.length			
 			self.init();
 			self.currentLevel++;
+			console.log('soundGameBG.play()');
+			soundGameBG.play();			
 		}
 
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
@@ -279,6 +284,7 @@ function GameLoop(){
     		
     		self.currentLevel--;
     		gameState = 'waitingToAdvance';
+    		soundGameBG.stop();
     	}
 
     	//update the bg position

@@ -84,6 +84,8 @@ function preloadTextures() {
 	soundSpikeDeath = new Howl({urls: ['./sounds/spikeDeath.wav'],volume: 0.2});
 	soundHitByEnemy = new Howl({urls: ['./sounds/hitByEnemy.wav'],volume: 0.2});
 	soundGoal = new Howl({urls: ['./sounds/goal.wav'],volume: 0.2});
+	soundMainMenu = new Howl({urls: ['./sounds/main_menu.mp3'],volume: 0.2, loop: true});
+	soundGameBG = new Howl({urls: ['./sounds/game_bg.mp3'],volume: 0.2, loop: true});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);
