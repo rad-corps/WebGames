@@ -45,9 +45,9 @@
 function onAssetsLoaded(){
 
 	window.gameLoop = new GameLoop();
-	window.gameLoop.init();
+//	window.gameLoop.init();
+	gameState = 'showMainMenu';
 	window.gameLoop.run();
-	startGame();
 	document.getElementById("loader").style.display = "none";
 }
 
@@ -93,16 +93,6 @@ function preloadTextures() {
 	loader.load();
 }
 
-function startGame() {		
-	//gameLoop.init();
-	gameState = 'showMainMenu';
-}
-
-function playAgain() {
-	startGame();
-	window.blackHole.SetPos(new PIXI.Point(AH_GLOBALS.SCREEN_W/2, AH_GLOBALS.SCREEN_H/2));
-}
-
 function scaleSprite(sprite_){
 	
 	//commented out to remove scaling
@@ -118,14 +108,14 @@ function collisionManager(sprite1, sprite2, scale)
 	}
 
 	//find left, right, top and bottom of sprite1
-	var l1 = sprite1.position.x - (sprite1.width  * scale) / 2;
-	var r1 = sprite1.position.x + (sprite1.width  * scale) / 2;
-	var t1 = sprite1.position.y + (sprite1.height * scale) / 2;
-	var b1 = sprite1.position.y - (sprite1.height * scale) / 2;
-	var l2 = sprite2.position.x - (sprite2.width  * scale) / 2;
-	var r2 = sprite2.position.x + (sprite2.width  * scale) / 2;
-	var t2 = sprite2.position.y + (sprite2.height * scale) / 2;
-	var b2 = sprite2.position.y - (sprite2.height * scale) / 2;
+	var l1 = sprite1.position.x - (Math.abs(sprite1.width)  * scale) / 2;
+	var r1 = sprite1.position.x + (Math.abs(sprite1.width) * scale) / 2;
+	var t1 = sprite1.position.y + (Math.abs(sprite1.height) * scale) / 2;
+	var b1 = sprite1.position.y - (Math.abs(sprite1.height) * scale) / 2;
+	var l2 = sprite2.position.x - (Math.abs(sprite2.width) * scale) / 2;
+	var r2 = sprite2.position.x + (Math.abs(sprite2.width) * scale) / 2;
+	var t2 = sprite2.position.y + (Math.abs(sprite2.height) * scale) / 2;
+	var b2 = sprite2.position.y - (Math.abs(sprite2.height) * scale) / 2;
 
 	if (r1 < l2 || r2 < l1 || b1 > t2 || t1 < b2){
 		return false;

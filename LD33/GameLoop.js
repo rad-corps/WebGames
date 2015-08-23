@@ -25,6 +25,7 @@ function GameLoop(){
   			var child = self.stage.getChildAt(0);
   			self.stage.removeChild(child);
 		}
+		self.player = {};
 	}
 
 	this.kSpace.press = function() {
@@ -77,7 +78,7 @@ function GameLoop(){
 			{
 				if (levels[self.currentLevel].platforms[row][col] !== '.')
 				{
-					console.log(levels[self.currentLevel].platforms[row][col]);
+					//console.log(levels[self.currentLevel].platforms[row][col]);
 					self.platformArray.push(new Platform(levels[self.currentLevel].platforms[row][col]));
 					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
 					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
@@ -240,12 +241,14 @@ function GameLoop(){
     	}
 
     	//update the bg position
-    	self.bgSprite.position.x = self.player.sprite.position.x - self.player.sprite.position.x * 0.1;
-    	self.bgSprite.position.y = self.player.sprite.position.y - self.player.sprite.position.y * 0.1;
+
 
     	//set the stage position to the player position
     	if ( gameState === 'playing')
     	{
+	    	self.bgSprite.position.x = self.player.sprite.position.x - self.player.sprite.position.x * 0.1;
+    		self.bgSprite.position.y = self.player.sprite.position.y - self.player.sprite.position.y * 0.1;	    	
+
 	    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
 	    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
 	    }

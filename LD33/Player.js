@@ -48,11 +48,12 @@ function Player(){
 	self.kS = keyboard(40);
 	self.kE = keyboard(39);
 	self.kW = keyboard(37);
+	self.kData = keyboard(68);
 
 	this.setPos = function(row_, col_)
 	{
-		this.sprite.position.x = col_ * 32;
-		this.sprite.position.y = row_ * 32;
+		self.sprite.position.x = col_ * 32;
+		self.sprite.position.y = row_ * 32;
 	}
 
 	this.updateColliders = function()
@@ -66,7 +67,12 @@ function Player(){
 		self.bCol.position.y = self.sprite.position.y + PLAYER_CONSTS.B_COLLIDER_OFFSET;
 		self.tCol.position.x = self.sprite.position.x;
 		self.tCol.position.y = self.sprite.position.y - PLAYER_CONSTS.T_COLLIDER_OFFSET;
-	}	
+	}
+
+	this.kData.press = function() {	
+		console.log('w: ' + self.sprite.width);
+		console.log('h: ' + self.sprite.height);
+	}
 
 	//jump key
 	this.kN.press = function() {
