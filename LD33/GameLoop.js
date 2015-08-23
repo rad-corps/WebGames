@@ -77,6 +77,9 @@ function GameLoop(){
 		//create the projectile array
 		self.projectileArray = [];
 
+		//create the flame array
+		self.flameArray = [];
+
 		//set the world height
 		self.worldHeight = levels[self.currentLevel].platforms.length * 32;
 		self.worldWidth = levels[self.currentLevel].platforms[0].length * 32;
@@ -206,6 +209,23 @@ function GameLoop(){
 			//player movement
     		self.player.update();
 
+    		//update flames
+    		for (i in self.flameArray)
+    		{
+    			self.flameArray[i].update();
+    		}
+
+    		//remove flames flagged for deletion
+    		for(var i = self.flameArray.length - 1; i >= 0; i--) 
+    		{
+    			if(self.flameArray[i].flaggedForRemoval === true) 
+    			{
+    				console.log('remove flame');
+    				self.stage.removeChild(self.flameArray[i].sprite);
+       				self.flameArray.splice(i, 1);
+    			}
+			}
+
     		//projectile movement
     		for (i in self.projectileArray)
     		{
@@ -213,29 +233,37 @@ function GameLoop(){
 
     			for (t in self.platformArray)
     			{
-    				//if projectile collides with platform or leaves screan boundary
-    				if ( collisionManager(self.platformArray[t].sprite, self.projectileArray[i].sprite, 0.5) 
-    					|| self.projectileArray[i].sprite.x < 0 
+    				//if projectile collides with platform 
+    				if ( collisionManager(self.platformArray[t].sprite, self.projectileArray[i].sprite, 0.5)  )
+    				{
+    					//create a flame in its place
+    					self.flameArray.push(new Flame(self.projectileArray[i].sprite.position, self.projectileArray[i].sprite.rotation));
+    					self.stage.addChild(self.flameArray[self.flameArray.length - 1].sprite);
+
+    					//flag it for removal
+    					self.projectileArray[i].flagForRemoval = true;
+    					self.stage.removeChild(self.projectileArray[i].sprite);
+
+    				}
+    				//if projectile leaves screan boundary
+    				else if (self.projectileArray[i].sprite.x < 0 
     					|| self.projectileArray[i].sprite.x > self.worldWidth 
 						|| self.projectileArray[i].sprite.y < 0
-						|| self.projectileArray[i].sprite.y > self.worldHeight 
-    					)
+						|| self.projectileArray[i].sprite.y > self.worldHeight )
     				{
-    					//flag it for removal
+    					 //flag it for removal
     					self.projectileArray[i].flagForRemoval = true;
     					self.stage.removeChild(self.projectileArray[i].sprite);
     				}
     			}
     		}
 
-    		//TODO remove projectiles flagged for removal
+    		//remove projectiles flagged for removal
     		for(var i = self.projectileArray.length - 1; i >= 0; i--) 
     		{
     			if(self.projectileArray[i].flagForRemoval === true) 
     			{
-    				console.log('projectiles before removal' + self.projectileArray.length);
        				self.projectileArray.splice(i, 1);
-       				console.log('projectiles after removal' + self.projectileArray.length);
     			}
 			}
 
@@ -244,6 +272,16 @@ function GameLoop(){
     		for (i in self.projectileArray)
     		{
     			if ( collisionManager(self.player.sprite, self.projectileArray[i].sprite, 0.75))
+    			{
+    				self.gameOver();
+					soundSpikeFire.play();
+    			}
+    		}
+
+    		//check if flame collided with player
+    		for (i in self.flameArray)
+    		{
+    			if ( collisionManager(self.player.sprite, self.flameArray[i].sprite, 0.75))
     			{
     				self.gameOver();
 					soundSpikeFire.play();
