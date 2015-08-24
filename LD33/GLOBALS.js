@@ -159,7 +159,7 @@ var level0 = {
     goalRow: 17,
     goalCol: 38,
 
-    parTime: 3000
+    parTime: 1848
 };
 
 
@@ -205,7 +205,7 @@ var level1 = {
     goalRow: 26,
     goalCol: 29,
 
-    parTime: 2000
+    parTime: 1562
 };
 
 var level2 = {
@@ -255,7 +255,7 @@ var level2 = {
     goalRow: 20,
     goalCol: 55,
 
-    parTime: 2000
+    parTime: 4565
 };
 
 
@@ -306,7 +306,7 @@ var level3 = {
     goalRow: 20,
     goalCol: 55,
 
-    parTime: 2000
+    parTime: 3795
 };
 
 
@@ -358,7 +358,7 @@ var level4 = {
     goalRow: 17,
     goalCol: 28,
 
-    parTime: 2000
+    parTime: 4213
 };
 
 var level5 = {
@@ -416,7 +416,7 @@ var level5 = {
     goalRow: 25,
     goalCol: 18,
 
-    parTime: 2000
+    parTime: 11550
 };
 
 var level6 = {
@@ -457,7 +457,7 @@ var level6 = {
     goalRow: 5,
     goalCol: 9,
 
-    parTime: 2000
+    parTime: 16808
 };
 
 var level7 = {
@@ -500,7 +500,7 @@ var level7 = {
     goalRow: 9,
     goalCol: 16,
 
-    parTime: 2000
+    parTime: 11440
 };
 
 var level8 = {
@@ -548,7 +548,7 @@ var level8 = {
     goalRow: 0,
     goalCol: 12,
 
-    parTime: 2000
+    parTime: 5000
 };
 
 var level9 = {
@@ -579,7 +579,7 @@ var level9 = {
     goalRow: 13,
     goalCol: 97,
 
-    parTime: 2000
+    parTime: 7172
 };
 
 
