@@ -73,7 +73,6 @@ function Enemy(row_, col_, playerPosition_)
 			self.pauseTime += AH_GLOBALS.FPS;
 			if ( self.pauseTime > 300 )
 			{
-				console.log('throwing projectile finished');
 				self.pauseAfterThrowingProjectile = false;
 			}
 		}
@@ -83,8 +82,6 @@ function Enemy(row_, col_, playerPosition_)
 			self.pauseTime += AH_GLOBALS.FPS;
 			if ( self.pauseTime > 400 )
 			{
-
-				console.log('throw projectile');
 				self.pauseToThrowProjectile = false;
 				self.readyToThrowProjectile = true;
 				self.pauseAfterThrowingProjectile = true;
@@ -115,7 +112,6 @@ function Enemy(row_, col_, playerPosition_)
 			if ( self.timeSinceProjectileThrown > self.whenNextProjectileWillBeThrown )
 			{
 				//throw projectile
-				console.log('pause to throw projectile');
 				self.pauseToThrowProjectile = true;				
 				self.pauseTime = 0;
 				self.sprite.texture = self.textures[2];
@@ -134,7 +130,6 @@ function Enemy(row_, col_, playerPosition_)
 				}
 
 			}
-
 
 			self.lastX = self.sprite.x;
 
