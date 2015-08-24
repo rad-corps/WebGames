@@ -63,10 +63,6 @@ function GameLoop(){
 		//the list of enemies
 		self.enemyArray = [];
 
-		// //create a test Enemy
-		// self.enemyArray.push(new Enemy(12,15));
-		// self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
-
 		//create the player
 		self.player = new Player();
 		self.player.setPos(levels[self.currentLevel].playerRow, levels[self.currentLevel].playerCol);
@@ -101,7 +97,7 @@ function GameLoop(){
 				}
 				else if (levels[self.currentLevel].platforms[row][col] == 'e')
 				{
-					self.enemyArray.push(new Enemy(row, col));
+					self.enemyArray.push(new Enemy(row, col, self.player.sprite.position));
 					self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
 				}
 			}
