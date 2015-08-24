@@ -39,7 +39,7 @@ function GameLoop(){
 	}
 
 	this.kEsc.press = function() {
-		if (gameState === 'waitingToAdvance')
+		if (gameState === 'waitingToAdvance' || gameState === 'gameComplete')
 		{
 			self.cleanStage();			
 			gameState = 'showMainMenu';
@@ -181,10 +181,61 @@ function GameLoop(){
 			gameState = 'playing';
 			self.cleanStage();
 
-			//TODO: check for self.currentLevel === window.levels.length			
-			self.init();
-			self.currentLevel++;
-			soundGameBG.play();			
+			//If Game Complete		
+			if ( self.currentLevel === levels.length )
+			{
+				gameState = 'gameComplete';
+
+				self.stage.position.x = 0;
+				self.stage.position.y = 0;
+				//load the game_complete sprite and display
+				self.gameCompleteSprite = PIXI.Sprite.fromImage("./img/game_complete.png");
+				self.gameCompleteSprite.position.x = 0;
+				self.gameCompleteSprite.position.y = 0;
+				self.stage.addChild(self.gameCompleteSprite);
+
+				self.pixiText = [];
+
+				var yOffset = 35;
+				var xOffset = 60;
+
+				
+
+				self.pixiText.push(new PIXI.Text('PROGRAMMING ', creditFont));
+				self.pixiText.push(new PIXI.Text('ADAM HULBERT', creditFont));
+				self.pixiText.push(new PIXI.Text('adamhportfolio.com', creditFont));
+				self.pixiText.push(new PIXI.Text('ART', creditFont));
+				self.pixiText.push(new PIXI.Text('JAVIER MUNOZ', creditFont));
+				self.pixiText.push(new PIXI.Text('javier.munoz@students.aie.edu.au', creditFont));
+				self.pixiText.push(new PIXI.Text('SOUND DESIGN', creditFont));
+				self.pixiText.push(new PIXI.Text('GERANT KENNETH', creditFont));
+				self.pixiText.push(new PIXI.Text('gerantgerant.com', creditFont));
+				self.pixiText.push(new PIXI.Text(AH_GLOBALS.GAME_TITLE, fontStyle));
+				self.pixiText.push(new PIXI.Text('ESC - MAIN MENU', fontStyle));
+				
+				self.pixiText[0].position.set(423 + xOffset, 60 + yOffset);				
+				self.pixiText[1].position.set(420 + xOffset, 80 + yOffset);				
+				self.pixiText[2].position.set(418 + xOffset, 100 + yOffset);
+				self.pixiText[3].position.set(464 + xOffset, 140  + yOffset );				
+				self.pixiText[4].position.set(425 + xOffset, 160 + yOffset );				
+				self.pixiText[5].position.set(380 + xOffset, 180 + yOffset );
+				self.pixiText[6].position.set(425 + xOffset, 220 + yOffset );				
+				self.pixiText[7].position.set(410 + xOffset, 240 + yOffset );				
+				self.pixiText[8].position.set(429 + xOffset, 260 + yOffset );
+				self.pixiText[9].position.set(360 + xOffset, 40 );
+				self.pixiText[10].position.set(325 + xOffset, 330 );
+				
+				for ( i in self.pixiText )
+				{					
+					self.stage.addChild(self.pixiText[i]);
+				}
+			}
+			else
+			{	
+				self.init();
+				self.currentLevel++;
+				soundGameBG.play();			
+			}
 		}
 
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
