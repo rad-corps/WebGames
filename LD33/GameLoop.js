@@ -160,7 +160,7 @@ function GameLoop(){
 		if (gameState === 'levelComplete')
 		{
 			self.promptText = new PIXI.Text('PRESS SPACEBAR TO ADVANCE', fontStyle);
-			self.promptText.position.set(self.player.sprite.position.x, self.player.sprite.position.y);
+			self.promptText.position.set(self.player.sprite.position.x - 300, self.player.sprite.position.y - 70);
 			self.stage.addChild(self.promptText);
 			gameState = 'waitingToAdvance';
 		}
