@@ -149,7 +149,7 @@ function GameLoop(){
 
 			//add main menu text
 			self.promptText = new PIXI.Text('PRESS SPACE TO START', fontStyle);
-			self.promptText.position.set(220, 100);
+			self.promptText.position.set(340, 320);
     		self.stage.addChild(self.promptText);
 
 			self.currentLevel = 0;

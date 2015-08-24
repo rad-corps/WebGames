@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="52" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="LD33" tilewidth="32" tileheight="32" tilecount="14">
+  <tile id="0">
+   <image width="32" height="32" source="../img/torch.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="../img/wall_stone_grass_1.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../img/wall_stone_grass_2.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="../img/wall_stone_grass_3.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="../img/wall_stone_grass_4.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="../img/wall_stone_grass_5.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="../img/wall_stone_grass_6.png"/>
+  </tile>
+  <tile id="7">
+   <image width="32" height="32" source="../img/wall_stone_grass_7.png"/>
+  </tile>
+  <tile id="8">
+   <image width="32" height="32" source="../img/wall_stone_grass_8.png"/>
+  </tile>
+  <tile id="9">
+   <image width="32" height="32" source="../img/wall_stone_grass_9.png"/>
+  </tile>
+  <tile id="10">
+   <image width="32" height="32" source="../img/spikes_down.png"/>
+  </tile>
+  <tile id="11">
+   <image width="32" height="32" source="../img/spikes_left.png"/>
+  </tile>
+  <tile id="12">
+   <image width="32" height="32" source="../img/spikes_right.png"/>
+  </tile>
+  <tile id="13">
+   <image width="32" height="32" source="../img/spikes_up.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="52" height="32">
+  <data encoding="base64" compression="zlib">
+   eJzt14sKgCAMBdDRU4v6/8+toIGIVhPTGndwIVDKo9ljIKIhISPJq0+8VonAAw888HAWeOB5ObMyDznHGp4HWjzHfTYp8rilwbM60eAJBR54Snvai3QBT+P14T15dZ620DyMD9pzrU9NT3OujRYP1xc9PNcSD++JkMfssRU9XBKP2x4r6fhyefxvAonnSOw5Zyp57ub/ab9QScYITzkPv1Ml1/qyJ2Vs8OT32DP8X/t3T6ze9mx3fCCE
+  </data>
+ </layer>
+</map>
