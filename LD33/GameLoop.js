@@ -11,6 +11,7 @@ function GameLoop(){
 	self.currentLevel = 0;
 	self.kSpace = keyboard(32);
 	self.kEsc = keyboard(27);
+	self.kTee = keyboard(84);
 
 	//add it to the DOM body
 	document.body.appendChild(this.renderer.view);
@@ -29,11 +30,8 @@ function GameLoop(){
 	}
 
 	this.kSpace.press = function() {
-		console.log('space pressed');
-		console.log(gameState);
 		if (gameState === 'waitingToAdvance')
 		{
-			console.log('space pressed');
 			gameState = 'loadNewLevel';
 			soundMainMenu.stop();
 			soundGameBG.stop();
@@ -41,7 +39,6 @@ function GameLoop(){
 	}
 
 	this.kEsc.press = function() {
-		console.log('esc pressed');
 		if (gameState === 'waitingToAdvance')
 		{
 			self.cleanStage();			
@@ -49,9 +46,15 @@ function GameLoop(){
 		}
 	}
 
+	this.kTee.press = function(){
+		console.log('self.player pos x: ' + self.player.sprite.position.x + ' y: ' + self.player.sprite.position.y);
+		console.log('self.stage pos x: ' + -self.stage.position.x + ' y: ' + -self.stage.position.y);
+		console.log('self.stage bound x: ' + (-self.stage.position.x  + AH_GLOBALS.SCREEN_W) + ' y: ' + (-self.stage.position.y + AH_GLOBALS.SCREEN_H));
+		console.log('enemy pos x: ' + self.enemyArray[0].sprite.position.x + ' y: ' + self.enemyArray[0].sprite.position.y);
+
+	}
+
 	this.init = function(){
-		console.log("init");
-		console.log(AH_GLOBALS.FPS);
 
 		//load the background and add it to the scene
 		self.bgSprite = PIXI.Sprite.fromImage("./img/bg1.jpg");
@@ -79,7 +82,6 @@ function GameLoop(){
 		//set the world height
 		self.worldHeight = levels[self.currentLevel].platforms.length * 32;
 		self.worldWidth = levels[self.currentLevel].platforms[0].length * 32;
-		console.log('worldHeight: ' + self.worldHeight);
 
 		//load platforms from level0.platforms
 		for (row in levels[self.currentLevel].platforms)
@@ -90,7 +92,6 @@ function GameLoop(){
 					&& levels[self.currentLevel].platforms[row][col] !== 'e'
 					)
 				{
-					//console.log(levels[self.currentLevel].platforms[row][col]);
 					self.platformArray.push(new Platform(levels[self.currentLevel].platforms[row][col]));
 					self.platformArray[self.platformArray.length - 1].SetPos(col*32, row*32);
 					self.stage.addChild(self.platformArray[self.platformArray.length - 1].sprite);
@@ -108,7 +109,6 @@ function GameLoop(){
 		self.stage.addChild(self.goal.sprite);
 		
 		self.stage.addChild(self.player.sprite);
-		console.log('init end');
 	}
 
 
@@ -119,8 +119,20 @@ function GameLoop(){
 	}
 
 	this.gameOver = function() {
-		console.log('Game Over');
 	    gameState = 'gameOver';
+	}
+
+	this.isOnScreen = function(position_)
+	{
+		//work out screen boundaries
+		if (position_.x < -self.stage.position.x
+			|| position_.x > -self.stage.position.x + AH_GLOBALS.SCREEN_W
+			|| position_.y < -self.stage.position.y 
+			|| position_.y > -self.stage.position.y + AH_GLOBALS.SCREEN_H)
+		{
+			return false;
+		}
+		return true;
 	}
 
 	this.animate = function(){
@@ -172,7 +184,6 @@ function GameLoop(){
 			//TODO: check for self.currentLevel === window.levels.length			
 			self.init();
 			self.currentLevel++;
-			console.log('soundGameBG.play()');
 			soundGameBG.play();			
 		}
 
@@ -188,18 +199,20 @@ function GameLoop(){
 			//enemy movement
 			for (i in self.enemyArray)
 			{
-				self.enemyArray[i].update();
-
-				//do we need to throw a projectile at the player?
-				if ( self.enemyArray[i].readyToThrowProjectile === true )
+				if ( self.isOnScreen(self.enemyArray[i].sprite.position) )
 				{
-					//throw the projectile
-					self.projectileArray.push(new Projectile(self.enemyArray[i].sprite.position, self.player.sprite.position));
-					console.log(self.projectileArray.length);
-					self.stage.addChild(self.projectileArray[self.projectileArray.length - 1].sprite);
-					soundThrowTorch.play();
-					//turn off the enemy readyness var
-					self.enemyArray[i].readyToThrowProjectile = false;
+					self.enemyArray[i].update();
+
+					//do we need to throw a projectile at the player?
+					if ( self.enemyArray[i].readyToThrowProjectile === true )
+					{
+						//throw the projectile
+						self.projectileArray.push(new Projectile(self.enemyArray[i].sprite.position, self.player.sprite.position));
+						self.stage.addChild(self.projectileArray[self.projectileArray.length - 1].sprite);
+						soundThrowTorch.play();
+						//turn off the enemy readyness var
+						self.enemyArray[i].readyToThrowProjectile = false;
+					}
 				}
 			}
 			
@@ -217,7 +230,6 @@ function GameLoop(){
     		{
     			if(self.flameArray[i].flaggedForRemoval === true) 
     			{
-    				console.log('remove flame');
     				self.stage.removeChild(self.flameArray[i].sprite);
        				self.flameArray.splice(i, 1);
     			}
@@ -243,16 +255,6 @@ function GameLoop(){
     					self.projectileArray[i].flagForRemoval = true;
     					self.stage.removeChild(self.projectileArray[i].sprite);
 
-    				}
-    				//if projectile leaves screan boundary
-    				else if (self.projectileArray[i].sprite.x < 0 
-    					|| self.projectileArray[i].sprite.x > self.worldWidth 
-						|| self.projectileArray[i].sprite.y < 0
-						|| self.projectileArray[i].sprite.y > self.worldHeight )
-    				{
-    					 //flag it for removal
-    					self.projectileArray[i].flagForRemoval = true;
-    					self.stage.removeChild(self.projectileArray[i].sprite);
     				}
     			}
     		}
@@ -338,6 +340,7 @@ function GameLoop(){
 	    	//check for player collision with spike
 	    	for (i in self.platformArray)
 	    	{
+	    		//is it a spike?
 	    		if (self.platformArray[i].spike === true ) 
 	    		{
 	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite, 0.75))
@@ -395,7 +398,6 @@ function GameLoop(){
 	    	//handle player goal collision 
 	    	if ( collisionManager( self.goal.sprite, self.player.sprite) )
 	    	{
-	    		console.log('Reached Goal');
 	    		//gameState = 'loadNewLevel';
 	    		gameState = 'levelComplete';
 	    		soundMainMenu.stop();

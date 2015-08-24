@@ -154,20 +154,18 @@ function Player(){
 
 		if ( direction_ === 'right')
 		{
-			console.log('RIGHT');
 			self.sprite.position.x = groundSprite_.position.x - 32;	
 		}
 		else
 		{
-			console.log('LEFT');
 			self.sprite.position.x = groundSprite_.position.x + 32;	
 		}
 		self.updateColliders();
 	}
 
-	this.playerMouseDown = function (){
-		console.log('playerMouseDown');
-	}
+	// this.playerMouseDown = function (){
+	// 	console.log('playerMouseDown');
+	// }
 
 	this.update = function()
 	{

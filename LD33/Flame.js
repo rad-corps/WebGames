@@ -13,7 +13,7 @@ function Flame(pos_, rotation_)
 
 
 
-	self.sprite = PIXI.Sprite.fromImage("./img/flame.png");
+	self.sprite = PIXI.Sprite.fromImage("./img/flame1.png");
 	self.sprite.position.x = pos_.x;
 	self.sprite.position.y = pos_.y;
 	self.timeSinceCreation = 0;
@@ -23,10 +23,7 @@ function Flame(pos_, rotation_)
 	self.sprite.anchor.y = 0.5;
 	self.sprite.rotation = rotation_;
 
-	
-
-
-	self.sprite.blendMode = PIXI.blendModes.ADD;
+	self.sprite.blendMode = PIXI.BLEND_MODES.ADD;
 	//self.sprite.blendMode = PIXI.blendModes.MULTIPLY;
 	//self.sprite.blendMode = PIXI.blendModes.SCREEN;
 
@@ -47,7 +44,6 @@ function Flame(pos_, rotation_)
 
 		if ( self.timeSinceCreation > 1200 )
 		{
-			console.log('flame flaggedForRemoval');
 			self.flaggedForRemoval = true;
 		}
 	}

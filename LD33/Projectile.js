@@ -36,8 +36,6 @@ function Projectile(from_, to_)
 	self.velocity = vector2.create();
 	self.velocity = self.direction.multiply(6);
 
-	console.log('direction x' + self.direction._x + ' y ' + self.direction._y);
-
 	this.update = function()
 	{
 		//effect velocity by gravity

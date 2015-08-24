@@ -48,7 +48,6 @@ function Enemy(row_, col_, playerPosition_)
 	{
 		//number between 2 and 5
 		self.whenNextProjectileWillBeThrown = (Math.random() * 2000) + 1000;
-		console.log(self.whenNextProjectileWillBeThrown);
 	}
 
 	self.randomiseProjectileFrequency();
@@ -69,7 +68,6 @@ function Enemy(row_, col_, playerPosition_)
 		//do the thrown stance
 		if ( self.pauseAfterThrowingProjectile === true)
 		{
-			console.log('pauseAfterThrowingProjectile');
 			self.pauseTime += AH_GLOBALS.FPS;
 			if ( self.pauseTime > 300 )
 			{
