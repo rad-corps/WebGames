@@ -482,7 +482,7 @@ function GameLoop(){
     	if ( gameState === 'playing')
     	{
 	    	self.bgSprite.position.x = self.player.sprite.position.x - self.player.sprite.position.x * 0.1;
-    		self.bgSprite.position.y = self.player.sprite.position.y - self.player.sprite.position.y * 0.1;	    	
+    		self.bgSprite.position.y = (self.player.sprite.position.y - self.player.sprite.position.y * 0.1);	    	
 
 	    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
 	    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
