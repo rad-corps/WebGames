@@ -65,9 +65,6 @@ function Enemy(row_, col_, playerPosition_)
 		self.timeSinceProjectileThrown += AH_GLOBALS.FPS;
 		self.animationTime += AH_GLOBALS.FPS;
 
-
-
-
 		//while pausing to throw the projectile
 		if ( self.pauseToThrowProjectile === true )
 		{

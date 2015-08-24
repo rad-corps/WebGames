@@ -13,7 +13,7 @@ function Projectile(from_, to_)
 	self.sprite.anchor.y = 0.5;
 	self.flagForRemoval = false;
 
-	self.sprite.blendMode = PIXI.blendModes.MULTIPLY;
+	//self.sprite.blendMode = PIXI.blendModes.MULTIPLY;
 
 	//create a direction vector and normalise it
 	self.from = vector2.create();
