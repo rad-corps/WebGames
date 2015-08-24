@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-down" width="32" height="32" tilewidth="32" tileheight="32" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="100" height="16" tilewidth="32" tileheight="32" nextobjectid="1">
  <tileset firstgid="1" name="LD33" tilewidth="32" tileheight="32" tilecount="15">
   <tile id="0">
    <image width="32" height="32" source="../img/torch.png"/>
@@ -47,9 +47,9 @@
    <image width="32" height="32" source="../img/enemy_run1.png"/>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="32" height="32">
+ <layer name="Tile Layer 1" width="100" height="16">
   <data encoding="base64" compression="zlib">
-   eJztlMEKABAQRIUDLv7/b1HcFG0yG/NqzlMzs2uMfmyV6/IA/1AVuxLA/xbMeU0G+7OjPZgTBuR9tM4RXQ9a59q75l3soeHPc8tzJBs+uXvJhm/unts9lzH/5fv83HEBI0sCNQ==
+   eJztltsKgCAQBZcK6d7//232VIjgcb2w5g7MY5s4KBoi2kCNWtyDcLSXrB4h0HOm7er0iEGbyeqB0GMvyT1C/PFubLkHSkvNeuiBIKWZ9sCp0Ut75CNHrxZ7XMLmoCB9pPfw7dlgnZjznm9HR+6sVHxdpPXw7RciymxdHNdMa+fybVKrR+27IQYJa9vp7cF5B5wBc86KscQbNOWfsWvj9lDLeAN+4hcl
   </data>
  </layer>
 </map>

@@ -10,6 +10,7 @@ function GameLoop(){
 
 	self.currentLevel = 0;
 	self.kSpace = keyboard(32);
+	self.kR = keyboard(82);
 	self.kEsc = keyboard(27);
 	self.kTee = keyboard(84);
 
@@ -30,11 +31,24 @@ function GameLoop(){
 	}
 
 	this.kSpace.press = function() {
+		if ( self.deactivateSpace === false )
+		{
+			if (gameState === 'waitingToAdvance')
+			{
+				gameState = 'loadNewLevel';
+				soundMainMenu.stop();
+				soundGameBG.stop();
+			}
+		}
+	}
+
+	this.kR.press = function() {
 		if (gameState === 'waitingToAdvance')
 		{
 			gameState = 'loadNewLevel';
 			soundMainMenu.stop();
 			soundGameBG.stop();
+			self.currentLevel--;
 		}
 	}
 
@@ -62,6 +76,9 @@ function GameLoop(){
 		self.bgSprite.anchor.y = 0.5;
 		self.bgSprite.scale = {x: 2, y: 2};
 		self.stage.addChild(self.bgSprite);
+		
+		self.deactivateSpace = true;
+
 
 		//the list of enemies
 		self.enemyArray = [];
@@ -109,6 +126,18 @@ function GameLoop(){
 		self.stage.addChild(self.goal.sprite);
 		
 		self.stage.addChild(self.player.sprite);
+
+		//current time variable and text
+		self.currentTime = 0.0;
+		self.timeText = new PIXI.Text('time: ' + self.currentTime, timeFont);
+		self.stage.addChild(self.timeText);
+
+		//par time variable and text
+		self.parTime = levels[self.currentLevel].parTime;
+		self.parText = new PIXI.Text('PAR: ' + (self.parTime / 1000).toFixed(2), timeParFont);
+		self.stage.addChild(self.parText);
+
+		self.timeText.text = 'TIME: ' + (self.currentTime / 1000).toFixed(2);
 	}
 
 
@@ -166,14 +195,32 @@ function GameLoop(){
 
 			self.currentLevel = 0;
     		gameState = 'waitingToAdvance';
+    		self.deactivateSpace = false;
     		soundMainMenu.play();
 		}
 
 		if (gameState === 'levelComplete')
 		{
-			self.promptText = new PIXI.Text('PRESS SPACEBAR TO ADVANCE', fontStyle);
-			self.promptText.position.set(self.player.sprite.position.x - 300, self.player.sprite.position.y - 70);
-			self.stage.addChild(self.promptText);
+
+			self.textArray = [];
+
+			self.textArray.push(new PIXI.Text('PRESS SPACEBAR TO ADVANCE', fontStyle));
+			self.textArray.push(new PIXI.Text('PRESS R TO RETRY LEVEL', fontStyle));
+			self.textArray[0].position.set(self.player.sprite.position.x - 300, self.player.sprite.position.y - 70);
+			self.textArray[1].position.set(self.player.sprite.position.x - 260, self.player.sprite.position.y - 110);
+
+			if ( self.currentTime <= self.parTime ) 
+			{
+				self.textArray.push(new PIXI.Text('GREAT TIME!', fontStyle));
+				self.textArray[2].position.set(self.player.sprite.position.x - 160, self.player.sprite.position.y - 150);
+			}
+
+			for (i in self.textArray)
+			{
+				self.stage.addChild(self.textArray[i]);
+			}
+
+			self.deactivateSpace = false;
 			gameState = 'waitingToAdvance';
 		}
 
@@ -197,7 +244,7 @@ function GameLoop(){
 				self.pixiText = [];
 
 				var yOffset = 35;
-				var xOffset = 60;
+				var xOffset = -60;
 
 				
 
@@ -240,6 +287,17 @@ function GameLoop(){
 
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
 			self.timeSinceAnimate -= AH_GLOBALS.FPS;
+			self.currentTime += AH_GLOBALS.FPS;
+
+			//show current time
+			self.timeText.text = 'TIME: ' + (self.currentTime / 1000).toFixed(2);
+
+			//set colour if par has lapsed
+			if ( self.currentTime > self.parTime)
+			{
+				self.timeText.style = timeLateFont;
+			}
+			
 
 			//if program is not keeping up report it
 			if (self.timeSinceAnimate > AH_GLOBALS.FPS )
@@ -459,19 +517,20 @@ function GameLoop(){
     	}
     	if  ( gameState === 'gameOver') {
     		self.promptText = new PIXI.Text('GAME OVER', fontStyle);
-			self.promptText2 = new PIXI.Text('SPACE - RESTART LEVEL', fontStyle);
+			self.promptText2 = new PIXI.Text('R - RESTART LEVEL', fontStyle);
 			self.promptText3 = new PIXI.Text('ESC - EXIT TO MENU ', fontStyle);
 			
-			self.promptText.position.set(self.player.sprite.position.x - 130, self.player.sprite.position.y - 70);
-			self.promptText2.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 30);
-			self.promptText3.position.set(self.player.sprite.position.x - 170, self.player.sprite.position.y + 80);
+			self.promptText.position.set(self.player.sprite.position.x - 120, self.player.sprite.position.y - 70);
+			self.promptText2.position.set(self.player.sprite.position.x - 180, self.player.sprite.position.y + 30);
+			self.promptText3.position.set(self.player.sprite.position.x - 185, self.player.sprite.position.y + 80);
 
     		self.stage.addChild(self.promptText);
     		self.stage.addChild(self.promptText2);
     		self.stage.addChild(self.promptText3);
     		
-    		self.currentLevel--;
+    		//self.currentLevel--;
     		gameState = 'waitingToAdvance';
+    		self.deactivateSpace = true;
     		soundGameBG.stop();
     	}
 
@@ -486,6 +545,9 @@ function GameLoop(){
 
 	    	self.stage.position.x = -self.player.sprite.position.x + AH_GLOBALS.SCREEN_W / 2;
 	    	self.stage.position.y = -self.player.sprite.position.y + AH_GLOBALS.SCREEN_H / 2;
+
+	    	self.timeText.position.set(-self.stage.position.x + 10, -self.stage.position.y + 10);
+	    	self.parText.position.set(-self.stage.position.x + 20, -self.stage.position.y + 40);
 	    }
 
     	
