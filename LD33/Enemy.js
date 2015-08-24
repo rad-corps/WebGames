@@ -14,6 +14,7 @@ function Enemy(row_, col_, playerPosition_)
 	self.pauseTime = 0;
 	self.readyToThrowProjectile = false;
 	self.pauseToThrowProjectile = false;
+	self.pauseAfterThrowingProjectile = false;
 
 	self.sprite = PIXI.Sprite.fromImage("./img/enemy_run1.png");
 	self.sprite.anchor.x = 0.5;
@@ -65,8 +66,19 @@ function Enemy(row_, col_, playerPosition_)
 		self.timeSinceProjectileThrown += AH_GLOBALS.FPS;
 		self.animationTime += AH_GLOBALS.FPS;
 
+		//do the thrown stance
+		if ( self.pauseAfterThrowingProjectile === true)
+		{
+			console.log('pauseAfterThrowingProjectile');
+			self.pauseTime += AH_GLOBALS.FPS;
+			if ( self.pauseTime > 300 )
+			{
+				console.log('throwing projectile finished');
+				self.pauseAfterThrowingProjectile = false;
+			}
+		}
 		//while pausing to throw the projectile
-		if ( self.pauseToThrowProjectile === true )
+		else if ( self.pauseToThrowProjectile === true )
 		{
 			self.pauseTime += AH_GLOBALS.FPS;
 			if ( self.pauseTime > 400 )
@@ -75,8 +87,11 @@ function Enemy(row_, col_, playerPosition_)
 				console.log('throw projectile');
 				self.pauseToThrowProjectile = false;
 				self.readyToThrowProjectile = true;
+				self.pauseAfterThrowingProjectile = true;
 				self.timeSinceProjectileThrown = 0;
-				self.randomiseProjectileFrequency();
+				self.sprite.texture = self.textures[3];
+				self.randomiseProjectileFrequency();				
+				self.pauseTime = 0;
 			}
 		}
 		else //normal patrolling state
