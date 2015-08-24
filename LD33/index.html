@@ -102,6 +102,8 @@ function preloadTextures() {
 	soundMainMenu = new Howl({urls: ['./sounds/menu_music.wav'],volume: 0.4, loop: true});
 	soundGameBG = new Howl({urls: ['./sounds/game_music.wav'],volume: 0.2, loop: true});
 	soundHeadBump = new Howl({urls: ['./sounds/head_bump.mp3'],volume: 0.2});
+	soundTerrainFlame = new Howl({urls: ['./sounds/terrain_flame.mp3'],volume: 0.15});
+	soundThrowTorch = new Howl({urls: ['./sounds/throw_torch.mp3'],volume: 0.15});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);

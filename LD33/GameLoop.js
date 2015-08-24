@@ -197,6 +197,7 @@ function GameLoop(){
 					self.projectileArray.push(new Projectile(self.enemyArray[i].sprite.position, self.player.sprite.position));
 					console.log(self.projectileArray.length);
 					self.stage.addChild(self.projectileArray[self.projectileArray.length - 1].sprite);
+					soundThrowTorch.play();
 					//turn off the enemy readyness var
 					self.enemyArray[i].readyToThrowProjectile = false;
 				}
@@ -235,6 +236,8 @@ function GameLoop(){
     					//create a flame in its place
     					self.flameArray.push(new Flame(self.projectileArray[i].sprite.position, self.projectileArray[i].sprite.rotation));
     					self.stage.addChild(self.flameArray[self.flameArray.length - 1].sprite);
+
+    					soundTerrainFlame.play();
 
     					//flag it for removal
     					self.projectileArray[i].flagForRemoval = true;
