@@ -406,9 +406,9 @@ function GameLoop(){
 			self.promptText2 = new PIXI.Text('SPACE - RESTART LEVEL', fontStyle);
 			self.promptText3 = new PIXI.Text('ESC - EXIT TO MENU ', fontStyle);
 			
-			self.promptText.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y);
-			self.promptText2.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 40);
-			self.promptText3.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 80);
+			self.promptText.position.set(self.player.sprite.position.x - 130, self.player.sprite.position.y - 70);
+			self.promptText2.position.set(self.player.sprite.position.x - 200, self.player.sprite.position.y + 30);
+			self.promptText3.position.set(self.player.sprite.position.x - 170, self.player.sprite.position.y + 80);
 
     		self.stage.addChild(self.promptText);
     		self.stage.addChild(self.promptText2);
