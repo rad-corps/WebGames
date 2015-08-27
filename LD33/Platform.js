@@ -5,50 +5,50 @@ function Platform(platformType_) {
 
     self.spike = false;
 
-	//self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_5.png");
+	//self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_5.png");
 
 	switch (platformType_)
     {
-    	case '1': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_1.png");
+    	case '1': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_1.png");
         break;
 
-        case '2': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_2.png");
+        case '2': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_2.png");
         break;
 
-        case '3': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_3.png");
+        case '3': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_3.png");
         break;
 
-        case '4': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_4.png");
+        case '4': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_4.png");
         break;
 
-        case '5': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_5.png");
+        case '5': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_5.png");
         break;
 
-        case '6': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_6.png");
+        case '6': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_6.png");
         break;
 
-        case '7': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_7.png");
+        case '7': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_7.png");
         break;
 
-        case '8': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_8.png");
+        case '8': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_8.png");
         break;
 
-        case '9': self.sprite = PIXI.Sprite.fromImage("./img/wall_stone_grass_9.png");
+        case '9': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/wall_stone_grass_9.png");
         break;
 
-        case 'v': self.sprite = PIXI.Sprite.fromImage("./img/spikes_down.png");
+        case 'v': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/spikes_down.png");
         self.spike = true;
         break;
 
-        case '^': self.sprite = PIXI.Sprite.fromImage("./img/spikes_up.png");
+        case '^': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/spikes_up.png");
         self.spike = true;
         break;
 
-        case '<': self.sprite = PIXI.Sprite.fromImage("./img/spikes_left.png");
+        case '<': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/spikes_left.png");
         self.spike = true;
         break;
 
-        case '>': self.sprite = PIXI.Sprite.fromImage("./img/spikes_right.png");
+        case '>': self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/spikes_right.png");
         self.spike = true;
         break;        
 

@@ -5,7 +5,7 @@ function Projectile(from_, to_)
 {
 	var self = this; 
 
-	self.sprite = PIXI.Sprite.fromImage("./img/torch.png");
+	self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/torch.png");
 
 	self.sprite.position.x = from_.x;
 	self.sprite.position.y = from_.y;

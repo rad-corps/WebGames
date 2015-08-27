@@ -8,12 +8,12 @@ function Flame(pos_, rotation_)
 
 	//preload textures
 	self.textures = [];
-	self.textures.push(PIXI.Texture.fromImage("./img/flame1.png"));
-	self.textures.push(PIXI.Texture.fromImage("./img/flame2.png"));
+	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/flame1.png"));
+	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/flame2.png"));
 
 
 
-	self.sprite = PIXI.Sprite.fromImage("./img/flame1.png");
+	self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/flame1.png");
 	self.sprite.position.x = pos_.x;
 	self.sprite.position.y = pos_.y;
 	self.timeSinceCreation = 0;

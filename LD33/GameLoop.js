@@ -5,17 +5,17 @@ function GameLoop(){
 	var self = this;
 	
 	//create the renderer
-	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
+	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H, {view: document.getElementById('game-canvas')});//autoDetectRenderer(400, 300);
 	self.renderer.backgroundColor = 0xE0F0FF;
+
+	//add it to the DOM body
+	document.getElementById('loader').appendChild(this.renderer.view);
 
 	self.currentLevel = 0;
 	self.kSpace = keyboard(32);
 	self.kR = keyboard(82);
 	self.kEsc = keyboard(27);
 	self.kTee = keyboard(84);
-
-	//add it to the DOM body
-	document.body.appendChild(this.renderer.view);
 
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
@@ -71,7 +71,7 @@ function GameLoop(){
 	this.init = function(){
 
 		//load the background and add it to the scene
-		self.bgSprite = PIXI.Sprite.fromImage("./img/bg1.jpg");
+		self.bgSprite = PIXI.Sprite.fromImage(SITE_PATH + "img/bg1.jpg");
 		self.bgSprite.anchor.x = 0.5;
 		self.bgSprite.anchor.y = 0.5;
 		self.bgSprite.scale = {x: 2, y: 2};
@@ -180,7 +180,7 @@ function GameLoop(){
 			self.stage.position.x = 0;
 			self.stage.position.y = 0;
 			//show main menu bg image
-			self.mainMenuSprite = PIXI.Sprite.fromImage("./img/mainMenu.png");
+			self.mainMenuSprite = PIXI.Sprite.fromImage(SITE_PATH + "img/mainMenu.png");
 			self.mainMenuSprite.position.x = 0;
 			self.mainMenuSprite.position.y = 0;
 			//self.mainMenuSprite.anchor.x = 0.5;
@@ -236,7 +236,7 @@ function GameLoop(){
 				self.stage.position.x = 0;
 				self.stage.position.y = 0;
 				//load the game_complete sprite and display
-				self.gameCompleteSprite = PIXI.Sprite.fromImage("./img/game_complete.png");
+				self.gameCompleteSprite = PIXI.Sprite.fromImage(SITE_PATH + "img/game_complete.png");
 				self.gameCompleteSprite.position.x = 0;
 				self.gameCompleteSprite.position.y = 0;
 				self.stage.addChild(self.gameCompleteSprite);

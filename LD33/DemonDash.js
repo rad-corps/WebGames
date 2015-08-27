@@ -4,7 +4,7 @@ function onAssetsLoaded(){
 //	window.gameLoop.init();
 	gameState = 'showMainMenu';
 	window.gameLoop.run();
-	document.getElementById("loader").style.display = "none";
+//	document.getElementById("loader").style.display = "none";
 }
 
 function preloadTextures() {
@@ -12,53 +12,53 @@ function preloadTextures() {
 	// create a new loader
 	var loader = PIXI.loader;
 
-	loader.add('player', './img/player.png');
-	loader.add('player_run1', './img/player_run1.png');
-	loader.add('player_run2', './img/player_run2.png');
-	loader.add('player_jump1', './img/player_jump1.png');
-	loader.add('player_jump2', './img/player_jump2.png');
-	loader.add('player_land', './img/player_land.png');
-	loader.add('enemy_run1', './img/enemy_run1.png');
-	loader.add('enemy_run2', './img/enemy_run2.png');
-	loader.add('enemy_throw1', './img/enemy_throw1.png');
-	loader.add('enemy_throw2', './img/enemy_throw2.png');
-	loader.add('ground', './img/wall_stone_grass_1.png');
-	loader.add('goal', './img/goal.png');
-	loader.add('wall_stone_grass_1', './img/wall_stone_grass_1.png');
-	loader.add('wall_stone_grass_2', './img/wall_stone_grass_2.png');
-	loader.add('wall_stone_grass_3', './img/wall_stone_grass_3.png');
-	loader.add('wall_stone_grass_4', './img/wall_stone_grass_4.png');
-	loader.add('wall_stone_grass_5', './img/wall_stone_grass_5.png');
-	loader.add('wall_stone_grass_6', './img/wall_stone_grass_6.png');
-	loader.add('wall_stone_grass_7', './img/wall_stone_grass_7.png');
-	loader.add('wall_stone_grass_8', './img/wall_stone_grass_8.png');
-	loader.add('wall_stone_grass_9', './img/wall_stone_grass_9.png');
-	loader.add('spikes_down', './img/spikes_down.png');
-	loader.add('spikes_up', './img/spikes_up.png');
-	loader.add('spikes_left', './img/spikes_left.png');
-	loader.add('spikes_right', './img/spikes_right.png');
-	loader.add('bg1', './img/bg1.jpg');
-	loader.add('mainMenu', './img/mainMenu.png');
-	loader.add('game_complete', './img/game_complete.png');
-	loader.add('torch', './img/torch.png');
-	loader.add('flame1', './img/flame1.png');
-	loader.add('flame2', './img/flame2.png');
+	loader.add('player', SITE_PATH + 'img/player.png');
+	loader.add('player_run1', SITE_PATH + 'img/player_run1.png');
+	loader.add('player_run2', SITE_PATH + 'img/player_run2.png');
+	loader.add('player_jump1', SITE_PATH + 'img/player_jump1.png');
+	loader.add('player_jump2', SITE_PATH + 'img/player_jump2.png');
+	loader.add('player_land', SITE_PATH + 'img/player_land.png');
+	loader.add('enemy_run1', SITE_PATH + 'img/enemy_run1.png');
+	loader.add('enemy_run2', SITE_PATH + 'img/enemy_run2.png');
+	loader.add('enemy_throw1', SITE_PATH + 'img/enemy_throw1.png');
+	loader.add('enemy_throw2', SITE_PATH + 'img/enemy_throw2.png');
+	loader.add('ground', SITE_PATH + 'img/wall_stone_grass_1.png');
+	loader.add('goal', SITE_PATH + 'img/goal.png');
+	loader.add('wall_stone_grass_1', SITE_PATH + 'img/wall_stone_grass_1.png');
+	loader.add('wall_stone_grass_2', SITE_PATH + 'img/wall_stone_grass_2.png');
+	loader.add('wall_stone_grass_3', SITE_PATH + 'img/wall_stone_grass_3.png');
+	loader.add('wall_stone_grass_4', SITE_PATH + 'img/wall_stone_grass_4.png');
+	loader.add('wall_stone_grass_5', SITE_PATH + 'img/wall_stone_grass_5.png');
+	loader.add('wall_stone_grass_6', SITE_PATH + 'img/wall_stone_grass_6.png');
+	loader.add('wall_stone_grass_7', SITE_PATH + 'img/wall_stone_grass_7.png');
+	loader.add('wall_stone_grass_8', SITE_PATH + 'img/wall_stone_grass_8.png');
+	loader.add('wall_stone_grass_9', SITE_PATH + 'img/wall_stone_grass_9.png');
+	loader.add('spikes_down', SITE_PATH + 'img/spikes_down.png');
+	loader.add('spikes_up', SITE_PATH + 'img/spikes_up.png');
+	loader.add('spikes_left', SITE_PATH + 'img/spikes_left.png');
+	loader.add('spikes_right', SITE_PATH + 'img/spikes_right.png');
+	loader.add('bg1', SITE_PATH + 'img/bg1.jpg');
+	loader.add('mainMenu', SITE_PATH + 'img/mainMenu.png');
+	loader.add('game_complete', SITE_PATH + 'img/game_complete.png');
+	loader.add('torch', SITE_PATH + 'img/torch.png');
+	loader.add('flame1', SITE_PATH + 'img/flame1.png');
+	loader.add('flame2', SITE_PATH + 'img/flame2.png');
 
 	//load sounds
-	soundStep1 = new Howl({urls: ['./sounds/running1.mp3'],volume: 0.2});
-	soundStep2 = new Howl({urls: ['./sounds/running2.mp3'],volume: 0.2});
-	soundLandJump = new Howl({urls: ['./sounds/landing.mp3'],volume: 0.2});
-	soundJump = new Howl({urls: ['./sounds/jumping2.mp3'],volume: 0.12});
-	soundFallThrough = new Howl({urls: ['./sounds/death_fall.mp3'],volume: 0.2});
-	soundSpikeDeath = new Howl({urls: ['./sounds/death_spike.mp3'],volume: 0.1});
-	soundSpikeFire = new Howl({urls: ['./sounds/death_fire.mp3'],volume: 0.1});
-	soundHitByEnemy = new Howl({urls: ['./sounds/collision.mp3'],volume: 0.2});
-	soundGoal = new Howl({urls: ['./sounds/goal.mp3'],volume: 0.8});
-	soundMainMenu = new Howl({urls: ['./sounds/menu_music.wav'],volume: 0.4, loop: true});
-	soundGameBG = new Howl({urls: ['./sounds/game_music.wav'],volume: 0.2, loop: true});
-	soundHeadBump = new Howl({urls: ['./sounds/head_bump.mp3'],volume: 0.2});
-	soundTerrainFlame = new Howl({urls: ['./sounds/terrain_flame.mp3'],volume: 0.15});
-	soundThrowTorch = new Howl({urls: ['./sounds/throw_torch.mp3'],volume: 0.15});
+	soundStep1 = new Howl({urls: [SITE_PATH + 'sounds/running1.mp3'],volume: 0.2});
+	soundStep2 = new Howl({urls: [SITE_PATH + 'sounds/running2.mp3'],volume: 0.2});
+	soundLandJump = new Howl({urls: [SITE_PATH + 'sounds/landing.mp3'],volume: 0.2});
+	soundJump = new Howl({urls: [SITE_PATH + 'sounds/jumping2.mp3'],volume: 0.12});
+	soundFallThrough = new Howl({urls: [SITE_PATH + 'sounds/death_fall.mp3'],volume: 0.2});
+	soundSpikeDeath = new Howl({urls: [SITE_PATH + 'sounds/death_spike.mp3'],volume: 0.1});
+	soundSpikeFire = new Howl({urls: [SITE_PATH + 'sounds/death_fire.mp3'],volume: 0.1});
+	soundHitByEnemy = new Howl({urls: [SITE_PATH + 'sounds/collision.mp3'],volume: 0.2});
+	soundGoal = new Howl({urls: [SITE_PATH + 'sounds/goal.mp3'],volume: 0.8});
+	soundMainMenu = new Howl({urls: [SITE_PATH + 'sounds/menu_music.wav'],volume: 0.4, loop: true});
+	soundGameBG = new Howl({urls: [SITE_PATH + 'sounds/game_music.wav'],volume: 0.2, loop: true});
+	soundHeadBump = new Howl({urls: [SITE_PATH + 'sounds/head_bump.mp3'],volume: 0.2});
+	soundTerrainFlame = new Howl({urls: [SITE_PATH + 'sounds/terrain_flame.mp3'],volume: 0.15});
+	soundThrowTorch = new Howl({urls: [SITE_PATH + 'sounds/throw_torch.mp3'],volume: 0.15});
 	
 	// use callback
 	loader.once('complete', onAssetsLoaded);
