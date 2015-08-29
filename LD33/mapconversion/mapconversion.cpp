@@ -10,6 +10,180 @@
 
 using namespace std;
 
+string replaceStartOfLines(string in_)
+{
+	//replace the start of the each line with [
+	string outData = "['" + in_;
+	const char * replace = "\n['";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = outData.find('\n', sPos);
+
+		if (sPos != string::npos)
+		{
+			outData = outData.replace(sPos, 1, replace);
+			sPos+=3;
+		}
+	}
+	return outData;
+}
+
+string replaceEndOfLines(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "']\n";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find('\n', sPos);
+		cout << sPos << endl;
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 1, replace);
+			sPos+=3;
+		}
+	}
+	return in_;
+}
+
+string addApos(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "','";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find(',', sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 1, replace);
+			sPos+=3;
+		}
+	}
+	return in_;
+}
+
+string replaceDots(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = ".";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("-1", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replaceDownSpikes(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "v";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("10", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replaceUpSpikes(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "^";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("13", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replaceLeftSpikes(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "<";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("11", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replaceRightSpikes(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = ">";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("12", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replaceEnemies(string in_)
+{
+	//replace the start of the each line with [
+	const char * replace = "e";
+	size_t sPos = 0;
+
+	while (sPos != string::npos) 
+	{
+		sPos = in_.find("14", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+
 int main(int argc,  char** argv)
 {
 	int x = 0;
@@ -32,35 +206,21 @@ int main(int argc,  char** argv)
 		//success? output string
 		cout << "original file: " << endl << inData << endl << endl;
 
-		//replace the start of the each line with [
-		string outData = "[" + inData;
-		const char * replace = "\n[";
-		size_t sPos = 0;
+		string out = replaceStartOfLines(inData);
+		out = replaceEndOfLines(out);
+		out = addApos(out);
+		out = replaceDots(out);
+		out = replaceUpSpikes(out);
+		out = replaceDownSpikes(out);
+		out = replaceLeftSpikes(out);
+		out = replaceRightSpikes(out);
+		out = replaceEnemies(out);
 
-		
+		//write the out to file
+		std::ofstream outFile(string(argv[1]) + string(".js"));
+		outFile << out;
 
-		while (sPos != string::npos) 
-		{
-			sPos = outData.find('\n', sPos);
-			cout << sPos << endl;
-
-			if (sPos != string::npos)
-			{
-				outData = outData.replace(sPos, 1, replace);
-				sPos++;
-			}
-			
-
-			// //need a way to bail when my logic fails.
-			// int x = 0;
-			// cin >> x;
-			// if (x == -1)
-			// {
-			// 	return -1;
-			// }
-		}
-
-		cout << "result: " << endl << outData << endl;
+		cout << "result: " << endl << out << endl;
 	}
 	else
 	{
