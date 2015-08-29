@@ -16,7 +16,7 @@ function Enemy(row_, col_, playerPosition_)
 	self.pauseToThrowProjectile = false;
 	self.pauseAfterThrowingProjectile = false;
 
-	self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/enemy_run1.png");
+	self.sprite = PIXI.Sprite.fromImage("./img/enemy_run1.png");
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
 	self.sprite.position.x = col_ * 32;
@@ -25,10 +25,10 @@ function Enemy(row_, col_, playerPosition_)
 
 	//enemy textures
 	self.textures = [];
-	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/enemy_run1.png"));
-	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/enemy_run2.png"));
-	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/enemy_throw1.png"));
-	self.textures.push(PIXI.Texture.fromImage(SITE_PATH + "img/enemy_throw2.png"));
+	self.textures.push(PIXI.Texture.fromImage("./img/enemy_run1.png"));
+	self.textures.push(PIXI.Texture.fromImage("./img/enemy_run2.png"));
+	self.textures.push(PIXI.Texture.fromImage("./img/enemy_throw1.png"));
+	self.textures.push(PIXI.Texture.fromImage("./img/enemy_throw2.png"));
 
 	//create bottom left/bottom right enemy colliders (detect when about to step off an edge)
 	self.blCol = {};

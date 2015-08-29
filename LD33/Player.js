@@ -6,15 +6,15 @@ function Player(){
 	//just for testing until platforms are included
 	//self.groundYPos = AH_GLOBALS.SCREEN_H/2;
 
-	self.sprite = PIXI.Sprite.fromImage(SITE_PATH + "img/player.png");
+	self.sprite = PIXI.Sprite.fromImage("./img/player.png");
 
 	//preload the textures
-	self.textureIdle = PIXI.Texture.fromImage(SITE_PATH + "img/player.png");
-	self.textureRun1 = PIXI.Texture.fromImage(SITE_PATH + "img/player_run1.png");
-	self.textureRun2 = PIXI.Texture.fromImage(SITE_PATH + "img/player_run2.png");
-	self.textureJump1 = PIXI.Texture.fromImage(SITE_PATH + "img/player_jump1.png");
-	self.textureJump2 = PIXI.Texture.fromImage(SITE_PATH + "img/player_jump2.png");
-	self.textureLand = PIXI.Texture.fromImage(SITE_PATH + "img/player_land.png");
+	self.textureIdle = PIXI.Texture.fromImage("./img/player.png");
+	self.textureRun1 = PIXI.Texture.fromImage("./img/player_run1.png");
+	self.textureRun2 = PIXI.Texture.fromImage("./img/player_run2.png");
+	self.textureJump1 = PIXI.Texture.fromImage("./img/player_jump1.png");
+	self.textureJump2 = PIXI.Texture.fromImage("./img/player_jump2.png");
+	self.textureLand = PIXI.Texture.fromImage("./img/player_land.png");
 
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;	

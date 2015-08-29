@@ -2,7 +2,6 @@
 
 var gameState = 'loading'; //'playing', 'gameOver', 'loading'
 var gameLoop = null;
-var SITE_PATH = './';
 
 var lastUpdate = Date.now();
 
