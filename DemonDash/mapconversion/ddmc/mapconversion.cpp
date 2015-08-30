@@ -27,6 +27,9 @@ string replaceStartOfLines(string in_)
 			sPos+=3;
 		}
 	}
+
+
+
 	return outData;
 }
 
@@ -199,7 +202,7 @@ int main(int argc,  char** argv)
 		//failure
 		if(!mapFile) 
 		{
-        	cout << "Couldn't open file " << argv[1] << " - did you spell it correctly? Aborting ddmc" << endl;
+        	cout << "Couldn't open file " << argv[1] << " - did you spell it correctly? Aborting dd_mapconversion" << endl;
         	return -1;
     	}
 
@@ -216,6 +219,10 @@ int main(int argc,  char** argv)
 		out = replaceRightSpikes(out);
 		out = replaceEnemies(out);
 
+		//replace \n['
+		size_t sPos = out.find_last_of("\n");
+		out = out.replace(sPos, 3, "");
+
 		//write the out to file
 		std::ofstream outFile(string(argv[1]) + string(".js"));
 		outFile << out;
@@ -224,7 +231,7 @@ int main(int argc,  char** argv)
 	}
 	else
 	{
-		std::cout << "usage: ddmc mapname.csv" << endl;
+		std::cout << "usage: dd_mapconv mapname.csv" << endl;
 	}
 
 	return 0;
