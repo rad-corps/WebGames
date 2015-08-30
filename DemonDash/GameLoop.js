@@ -86,8 +86,10 @@ function GameLoop(){
 
 		//create the player
 		self.player = new Player();
-		self.player.setPos(levels[self.currentLevel].playerRow, levels[self.currentLevel].playerCol);
 
+		//create the goal
+		self.goal = new Goal();		
+		
 		//create the platform array
 		self.platformArray = [];
 
@@ -108,6 +110,8 @@ function GameLoop(){
 			{
 				if (levels[self.currentLevel].platforms[row][col] !== '.'
 					&& levels[self.currentLevel].platforms[row][col] !== 'e'
+					&& levels[self.currentLevel].platforms[row][col] !== 'p'
+					&& levels[self.currentLevel].platforms[row][col] !== 'g'
 					)
 				{
 					self.platformArray.push(new Platform(levels[self.currentLevel].platforms[row][col]));
@@ -119,13 +123,21 @@ function GameLoop(){
 					self.enemyArray.push(new Enemy(row, col, self.player.sprite.position));
 					self.stage.addChild(self.enemyArray[self.enemyArray.length - 1].sprite);
 				}
+				else if (levels[self.currentLevel].platforms[row][col] == 'p')
+				{
+					//set the player position (already created)
+					self.player.setPos(row, col);
+				}			
+				else if (levels[self.currentLevel].platforms[row][col] == 'g')
+				{
+					//set the player position (already created)
+					self.goal.setPos(row, col);
+				}						
 			}
 		}
 
-		//load the goal
-		self.goal = new Goal(levels[self.currentLevel].goalRow, levels[self.currentLevel].goalCol);
-		self.stage.addChild(self.goal.sprite);
-		
+
+		self.stage.addChild(self.goal.sprite);		
 		self.stage.addChild(self.player.sprite);
 
 		//current time variable and text
