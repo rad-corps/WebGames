@@ -12,7 +12,6 @@ using namespace std;
 
 string replaceStartOfLines(string in_)
 {
-	//replace the start of the each line with [
 	string outData = "['" + in_;
 	const char * replace = "\n['";
 	size_t sPos = 0;
@@ -35,8 +34,7 @@ string replaceStartOfLines(string in_)
 
 string replaceEndOfLines(string in_)
 {
-	//replace the start of the each line with [
-	const char * replace = "']\n";
+	const char * replace = "'],\n";
 	size_t sPos = 0;
 
 	while (sPos != string::npos) 
@@ -47,7 +45,7 @@ string replaceEndOfLines(string in_)
 		if (sPos != string::npos)
 		{
 			in_ = in_.replace(sPos, 1, replace);
-			sPos+=3;
+			sPos+=4;
 		}
 	}
 	return in_;
@@ -55,7 +53,6 @@ string replaceEndOfLines(string in_)
 
 string addApos(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = "','";
 	size_t sPos = 0;
 
@@ -74,7 +71,6 @@ string addApos(string in_)
 
 string replaceDots(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = ".";
 	size_t sPos = 0;
 
@@ -93,7 +89,6 @@ string replaceDots(string in_)
 
 string replaceDownSpikes(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = "v";
 	size_t sPos = 0;
 
@@ -112,7 +107,6 @@ string replaceDownSpikes(string in_)
 
 string replaceUpSpikes(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = "^";
 	size_t sPos = 0;
 
@@ -131,7 +125,6 @@ string replaceUpSpikes(string in_)
 
 string replaceLeftSpikes(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = "<";
 	size_t sPos = 0;
 
@@ -150,7 +143,6 @@ string replaceLeftSpikes(string in_)
 
 string replaceRightSpikes(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = ">";
 	size_t sPos = 0;
 
@@ -169,7 +161,6 @@ string replaceRightSpikes(string in_)
 
 string replaceEnemies(string in_)
 {
-	//replace the start of the each line with [
 	const char * replace = "e";
 	size_t sPos = 0;
 
@@ -181,6 +172,42 @@ string replaceEnemies(string in_)
 		{
 			in_ = in_.replace(sPos, 2, replace);
 			sPos+=1;
+		}
+	}
+	return in_;
+}
+
+string replacePlayer(string in_)
+{
+	const char * replace = "p";
+	size_t sPos = 0;
+
+	while (sPos != string::npos)
+	{
+		sPos = in_.find("15", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos += 1;
+		}
+	}
+	return in_;
+}
+
+string replaceGoal(string in_)
+{
+	const char * replace = "g";
+	size_t sPos = 0;
+
+	while (sPos != string::npos)
+	{
+		sPos = in_.find("16", sPos);
+
+		if (sPos != string::npos)
+		{
+			in_ = in_.replace(sPos, 2, replace);
+			sPos += 1;
 		}
 	}
 	return in_;
@@ -210,18 +237,24 @@ int main(int argc,  char** argv)
 		cout << "original file: " << endl << inData << endl << endl;
 
 		string out = replaceStartOfLines(inData);
-		out = replaceEndOfLines(out);
 		out = addApos(out);
+		out = replaceEndOfLines(out);		
 		out = replaceDots(out);
 		out = replaceUpSpikes(out);
 		out = replaceDownSpikes(out);
 		out = replaceLeftSpikes(out);
 		out = replaceRightSpikes(out);
 		out = replaceEnemies(out);
+		out = replacePlayer(out);
+		out = replaceGoal(out);
 
 		//replace \n['
 		size_t sPos = out.find_last_of("\n");
 		out = out.replace(sPos, 3, "");
+
+		//add \n ], \n\n partime: 5000 \n } );
+		out = "levels.push({ \n platforms : [\n" + out;
+		out += "\n ], \n\n parTime: 5000 \n } );";
 
 		//write the out to file
 		std::ofstream outFile(string(argv[1]) + string(".js"));

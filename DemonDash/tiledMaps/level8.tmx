@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="left-down" width="100" height="16" tilewidth="32" tileheight="32" nextobjectid="1">
- <tileset firstgid="1" name="LD33" tilewidth="32" tileheight="32" tilecount="15">
+ <tileset firstgid="1" name="LD33" tilewidth="32" tileheight="32" tilecount="17">
   <tile id="0">
    <image width="32" height="32" source="../img/torch.png"/>
   </tile>
@@ -46,10 +46,16 @@
   <tile id="14">
    <image width="32" height="32" source="../img/enemy_run1.png"/>
   </tile>
+  <tile id="15">
+   <image width="32" height="32" source="../img/Player.png"/>
+  </tile>
+  <tile id="16">
+   <image width="32" height="32" source="../img/goal.png"/>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="16">
   <data encoding="base64" compression="zlib">
-   eJztltsKgCAQBZcK6d7//232VIjgcb2w5g7MY5s4KBoi2kCNWtyDcLSXrB4h0HOm7er0iEGbyeqB0GMvyT1C/PFubLkHSkvNeuiBIKWZ9sCp0Ut75CNHrxZ7XMLmoCB9pPfw7dlgnZjznm9HR+6sVHxdpPXw7RciymxdHNdMa+fybVKrR+27IQYJa9vp7cF5B5wBc86KscQbNOWfsWvj9lDLeAN+4hcl
+   eJztltEOgyAMRZvNGOecuv//2eHTjCHhUkpXRk9yHq2EEwgjET1BR7e6L8LxXrZ6pEDPmbfT6ZGDN7PVA6HHXpZ7pPjHu7HlHigtNeuhB4KVZt4DR6OX95BDoleLPTZjc1CQPuceu/L6EGJ7dgsOzHnHt/eL3FmlxLpYOx+x/UJEmYKPi7PQ2rmcm2j10L4bcvj12t7Bhb49OO+ANaHkrBxrvEFL/pm7Nm4Pt44fMR0XRg==
   </data>
  </layer>
 </map>
