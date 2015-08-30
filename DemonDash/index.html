@@ -25,7 +25,8 @@
 			color: white;
 		}
 	</style>
-	<script src="./bin/pixi.js"></script>
+	<script src="./bin/pixi.min.js"></script>
+	<script src="./bin/jquery-2.1.4.min.js"></script>
 	<script src="./bin/howler.js/howler.min.js"></script>
 
 </head>
@@ -48,6 +49,21 @@
     <script src="Goal.js"></script>
     <script src="GameLoop.js"></script>
 
+    <!-- add level files in order here-->
+    <script src="./levels/tutorial.js"></script>
+    <script src="./levels/level01.js"></script>
+    <script src="./levels/level02.js"></script>
+    <script src="./levels/level03.js"></script>
+    <script src="./levels/level04.js"></script>
+    <script src="./levels/level05.js"></script>
+    <script src="./levels/level06.js"></script>
+    <script src="./levels/level07.js"></script>
+    <script src="./levels/level08.js"></script>
+    <script src="./levels/level09.js"></script>
+    <!-- end level files-->
+
+
+
 	<script>
 
 function onAssetsLoaded(){
@@ -68,6 +84,7 @@ function preloadTextures() {
 	// create a new loader
 	var loader = PIXI.loader;
 
+	//TODO update loader bar
 	loader.add('player', './img/player.png');
 	loader.add('player_run1', './img/player_run1.png');
 	loader.add('player_run2', './img/player_run2.png');
