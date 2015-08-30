@@ -199,7 +199,7 @@ int main(int argc,  char** argv)
 		//failure
 		if(!mapFile) 
 		{
-        	cout << "Couldn't open file " << argv[1] << " - did you spell it correctly? Aborting dd_mapconversion" << endl;
+        	cout << "Couldn't open file " << argv[1] << " - did you spell it correctly? Aborting ddmc" << endl;
         	return -1;
     	}
 
@@ -224,7 +224,7 @@ int main(int argc,  char** argv)
 	}
 	else
 	{
-		std::cout << "usage: dd_mapconv mapname.csv" << endl;
+		std::cout << "usage: ddmc mapname.csv" << endl;
 	}
 
 	return 0;

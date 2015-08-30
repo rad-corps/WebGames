@@ -8,6 +8,10 @@ Thumbs.db
 Desktop.ini
 npm-debug.log
 
+#visual studio garbage
+*.opensdf
+*.sdf
+
 # project files
 .project
 

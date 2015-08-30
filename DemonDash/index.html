@@ -11,21 +11,28 @@
 		}
 
 		#loader{
-    		/*background:green; */
-    		width:640px;
-    		height:360px;   
+    		background:black; 
+    		width:848px;
+    		height:480px;   
     		text-align: center;
     		opacity: 1;
+    		padding: 0px;
+    		margin: 0px;
+		}
+
+		h3
+		{
+			color: white;
 		}
 	</style>
-	<script src="../bin/pixi.js"></script>
-	<script src="../bin/howler.js/howler.min.js"></script>
+	<script src="./bin/pixi.js"></script>
+	<script src="./bin/howler.js/howler.min.js"></script>
 
 </head>
 <body>
 
     <div id="loader" class="layer">
-    	<br id="load1"></br>
+    	<br id="load1"/>
         <h3 id="load2">Loading Demon Dash</h3>
         <img id="load3" src="./img/loading_transparent.gif" alt="loader" />     
     </div>
@@ -33,14 +40,12 @@
 	<script src="GLOBALS.js"></script>
     <script src="keyboard.js"></script>
 	<script src="vector.js"></script>
-    <!--<script src="Rect.js"></script>-->
     <script src="Flame.js"></script>
     <script src="Projectile.js"></script>
     <script src="Player.js"></script>
     <script src="Enemy.js"></script>
     <script src="Platform.js"></script>
     <script src="Goal.js"></script>
-    <!--<script src="Camera.js"></script>-->
     <script src="GameLoop.js"></script>
 
 	<script>
