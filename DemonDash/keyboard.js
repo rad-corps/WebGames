@@ -1,5 +1,5 @@
 //https://github.com/kittykatattack/learningPixi#keyboard
-var realWindow = window.parent || window;
+//var realWindow = window.parent || window;
 
 function keyboard(keyCode) {
   var key = {};
@@ -29,10 +29,17 @@ function keyboard(keyCode) {
   };
 
   //Attach event listeners
-  realWindow.addEventListener(
+  // realWindow.addEventListener(
+  //   "keydown", key.downHandler.bind(key), false
+  // );
+  // realWindow.addEventListener(
+  //   "keyup", key.upHandler.bind(key), false
+  // );
+
+addEventListener(
     "keydown", key.downHandler.bind(key), false
   );
-  realWindow.addEventListener(
+  addEventListener(
     "keyup", key.upHandler.bind(key), false
   );
   return key;
