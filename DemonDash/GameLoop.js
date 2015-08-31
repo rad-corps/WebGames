@@ -16,6 +16,14 @@ function GameLoop(){
 
 	//add it to the DOM body
 	document.getElementById('loader').appendChild(this.renderer.view);
+
+	//massage the canvas so it works in iframes
+	var canvas = this.renderer.view;
+	canvas.setAttribute("tabindex", "0");
+	canvas.addEventListener("mouseover", function(event) {
+		canvas.focus();
+	}, false);
+
 	//document.body.appendChild(this.renderer.view);
 
 	//create a stage (all sprites added to this)

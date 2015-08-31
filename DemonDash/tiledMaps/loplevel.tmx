@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="100" height="16" tilewidth="32" tileheight="32" nextobjectid="1">
+ <tileset firstgid="1" name="LD33" tilewidth="32" tileheight="32" tilecount="17">
+  <tile id="0">
+   <image width="32" height="32" source="../img/torch.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="../img/wall_stone_grass_1.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../img/wall_stone_grass_2.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="../img/wall_stone_grass_3.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="../img/wall_stone_grass_4.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="../img/wall_stone_grass_5.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="../img/wall_stone_grass_6.png"/>
+  </tile>
+  <tile id="7">
+   <image width="32" height="32" source="../img/wall_stone_grass_7.png"/>
+  </tile>
+  <tile id="8">
+   <image width="32" height="32" source="../img/wall_stone_grass_8.png"/>
+  </tile>
+  <tile id="9">
+   <image width="32" height="32" source="../img/wall_stone_grass_9.png"/>
+  </tile>
+  <tile id="10">
+   <image width="32" height="32" source="../img/spikes_down.png"/>
+  </tile>
+  <tile id="11">
+   <image width="32" height="32" source="../img/spikes_left.png"/>
+  </tile>
+  <tile id="12">
+   <image width="32" height="32" source="../img/spikes_right.png"/>
+  </tile>
+  <tile id="13">
+   <image width="32" height="32" source="../img/spikes_up.png"/>
+  </tile>
+  <tile id="14">
+   <image width="32" height="32" source="../img/enemy_run1.png"/>
+  </tile>
+  <tile id="15">
+   <image width="32" height="32" source="../img/Player.png"/>
+  </tile>
+  <tile id="16">
+   <image width="32" height="32" source="../img/goal.png"/>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="100" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztmMEKwDAIQ3fyuP//3LHroGiqtunIAy/DudQgXWtXH9ZYezfmBJJrTm6lZoHR2TP5gTPqWcXMyA8czQcX8mMOZI9G62Z0VNYWmg825AcX1eeNrrPMCr66K/cFRAMz1fsl+s3VnOAH8vx0IuuK/Ntl+uPd/Yzeierz8phg0JP1Y7Y2Ix0ao/OUjT/yrutW0MQDppUJDQ==
+  </data>
+ </layer>
+</map>
