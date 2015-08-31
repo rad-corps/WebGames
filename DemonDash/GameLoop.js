@@ -3,16 +3,16 @@
 function GameLoop(){
 
 	var self = this;
+
+	//performance specific vars
+	self.perfFrameCount = 0;
+	self.perfRenderTime = 0;
+	self.perfUpdateTime = 0;
+	self.perfUpdateFrameCount = 0;
 	
 	//create the renderer
 	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
 	self.renderer.backgroundColor = 0xE0F0FF;
-
-	self.currentLevel = 0;
-	self.kSpace = keyboard(32);
-	self.kR = keyboard(82);
-	self.kEsc = keyboard(27);
-	self.kTee = keyboard(84);
 
 	//add it to the DOM body
 	document.getElementById('loader').appendChild(this.renderer.view);
@@ -24,11 +24,18 @@ function GameLoop(){
 		canvas.focus();
 	}, false);
 
-	//document.body.appendChild(this.renderer.view);
+	//level num 
+	self.currentLevel = 0;
+
+	//keyboard objects
+	self.kSpace = keyboard(32);
+	self.kR = keyboard(82);
+	self.kEsc = keyboard(27);
+	self.kTee = keyboard(84);
+
 
 	//create a stage (all sprites added to this)
 	self.stage = new PIXI.Container();
-	//self.bgStage = new PIXI.Container();
 
 	this.cleanStage = function() {
 		while(self.stage.children.length > 0)
@@ -39,6 +46,7 @@ function GameLoop(){
 		self.player = {};		
 	}
 
+	//define the keyboard handler logic
 	this.kSpace.press = function() {
 		if ( self.deactivateSpace === false )
 		{
@@ -308,6 +316,12 @@ function GameLoop(){
 		}
 
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
+			
+			//PERFORMANCE CODE
+			var timeBeforeUpdate = Date.now();
+			self.perfUpdateFrameCount++;
+			//END PERFORMANCE CODE
+
 			self.timeSinceAnimate -= AH_GLOBALS.FPS;
 			self.currentTime += AH_GLOBALS.FPS;
 
@@ -534,8 +548,19 @@ function GameLoop(){
 	    		soundMainMenu.stop();
 	    		soundGameBG.stop();
 	    		soundGoal.play();
-
 	    	}
+
+	    	//PERFORMANCE CODE
+	    	var timeAfterUpdate = Date.now();
+	    	self.perfUpdateTime += timeAfterUpdate - timeBeforeUpdate;	    		  
+	    	if (self.perfUpdateFrameCount === 60 )
+    		{
+	    		//report average render time
+	    		console.log('update time: ' + self.perfUpdateTime / 60);
+	    		self.perfUpdateTime = 0;
+	    		self.perfUpdateFrameCount = 0;
+    		}
+    		//END PERFORMANCE CODE
     	}
     	if  ( gameState === 'gameOver') {
     		self.promptText = new PIXI.Text('GAME OVER', fontStyle);
@@ -572,9 +597,20 @@ function GameLoop(){
 	    	self.parText.position.set(-self.stage.position.x + 20, -self.stage.position.y + 40);
 	    }
 
-    	
-    	//render
+	    //Render scene
+	    var timeBeforeRender = Date.now();
     	self.renderer.render(self.stage);	
+    	var timeAfterRedner = Date.now();
+    	self.perfRenderTime += timeAfterRedner - timeBeforeRender;
+    	self.perfFrameCount++;
+    	if (self.perfFrameCount === 60 )
+    	{
+    		//report average render time
+    		console.log('render time: ' + self.perfRenderTime / 60);
+
+    		self.perfFrameCount = 0;
+    		self.perfRenderTime = 0;
+    	}
 
 		//loop again
 		requestAnimationFrame( self.animate );
