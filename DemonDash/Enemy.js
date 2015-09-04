@@ -47,7 +47,7 @@ function Enemy(row_, col_, playerPosition_)
 	this.randomiseProjectileFrequency = function()
 	{
 		//number between 2 and 5
-		self.whenNextProjectileWillBeThrown = (Math.random() * 2000) + 1000;
+		self.whenNextProjectileWillBeThrown = (Math.random() * 1000) + 500;
 	}
 
 	self.randomiseProjectileFrequency();
