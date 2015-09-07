@@ -44,6 +44,7 @@ function Player(){
 	self.tCol.position = {x : 0, y : 0};
 
 	self.maxSpeed = PLAYER_CONSTS.MAX_SPEED;
+	self.maxYSpeed = PLAYER_CONSTS.MAX_SPEED * 2;
 	self.kEDown = false;
 	self.kWDown = false;
 	self.kNDown = false;
@@ -259,6 +260,13 @@ function Player(){
 					self.sprite.texture = self.textureJump2;
 					self.velocity._y += PLAYER_CONSTS.GRAV;	
 				}
+
+				//dont go above terminal velocity
+				if (self.velocity._y > self.maxYSpeed)
+				{
+					self.velocity._y = self.maxYSpeed;
+				}
+
 			}
 			else
 			{

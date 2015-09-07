@@ -12,7 +12,7 @@ function GameLoop(){
 	
 	//create the renderer
 	self.renderer = new PIXI.WebGLRenderer(AH_GLOBALS.SCREEN_W, AH_GLOBALS.SCREEN_H);//autoDetectRenderer(400, 300);
-	self.renderer.backgroundColor = 0xE0F0FF;
+	self.renderer.backgroundColor = 0x000000;
 
 	//add it to the DOM body
 	document.getElementById('loader').appendChild(this.renderer.view);
