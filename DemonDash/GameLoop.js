@@ -409,6 +409,7 @@ function GameLoop(){
     		{
     			if(self.projectileArray[i].flagForRemoval === true) 
     			{
+    				console.log('removing projectile from projectileArray');
        				self.projectileArray.splice(i, 1);
     			}
 			}
@@ -419,6 +420,7 @@ function GameLoop(){
     		{
     			if ( collisionManager(self.player.sprite, self.projectileArray[i].sprite, 0.75))
     			{
+    				console.log('projectile collided with player');
     				self.gameOver();
 					soundSpikeFire.play();
     			}
@@ -429,6 +431,7 @@ function GameLoop(){
     		{
     			if ( collisionManager(self.player.sprite, self.flameArray[i].sprite, 0.75))
     			{
+    				console.log('residual flame collided with player');
     				self.gameOver();
 					soundSpikeFire.play();
     			}
@@ -477,6 +480,7 @@ function GameLoop(){
 	    			//enemy collision with platforms
 	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
 	    			{
+	    				console.log('enemy changing direction (collided with platform) pos x ' + self.enemyArray[e].sprite.position.x + " y " + self.enemyArray[e].sprite.position.y);
 	    				self.enemyArray[e].changeDirection();
 	    			}
 	    		}
@@ -490,6 +494,7 @@ function GameLoop(){
 	    		{
 	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite, 0.75))
 	    			{
+	    				console.log('player collided with spike');
 	    				self.gameOver();
 	    				soundSpikeDeath.play();
 	    			}
@@ -518,6 +523,7 @@ function GameLoop(){
 
 	    		if (enemyLColOnGround === false || enemyRColOnGround === false)
 	    		{
+	    			console.log('enemy changing direction (collided with edge) pos x ' + self.enemyArray[e].sprite.position.x + " y " + self.enemyArray[e].sprite.position.y);
 	    			self.enemyArray[e].changeDirection();
 	    		}
 	    	}
@@ -525,6 +531,7 @@ function GameLoop(){
 	    	//check if player has fallen through the world
 			if ( self.player.sprite.position.y > self.worldHeight + 300 )
 			{
+				console.log('player fell through world');
 				soundFallThrough.play();
 				self.gameOver();
 			}
@@ -535,6 +542,7 @@ function GameLoop(){
     			//enemy collision with player
     			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
     			{
+    				console.log('enemy collided with player');
     				self.gameOver();
     				soundHitByEnemy.play();
     			}
@@ -556,7 +564,7 @@ function GameLoop(){
 	    	if (self.perfUpdateFrameCount === 60 )
     		{
 	    		//report average render time
-	    		console.log('update time: ' + self.perfUpdateTime / 60);
+	    		//console.log('update time: ' + self.perfUpdateTime / 60);
 	    		self.perfUpdateTime = 0;
 	    		self.perfUpdateFrameCount = 0;
     		}
@@ -606,7 +614,7 @@ function GameLoop(){
     	if (self.perfFrameCount === 60 )
     	{
     		//report average render time
-    		console.log('render time: ' + self.perfRenderTime / 60);
+    		//console.log('render time: ' + self.perfRenderTime / 60);
 
     		self.perfFrameCount = 0;
     		self.perfRenderTime = 0;

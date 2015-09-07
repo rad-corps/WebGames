@@ -7,6 +7,8 @@ function Enemy(row_, col_, playerPosition_)
 
 	self.playerPosition = playerPosition_; //this should be a reference
 
+	self.logTimer = 0;
+
 	self.timeSinceProjectileThrown = 0;
 	self.animationTime = Math.random() * 200; //randomise between 0 and 200
 	self.animationNum = 0;
@@ -16,12 +18,14 @@ function Enemy(row_, col_, playerPosition_)
 	self.pauseToThrowProjectile = false;
 	self.pauseAfterThrowingProjectile = false;
 
+	self.direction = 'left'; //can be left or right
+
 	self.sprite = PIXI.Sprite.fromImage("./img/enemy_run1.png");
 	self.sprite.anchor.x = 0.5;
 	self.sprite.anchor.y = 0.5;
 	self.sprite.position.x = col_ * 32;
 	self.sprite.position.y = row_ * 32;
-	self.lastX;
+	self.lastX = self.sprite.position.x + 1; //assumes travelling left
 
 	//enemy textures
 	self.textures = [];
@@ -42,7 +46,7 @@ function Enemy(row_, col_, playerPosition_)
 	self.brCol.width = 1;
 	self.brCol.position = {x : 0, y : 0};
 
-	self.direction = 'left'; //can be left or right
+	
 
 	this.randomiseProjectileFrequency = function()
 	{
@@ -62,6 +66,13 @@ function Enemy(row_, col_, playerPosition_)
 
 	this.update = function(environment_)
 	{
+		self.logTimer += AH_GLOBALS.FPS;
+		if (self.logTimer > 500 )
+		{
+			self.logTimer = 0;
+			console.log("enemy position: x " + self.sprite.position.x + " y " + self.sprite.position.y);
+		}
+
 		self.timeSinceProjectileThrown += AH_GLOBALS.FPS;
 		self.animationTime += AH_GLOBALS.FPS;
 
