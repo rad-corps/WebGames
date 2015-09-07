@@ -317,6 +317,17 @@ function GameLoop(){
 
 		if ( gameState === 'playing' && self.timeSinceAnimate > AH_GLOBALS.FPS) {
 			
+			self.platformsToEvaluate = [];
+			
+			//loop through self.platformArray and add those on screen to platformsToEvaluate
+			for (i in self.platformArray)
+			{
+				 if (self.isOnScreen(self.platformArray[i].sprite.position))
+				 {
+				 	self.platformsToEvaluate.push(self.platformArray[i]);
+				 }
+			}
+
 			//PERFORMANCE CODE
 			var timeBeforeUpdate = Date.now();
 			self.perfUpdateFrameCount++;
@@ -409,7 +420,6 @@ function GameLoop(){
     		{
     			if(self.projectileArray[i].flagForRemoval === true) 
     			{
-    				console.log('removing projectile from projectileArray');
        				self.projectileArray.splice(i, 1);
     			}
 			}
@@ -420,7 +430,6 @@ function GameLoop(){
     		{
     			if ( collisionManager(self.player.sprite, self.projectileArray[i].sprite, 0.75))
     			{
-    				console.log('projectile collided with player');
     				self.gameOver();
 					soundSpikeFire.play();
     			}
@@ -431,7 +440,6 @@ function GameLoop(){
     		{
     			if ( collisionManager(self.player.sprite, self.flameArray[i].sprite, 0.75))
     			{
-    				console.log('residual flame collided with player');
     				self.gameOver();
 					soundSpikeFire.play();
     			}
@@ -441,36 +449,37 @@ function GameLoop(){
     		self.player.setOnGround(false);
 
     		//handle player bottom and top collision
-			for (i in self.platformArray)
+			//for (i in self.platformArray)
+			for (i in self.platformsToEvaluate)			
 			{	    
-				if (self.platformArray[i].spike === false ) 		
+				if (self.platformsToEvaluate[i].spike === false ) 		
 				{
-					if ( collisionManager( self.player.bCol, self.platformArray[i].sprite) ) {
+					if ( collisionManager( self.player.bCol, self.platformsToEvaluate[i].sprite) ) {
 
 		    			//console.log('bottom collider triggered');
-		    			self.player.setOnGround(true, self.platformArray[i].sprite);
+		    			self.player.setOnGround(true, self.platformsToEvaluate[i].sprite);
 		    		}
-					if ( collisionManager( self.player.tCol, self.platformArray[i].sprite) ) {
+					if ( collisionManager( self.player.tCol, self.platformsToEvaluate[i].sprite) ) {
 		    			//console.log('top collider triggered');
-		    			self.player.bumpHead(self.platformArray[i].sprite);
+		    			self.player.bumpHead(self.platformsToEvaluate[i].sprite);
 		    			soundHeadBump.play();
 		    		}
 		    	}
 			}
 
 			//handle player and enemy collision with platforms
-			for (i in self.platformArray)
+			for (i in self.platformsToEvaluate)
 			{	    
 				//handle player left/right collision with platforms
-				if (self.platformArray[i].spike === false ) 	
+				if (self.platformsToEvaluate[i].spike === false ) 	
 				{
-		    		if ( collisionManager( self.player.lCol, self.platformArray[i].sprite) ) {
+		    		if ( collisionManager( self.player.lCol, self.platformsToEvaluate[i].sprite) ) {
 		    			//console.log('left collider triggered');
-		    			self.player.pushAgainstTerrain('left', self.platformArray[i].sprite);
+		    			self.player.pushAgainstTerrain('left', self.platformsToEvaluate[i].sprite);
 		    		}
-					if ( collisionManager( self.player.rCol, self.platformArray[i].sprite) ) {
+					if ( collisionManager( self.player.rCol, self.platformsToEvaluate[i].sprite) ) {
 		    			//console.log('right collider triggered');
-		    			self.player.pushAgainstTerrain('right', self.platformArray[i].sprite);
+		    			self.player.pushAgainstTerrain('right', self.platformsToEvaluate[i].sprite);
 		    		}	
 		    	}
 
@@ -478,23 +487,21 @@ function GameLoop(){
 	    		for ( e in self.enemyArray )
 	    		{
 	    			//enemy collision with platforms
-	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformArray[i].sprite, 0.75) )
+	    			if ( collisionManager( self.enemyArray[e].sprite, self.platformsToEvaluate[i].sprite, 0.75) )
 	    			{
-	    				console.log('enemy changing direction (collided with platform) pos x ' + self.enemyArray[e].sprite.position.x + " y " + self.enemyArray[e].sprite.position.y);
 	    				self.enemyArray[e].changeDirection();
 	    			}
 	    		}
 	    	}
 
 	    	//check for player collision with spike
-	    	for (i in self.platformArray)
+	    	for (i in self.platformsToEvaluate)
 	    	{
 	    		//is it a spike?
-	    		if (self.platformArray[i].spike === true ) 
+	    		if (self.platformsToEvaluate[i].spike === true ) 
 	    		{
-	    			if (collisionManager( self.player.sprite, self.platformArray[i].sprite, 0.75))
+	    			if (collisionManager( self.player.sprite, self.platformsToEvaluate[i].sprite, 0.75))
 	    			{
-	    				console.log('player collided with spike');
 	    				self.gameOver();
 	    				soundSpikeDeath.play();
 	    			}
@@ -509,13 +516,13 @@ function GameLoop(){
 	    		var enemyRColOnGround = false;
 
 
-	    		for ( i in self.platformArray )
+	    		for ( i in self.platformsToEvaluate )
 	    		{
-		    		if (collisionManager( self.enemyArray[e].blCol, self.platformArray[i].sprite) )
+		    		if (collisionManager( self.enemyArray[e].blCol, self.platformsToEvaluate[i].sprite) )
 	    			{
 	    				enemyLColOnGround = true;
 	    			}
-	    			if (collisionManager( self.enemyArray[e].brCol, self.platformArray[i].sprite) )
+	    			if (collisionManager( self.enemyArray[e].brCol, self.platformsToEvaluate[i].sprite) )
 	    			{
 	    				enemyRColOnGround = true;
 	    			}
@@ -523,7 +530,6 @@ function GameLoop(){
 
 	    		if (enemyLColOnGround === false || enemyRColOnGround === false)
 	    		{
-	    			console.log('enemy changing direction (collided with edge) pos x ' + self.enemyArray[e].sprite.position.x + " y " + self.enemyArray[e].sprite.position.y);
 	    			self.enemyArray[e].changeDirection();
 	    		}
 	    	}
@@ -531,7 +537,6 @@ function GameLoop(){
 	    	//check if player has fallen through the world
 			if ( self.player.sprite.position.y > self.worldHeight + 300 )
 			{
-				console.log('player fell through world');
 				soundFallThrough.play();
 				self.gameOver();
 			}
@@ -542,7 +547,6 @@ function GameLoop(){
     			//enemy collision with player
     			if ( collisionManager( self.enemyArray[e].sprite, self.player.sprite, 0.75) )
     			{
-    				console.log('enemy collided with player');
     				self.gameOver();
     				soundHitByEnemy.play();
     			}
@@ -564,7 +568,7 @@ function GameLoop(){
 	    	if (self.perfUpdateFrameCount === 60 )
     		{
 	    		//report average render time
-	    		//console.log('update time: ' + self.perfUpdateTime / 60);
+	    		console.log('update time: ' + self.perfUpdateTime / 60);
 	    		self.perfUpdateTime = 0;
 	    		self.perfUpdateFrameCount = 0;
     		}
@@ -614,7 +618,7 @@ function GameLoop(){
     	if (self.perfFrameCount === 60 )
     	{
     		//report average render time
-    		//console.log('render time: ' + self.perfRenderTime / 60);
+    		console.log('render time: ' + self.perfRenderTime / 60);
 
     		self.perfFrameCount = 0;
     		self.perfRenderTime = 0;

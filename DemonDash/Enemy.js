@@ -7,7 +7,7 @@ function Enemy(row_, col_, playerPosition_)
 
 	self.playerPosition = playerPosition_; //this should be a reference
 
-	self.logTimer = 0;
+	//self.logTimer = 0;
 
 	self.timeSinceProjectileThrown = 0;
 	self.animationTime = Math.random() * 200; //randomise between 0 and 200
@@ -66,12 +66,12 @@ function Enemy(row_, col_, playerPosition_)
 
 	this.update = function(environment_)
 	{
-		self.logTimer += AH_GLOBALS.FPS;
-		if (self.logTimer > 500 )
-		{
-			self.logTimer = 0;
-			console.log("enemy position: x " + self.sprite.position.x + " y " + self.sprite.position.y);
-		}
+		// self.logTimer += AH_GLOBALS.FPS;
+		// if (self.logTimer > 500 )
+		// {
+		// 	self.logTimer = 0;
+		// 	console.log("enemy position: x " + self.sprite.position.x + " y " + self.sprite.position.y);
+		// }
 
 		self.timeSinceProjectileThrown += AH_GLOBALS.FPS;
 		self.animationTime += AH_GLOBALS.FPS;
